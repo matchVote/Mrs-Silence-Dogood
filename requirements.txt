@@ -1,2 +1,3 @@
 newspaper3k==0.1.9
 peewee==2.9.1
+pytest==3.0.7

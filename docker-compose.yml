@@ -3,6 +3,8 @@ services:
   feeder:
     build: .
     command: echo "Buildt!"
+    volumes:
+      - .:/usr/src/app
 
   db:
     image: postgres:9.6.1
