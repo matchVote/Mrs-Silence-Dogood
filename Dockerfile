@@ -1,5 +1,10 @@
 FROM python:3.6.1
 
+RUN apt-get update \
+  && apt-get install -y postgresql-client \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 

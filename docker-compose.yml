@@ -2,11 +2,13 @@ version: "3"
 services:
   feeder:
     build: .
-    command: echo "Buildt!"
+    command: bin/start
     volumes:
       - .:/usr/src/app
+    depends_on:
+      - postgres
 
-  db:
+  postgres:
     image: postgres:9.6.1
     ports:
       - "5443:5432"

@@ -1,18 +1,19 @@
-from peewee import CharField, Model, OperationalError, SqliteDatabase
+from feeder import db
+from peewee import CharField, Model, OperationalError
 
-db = SqliteDatabase('feeder.db')
 
-
-class Article(Model):
-    """ORM model for articles table."""
-
-    title = CharField()
-
+class BaseModel(Model):
     class Meta:
         database = db
 
 
-if __name__ == '__main__':
+class Article(BaseModel):
+    """ORM model for articles table."""
+
+    title = CharField()
+
+
+def create_table():
     try:
         Article.create_table()
     except OperationalError:
