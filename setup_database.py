@@ -1,5 +1,5 @@
 import os
-from peewee import OperationalError
+from peewee import OperationalError, ProgrammingError
 
 from feeder import db, config, PostgresqlDatabase
 from feeder.article import Article
@@ -9,6 +9,8 @@ try:
     db.connect()
 except OperationalError:
     os.system(f'createdb -h {config["host"]} -U {config["user"]} {config["database"]}')
-    db.connect()
 
-db.create_tables([Article])
+try:
+    db.create_tables([Article])
+except ProgrammingError:
+    pass # tables already exist

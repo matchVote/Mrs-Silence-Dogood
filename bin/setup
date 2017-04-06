@@ -1,0 +1,4 @@
+#!/bin/bash
+
+ENV=${1:-dev}
+docker-compose run --rm -e FEEDER_ENV=$ENV feeder python setup_database.py

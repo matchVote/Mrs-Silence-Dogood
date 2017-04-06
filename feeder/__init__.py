@@ -1,10 +1,10 @@
+import os
+import yaml
 from peewee import PostgresqlDatabase
 
-config = dict(database='feeder_dev',
-              user='postgres',
-              password='postgres',
-              host='postgres',
-              port=5432)
+env = os.environ.get('FEEDER_ENV', 'dev')
+with open('database_config.yml') as f:
+    config = yaml.load(f.read())[env]
 
 db = PostgresqlDatabase(
     config['database'],
