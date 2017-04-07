@@ -1,16 +1,19 @@
 import os
+import time
 from peewee import OperationalError, ProgrammingError
-
-from feeder import db, config, PostgresqlDatabase
+from feeder import db, config
 from feeder.article import Article
+
+import logging
+log = logging.getLogger(__name__)
 
 # Check if DB exists and create it if it doesn't
 try:
     db.connect()
 except OperationalError:
+    log.error('No DB found. Creating...')
+    time.sleep(5)  # wait for postgres to be running in container
     os.system(f'createdb -h {config["host"]} -U {config["user"]} {config["database"]}')
+    log.error('Done')
 
-try:
-    db.create_tables([Article])
-except ProgrammingError:
-    pass # tables already exist
+db.create_tables([Article], safe=True)

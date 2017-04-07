@@ -5,6 +5,7 @@ from peewee import CharField, Model, OperationalError
 class BaseModel(Model):
     class Meta:
         database = db
+        db_name = 'articles'
 
 
 class Article(BaseModel):

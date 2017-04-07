@@ -11,8 +11,6 @@ Consumes news articles to populate data for the news feed.
     bin/test        # runs tests
 
 #### Notes
-Add process of waiting on postgres to be running in container.
-
 Articles:  
 * url - primary key
 * title
