@@ -1,10 +1,10 @@
+import logging
 import os
 import time
 from peewee import OperationalError, ProgrammingError
 from feeder import db, config
 from feeder.article import Article
 
-import logging
 log = logging.getLogger(__name__)
 
 # Check if DB exists and create it if it doesn't

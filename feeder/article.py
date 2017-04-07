@@ -1,21 +1,23 @@
+from datetime import datetime
 from feeder import db
-from peewee import CharField, Model, OperationalError
+from peewee import CharField, Model, IntegerField, DateTimeField
 
 
 class BaseModel(Model):
     class Meta:
         database = db
-        db_name = 'articles'
 
 
 class Article(BaseModel):
     """ORM model for articles table."""
 
-    title = CharField()
+    url = CharField(primary_key=True)
+    title = CharField(null=True)
+    author = CharField(null=True)
+    publisher = CharField(null=True)
+    date_published = DateTimeField(null=True)
+    read_time = IntegerField(null=True)
+    created_at = DateTimeField(default=datetime.now)
 
-
-def create_table():
-    try:
-        Article.create_table()
-    except OperationalError:
-        print('Articles table already exists!')
+    class Meta:
+        db_table = 'articles'

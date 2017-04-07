@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker-compose run --rm -e FEEDER_ENV=test feeder pytest
+docker-compose run --rm -e FEEDER_ENV=test feeder pytest $1
