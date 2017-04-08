@@ -15,13 +15,22 @@ class TestArticle(object):
             url='http://bomb.sauce',
             title='CNN is Great',
             read_time=12,
+            brand='cnn',
             date_published=datetime.now(),
         )
+        assert article.url == 'http://bomb.sauce'
         assert article.title == 'CNN is Great'
         assert article.author is None
         assert article.read_time == 12
+        assert article.brand == 'cnn'
         assert article.date_published is not None
 
+    @transaction
     def test_url_is_required(self):
         with pytest.raises(IntegrityError):
-            Article.create(url=None)
+            Article.create(url=None, brand='test')
+
+    @transaction
+    def test_brand_is_required(self):
+        with pytest.raises(IntegrityError):
+            Article.create(brand=None, url='test.com')
