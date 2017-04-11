@@ -4,7 +4,7 @@ Consumes news articles to populate data for the news feed.
 ### Development Setup
     bin/build                 # builds containers
     bin/setup                 # prepares DB
-    docker-compose up feeder  # starts containers
+    docker-compose up feeder  # starts containers and turns on feeder
 
 ### Test Setup
     bin/setup test  # prepares DB for test env

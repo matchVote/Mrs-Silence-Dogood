@@ -10,7 +10,7 @@ sources = ['http://abcnews.com']
 
 for source in sources:
     start = time.time()
-    # .build caches article urls in ~/.newspaper_scraper/memoized
+    # newspaper.build caches article urls in ~/.newspaper_scraper/memoized
     paper = newspaper.build(source, memoize_articles=False)
     build_time = round(time.time() - start, 2)
     log.info(f'{paper.brand} article count: {paper.size()}; build time (secs): {build_time}')
