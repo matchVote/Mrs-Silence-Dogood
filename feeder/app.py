@@ -21,11 +21,17 @@ for source in sources:
     download_time = round(time.time() - start, 2)
     log.info(f'Download time for all articles (secs): {download_time}')
 
+    start = time.time()
     for article in paper.articles:
         article.parse()
+        article.nlp()
         Article.create(
             publisher=paper.brand,
             url=article.url,
             authors=article.authors,
             title=article.title,
-            date_published=article.publish_date,)
+            date_published=article.publish_date,
+            keywords=article.keywords,
+            summary=article.summary,)
+    parse_time = round(time.time() - start, 2)
+    log.info(f'Parsing and persisting all articles (secs): {parse_time}')

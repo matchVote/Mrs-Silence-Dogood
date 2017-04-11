@@ -15,6 +15,8 @@ except OperationalError:
     time.sleep(5)  # wait for postgres to be running in container
     os.system(f'createdb -h {config["host"]} -U {config["user"]} {config["database"]}')
     os.system(f'psql -h {config["host"]} -U {config["user"]} {config["database"]} -c \'CREATE EXTENSION hstore;\'')
-    log.error('Done...party on!')
 
+# Create tables
 db.create_tables([Article], safe=True)
+
+log.error('Done...party on!')
