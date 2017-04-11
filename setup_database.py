@@ -14,6 +14,7 @@ except OperationalError:
     log.error('No DB found. Creating...')
     time.sleep(5)  # wait for postgres to be running in container
     os.system(f'createdb -h {config["host"]} -U {config["user"]} {config["database"]}')
-    log.error('Done')
+    os.system(f'psql -h {config["host"]} -U {config["user"]} {config["database"]} -c \'CREATE EXTENSION hstore;\'')
+    log.error('Done...party on!')
 
 db.create_tables([Article], safe=True)

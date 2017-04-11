@@ -12,17 +12,6 @@ Consumes news articles to populate data for the news feed.
 
 #### Notes
 Articles:  
-* url - primary key
-* title
-* author
-* publisher
-* date_published
-* read_time
-* keywords - array
-* summary - array
-* mentioned_officials
-* topics
-
 For consideration:
 * upvote_downvote_count
 * most_read

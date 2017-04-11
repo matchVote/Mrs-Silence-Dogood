@@ -1,15 +1,14 @@
 import os
 import yaml
-from peewee import PostgresqlDatabase
+from playhouse.postgres_ext import PostgresqlExtDatabase
 
 env = os.environ.get('FEEDER_ENV', 'dev')
 with open('database_config.yml') as f:
     config = yaml.load(f.read())[env]
 
-db = PostgresqlDatabase(
+db = PostgresqlExtDatabase(
     config['database'],
     user=config['user'],
     password=config['password'],
     host=config['host'],
-    port=config['port'],
-)
+    port=config['port'])

@@ -1,6 +1,6 @@
 from datetime import datetime
-import pytest
 from peewee import IntegrityError
+import pytest
 
 from feeder.article import Article
 from tests import transaction
@@ -11,26 +11,29 @@ class TestArticle(object):
 
     @transaction
     def test_article_model_works(self):
+        published = datetime.now()
         article = Article.create(
             url='http://bomb.sauce',
             title='CNN is Great',
             read_time=12,
-            brand='cnn',
-            date_published=datetime.now(),
-        )
+            publisher='cnn',
+            authors=['Ben', 'Bernanke'],
+            date_published=published,)
+
         assert article.url == 'http://bomb.sauce'
         assert article.title == 'CNN is Great'
-        assert article.author is None
         assert article.read_time == 12
-        assert article.brand == 'cnn'
-        assert article.date_published is not None
+        assert article.publisher == 'cnn'
+        assert article.date_published == published
+        assert len(article.authors) == 2
+        assert article.created_at is not None
 
     @transaction
     def test_url_is_required(self):
         with pytest.raises(IntegrityError):
-            Article.create(url=None, brand='test')
+            Article.create(url=None, publisher='test')
 
     @transaction
-    def test_brand_is_required(self):
+    def test_publisher_is_required(self):
         with pytest.raises(IntegrityError):
-            Article.create(brand=None, url='test.com')
+            Article.create(publisher=None, url='test.com')
