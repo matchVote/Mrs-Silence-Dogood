@@ -3,7 +3,7 @@ import yaml
 from playhouse.postgres_ext import PostgresqlExtDatabase
 
 env = os.environ.get('FEEDER_ENV', 'dev')
-with open('database_config.yml') as f:
+with open('config/database.yml') as f:
     config = yaml.load(f.read())[env]
 
 db = PostgresqlExtDatabase(
