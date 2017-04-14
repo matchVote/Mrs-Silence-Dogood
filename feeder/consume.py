@@ -9,35 +9,65 @@ log = logging.getLogger(__name__)
 
 
 def import_articles(source):
-    log.info(f'Building source: {source}')
+    """Downloads, parses, transforms, and persists article data.
+
+    :param source: dict - url and label of a source of articles
+    """
+    articles = download_articles(source)
+    start = time.time()
+    for article in paper.articles:
+        article.parse()
+        article.nlp()
+        persist(map_article(article, source['label']))
+    parse_time = round(time.time() - start, 2)
+    log.info(f'Parsing and persisting time for {source["label"]} articles (secs): {parse_time}')
+
+
+def download_articles(source):
+    """Collects articles urls from source, diffs them against previously imported
+    articles, and downloads new article data.
+
+    :param source: dict - url and label of a source of articles
+    :returns: list[newspaper.Article] - list of parsed data in article objects
+    """
+    log.info(f'Building source: {source["label"]}')
     start = time.time()
     # newspaper.build caches article urls in ~/.newspaper_scraper/memoized
-    paper = newspaper.build(source, memoize_articles=False)
+    paper = newspaper.build(source['url'], memoize_articles=False)
     build_time = round(time.time() - start, 2)
-    log.info(f'{paper.brand.upper()} article count: {paper.size()}; build time (secs): {build_time}')
+    log.info(f'{source["label"]} article count: {paper.size()}; build time (secs): {build_time}')
+
+    # Add article url diff
 
     newspaper.news_pool.set([paper], threads_per_source=3)
     start = time.time()
     newspaper.news_pool.join()
     download_time = round(time.time() - start, 2)
-    log.info(f'Download time for {paper.brand.upper()} articles (secs): {download_time}')
+    log.info(f'Download time for {source["label"]} articles (secs): {download_time}')
 
-    start = time.time()
-    for article in paper.articles:
-        article.parse()
-        article.nlp()
-        map_and_persist(article, paper.brand)
-    parse_time = round(time.time() - start, 2)
-    log.info(f'Parsing and persisting time for {paper.brand.upper()} articles (secs): {parse_time}')
+    return paper.articles
 
 
-def map_and_persist(article, publisher):
-    Article.create(
-        publisher=publisher,
-        url=article.url,
-        authors=article.authors,
-        title=article.title,
-        date_published=article.publish_date,
-        keywords=article.keywords,
-        summary=article.summary,)
+def map_article(parsed_data, publisher):
+    """Converts parsed data into an acceptable format for the Article model.
 
+    :param parsed_data: object - container of parsed data
+    :returns: dict - article data
+    """
+    return {
+        'publisher': publisher,
+        'url': parsed_data.url,
+        'authors': parsed_data.authors,
+        'title': parsed_data.title,
+        'date_published': parsed_data.publish_date,
+        'keywords': parsed_data.keywords,
+        'summary': parsed_data.summary,
+    }
+
+
+def persist(data):
+    """Stuffs data into Article model and saves to database.
+
+    :param data: dict - article data
+    """
+    Article.create(**data)

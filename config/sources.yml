@@ -1,4 +1,5 @@
 base: http://
 
 sources:
-  - cnn.com
+  - url: cnn.com
+    label: CNN

@@ -12,10 +12,8 @@ Consumes news articles to populate data for the news feed.
 
 #### Notes
 Articles:  
-For consideration:
-* Adding front end friendly 'Publisher Name' to config/sources.yml
-
-* Do these happen in rails instead?
-* upvote_downvote_count
-* most_read
-* bookmark_status
+* For consideration:
+  * Move the following to the web app:
+  * upvote_downvote_count
+  * most_read
+  * bookmark_status

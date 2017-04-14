@@ -1,4 +1,4 @@
 #!/bin/bash
 
 ENV=${1:-dev}
-docker-compose run --rm -e FEEDER_ENV=$ENV feeder python feeder_setup.py
+docker-compose run --rm -e FEEDER_ENV=$ENV feeder python app_setup.py
