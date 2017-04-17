@@ -2,4 +2,4 @@ base: http://
 
 sources:
   - url: cnn.com
-    label: CNN
+    publisher: CNN

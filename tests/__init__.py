@@ -5,6 +5,10 @@ def use_transaction(func):
     def test(*args):
         db.set_autocommit(False)
         db.begin()
-        func(*args)
-        db.rollback()
+        try:
+            func(*args)
+        except Exception as e:
+            raise Exception('Failure in transaction') from e
+        finally:
+            db.rollback()
     return test
