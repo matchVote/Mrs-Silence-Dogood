@@ -1,5 +1,3 @@
-base: http://
-
 sources:
-  - url: cnn.com
+  - url: http://cnn.com
     publisher: CNN

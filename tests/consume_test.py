@@ -60,8 +60,10 @@ class TestConsume(object):
         urls = feeder.consume.existing_articles(test_source)
         assert urls == ['http://test_brand.com']
 
-    def test_download_articles(self):
-        pass
+    def test_download_articles_returns_objects_holding_article_html(self, mocker):
+        mocker.patch.object(newspaper, 'news_pool')
+        articles = feeder.consume.download_articles(['art1.com', 'art2.com'])
+        assert articles[0].html == ''
 
     def test_retrieve_articles_returns_article_objects_downloaded_from_a_source(self, mocker):
         # Article.create(url='test-url', publisher=test_source['publisher'])

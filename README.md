@@ -12,6 +12,12 @@ Consumes news articles to populate data for the news feed.
 
 #### Notes
 Articles:  
+* Todo
+  * Read time
+  * Mentioned officials
+  * Clean up summary text
+  * Abstract parsing/nlp
+
 * For consideration:
   * Move the following to the web app:
   * upvote_downvote_count
