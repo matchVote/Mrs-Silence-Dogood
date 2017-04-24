@@ -18,8 +18,7 @@ Articles:
   * Clean up summary text
   * Abstract parsing/nlp
 
-* For consideration:
-  * Move the following to the web app:
-  * upvote_downvote_count
+* Move the following to the web app:
+  * newsworthiness_count
   * most_read
   * bookmark_status
