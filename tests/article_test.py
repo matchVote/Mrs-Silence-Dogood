@@ -2,7 +2,7 @@ from datetime import datetime
 from peewee import IntegrityError
 import pytest
 
-from feeder.article import Article
+from feeder.models import Article
 from tests import use_transaction
 
 
@@ -18,7 +18,7 @@ class TestArticle(object):
             read_time=12,
             publisher='cnn',
             authors=['Ben', 'Bernanke'],
-            date_published=published,)
+            date_published=published)
 
         assert article.url == 'http://bomb.sauce'
         assert article.title == 'CNN is Great'

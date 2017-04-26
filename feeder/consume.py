@@ -2,7 +2,9 @@ import logging
 import time
 
 import newspaper
-from feeder.article import Article
+from feeder import nlp
+from feeder.article_adapter import ArticleAdapter
+from feeder.models import Article
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
@@ -16,8 +18,7 @@ def import_articles(source):
     articles = retrieve_articles(source)
     start = time.time()
     for article in articles:
-        article.parse()
-        article.nlp()
+        article = nlp.process(parse(article))
         persist(map_article(article, source['publisher']))
     parse_time = round(time.time() - start, 2)
     log.info(f'Parsing and persisting time for {source["publisher"]} articles (secs): {parse_time}')
@@ -28,14 +29,14 @@ def retrieve_articles(source):
     articles, and downloads new article data.
 
     :param source: dict - url and publisher of a source of articles
-    :returns: list[newspaper.Article] - list of parsed data in article objects
+    :returns: list[ArticleAdapter] - list of parsed data in article objects
     """
     all_urls = collect_article_urls(source)
     urls = extract_new_urls(all_urls, existing_articles(source))
     log.info(f'New articles: {len(urls)}')
 
     start = time.time()
-    articles = download_articles(urls)
+    articles = [ArticleAdapter(article) for article in download_articles(urls)]
     download_time = round(time.time() - start, 2)
     log.info(f'Download time for {source["publisher"]} articles (secs): {download_time}')
     return articles
@@ -87,6 +88,16 @@ def download_articles(urls):
     newspaper.news_pool.set([source], threads_per_source=3)
     newspaper.news_pool.join()
     return source.articles
+
+
+def parse(article):
+    """Parses raw HTML into data attributes.
+
+    :param article: ArticleAdapter - article object containing raw HTML
+    :returns: ArticleAdapter - article object with parsed attributes
+    """
+    article.parse()
+    return article
 
 
 def map_article(parsed_data, publisher):

@@ -12,3 +12,10 @@ def use_transaction(func):
         finally:
             db.rollback()
     return test
+
+
+class SourceArticle(object):
+    """Mock article created by source object."""
+
+    def __init__(self, url=None):
+        self.url = url

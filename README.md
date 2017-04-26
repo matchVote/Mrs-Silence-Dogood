@@ -13,10 +13,8 @@ Consumes news articles to populate data for the news feed.
 #### Notes
 Articles:  
 * Todo
-  * Read time
   * Mentioned officials
   * Clean up summary text
-  * Abstract parsing/nlp
 
 * Move the following to the web app:
   * newsworthiness_count
