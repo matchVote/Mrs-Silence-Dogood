@@ -3,7 +3,7 @@ import pytest
 
 import newspaper
 from feeder import nlp
-from feeder.article_adapter import ArticleAdapter
+from feeder.adapters import ArticleAdapter
 
 
 class TestNLP(object):

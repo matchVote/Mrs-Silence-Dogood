@@ -1,7 +1,6 @@
 import pytest
 import newspaper
-
-from feeder.article_adapter import ArticleAdapter
+from feeder.source import ArticleAdapter
 
 
 class TestArticleAdapter(object):

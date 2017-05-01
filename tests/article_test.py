@@ -3,14 +3,13 @@ from peewee import IntegrityError
 import pytest
 
 from feeder.models import Article
-from tests import use_transaction
+from tests import transaction
 
 
 class TestArticle(object):
     """Test cases for Article model."""
 
-    @use_transaction
-    def test_article_model_works(self):
+    def test_article_model_works(self, transaction):
         published = datetime.now()
         article = Article.create(
             url='http://bomb.sauce',
@@ -28,12 +27,10 @@ class TestArticle(object):
         assert len(article.authors) == 2
         assert article.created_at is not None
 
-    @use_transaction
-    def test_url_is_required(self):
+    def test_url_is_required(self, transaction):
         with pytest.raises(IntegrityError):
             Article.create(url=None, publisher='test')
 
-    @use_transaction
-    def test_publisher_is_required(self):
+    def test_publisher_is_required(self, transaction):
         with pytest.raises(IntegrityError):
             Article.create(publisher=None, url='test.com')
