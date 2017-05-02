@@ -6,75 +6,49 @@ import pytest
 from pytest_mock import mocker
 
 from feeder import consume
+from feeder.source import ArticleAdapter, Source
 from feeder.models import Article
-from feeder.adapters import ArticleAdapter, SourceAdapter
 from tests import transaction
 
-test_date = datetime.now()
-test_config = {'url': 'http://test_brand.com', 'publisher': 'test_publisher'}
-expected_mapping = {
-    'url': test_config['url'],
-    'publisher': test_config['publisher'],
+TEST_DATE = datetime.now()
+TEST_CONFIG = {'url': 'http://test_brand.com', 'publisher': 'test_publisher'}
+EXPECTED_MAPPING = {
+    'url': TEST_CONFIG['url'],
+    'publisher': TEST_CONFIG['publisher'],
     'title': 'Awesome article',
     'authors': ['Jim', 'Bob'],
-    'date_published': test_date,
+    'date_published': TEST_DATE,
     'keywords': ['tubular', 'radical', 'gnarley'],
     'summary': 'One fine day...',
 }
 
 
-@pytest.fixture
-def source():
-    source = SourceAdapter(test_config)
-    source.articles = [
-        newspaper.Article(url='http://art1.com'),
-        newspaper.Article(url='http://art2.com')]
-    return source
+class MockSource(object):
+    def __init__(self, config):
+        self.publisher = config['publisher']
+        self.articles = self._articles()
+
+    def build(self, **kwargs):
+        pass
+
+    def _articles(self):
+        html = """<html><head><title>Awesome!</title></head>
+        <body>Cool</body></html>"""
+        articles = [
+            newspaper.Article(url='http://art1.com', html=html),
+            newspaper.Article(url='http://art2.com', html=html)]
+        for article in articles:
+            article.is_downloaded = True
+            article.is_parsed = True
+            article.publish_date = TEST_DATE
+        return [ArticleAdapter(article, publisher=self.publisher) for article in articles]
 
 
-def test_import_articles_downloads_processes_and_persists_articles(transaction, mocker, source):
-    mocker.patch('newspaper.build')
-    newspaper.build.return_value = source
-    mocker.patch('newspaper.news_pool', new=MockNewsPool(source))
-
-    consume.import_articles(test_config)  # this source doesn't matter
-    result = Article.get(Article.url == 'http://nowhere.com')
-    assert result.title == 'Awesome!'
-
-
-def test_collect_article_urls_sets_articles_on_source(source):
-    # mocker.patch('newspaper.build')
-    # newspaper.build.return_value = source
-    consume.collect_article_urls(source)
-    assert source.articles == ['http://art1.com', 'http://art2.com']
-
-
-def test_extract_new_urls_returns_urls_that_havent_been_consumed_before():
-    all_urls = ['new.com', 'old2.com', 'old1.com']
-    existing_urls = ['old1.com', 'old2.com']
-    urls = consume.extract_new_urls(all_urls, existing_urls)
-    assert urls == ['new.com']
-
-
-def test_existing_articles_returns_a_list_of_previously_consumed_urls(transaction):
-    Article.create(**expected_mapping)
-    urls = consume.existing_articles(test_config)
-    assert urls == ['http://test_brand.com']
-
-
-def test_download_articles_returns_objects_holding_article_html(mocker):
-    mocker.patch('newspaper.news_pool', new=MockNewsPool())
-    articles = consume.download_articles(['http://art1.com', 'http://art2.com'])
-    assert articles[0].html == "It's dope!"
-    assert articles[0].url == 'http://art1.com'
-
-
-def test_retrieve_articles_returns_article_objects_downloaded_from_a_source(mocker, source):
-    mocker.patch('newspaper.build')
-    newspaper.build.return_value = source
-    mocker.patch('newspaper.news_pool')
-    articles = consume.retrieve_articles(test_config)
-    assert len(articles) == 2
+def test_import_articles_downloads_processes_and_persists_articles(transaction):
+    source = MockSource(TEST_CONFIG)
+    consume.import_articles(source)
+    result = Article.get(Article.url == 'http://art1.com')
+    assert result.url == 'http://art1.com'
 
 
 def test_parse_extracts_data_from_html():
@@ -86,39 +60,27 @@ def test_parse_extracts_data_from_html():
 
 def test_map_article_converts_parsed_data_into_model_data():
     parsed_article = setup_parsed_article()
-    mapping = consume.map_article(parsed_article, 'test_publisher')
-    assert mapping == expected_mapping
+    mapping = consume.map_article(parsed_article)
+    assert mapping == EXPECTED_MAPPING
 
 
 def test_persist_saves_model_to_db(transaction):
-    consume.persist(expected_mapping)
+    consume.persist(EXPECTED_MAPPING)
     articles = Article.select()
     assert len(articles) == 1
-    assert articles[0].url == expected_mapping['url']
+    assert articles[0].url == EXPECTED_MAPPING['url']
 
 
 def setup_parsed_article():
-    article = newspaper.Article(
+    fields = ['url', 'title', 'keywords', 'summary',
+              'authors', 'publish_date', 'publisher']
+    ParsedArticle = namedtuple('ParsedArticle', fields)
+    article = ParsedArticle(
         url='http://test_brand.com',
-        title='Awesome article')
-    article.keywords = ['tubular', 'radical', 'gnarley']
-    article.summary = 'One fine day...'
-    article.authors = ['Jim', 'Bob']
-    article.publish_date = test_date
+        title='Awesome article',
+        keywords=['tubular', 'radical', 'gnarley'],
+        summary='One fine day...',
+        authors=['Jim', 'Bob'],
+        publish_date=TEST_DATE,
+        publisher='test_publisher')
     return article
-
-
-class MockNewsPool(object):
-    """Mock object to control article downloading."""
-
-    def __init__(self, source=None):
-        self.source = source
-
-    def set(self, sources, threads_per_source=None):
-        if self.source is None:
-            self.source = sources[0]
-
-    def join(self):
-        for article in self.source.articles:
-            article.is_downloaded = True
-            article.html = "It's dope!"

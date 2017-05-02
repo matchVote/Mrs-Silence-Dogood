@@ -1,4 +1,5 @@
 import newspaper
+from feeder import timer
 
 
 class Source(object):
@@ -17,13 +18,15 @@ class Source(object):
 
         :param ignore: list - article urls not to download
         """
-        self._source.build()
+        with timer('Building source...'):
+            self._source.build()
+
         urls = [article.url for article in self._source.articles]
         if ignore:
             urls = remove_ignored(urls, ignore)
         self._source.articles = [newspaper.Article(url=url) for url in urls]
-        for article in download_articles(self._source):
-            self.articles.append(ArticleAdapter(article))
+        self.articles = [ArticleAdapter(article, publisher=self.publisher)
+                         for article in download_articles(self._source)]
 
 
 class ArticleAdapter(object):
@@ -33,12 +36,14 @@ class ArticleAdapter(object):
     the system, maintaining a standard interface for further processing.
     """
 
-    def __init__(self, article):
+    def __init__(self, article, publisher=None):
         """This expects a newspaper.Article object.
 
         :param article: newspaper.Article - object containing downloaded article
+        :param publisher: str - article's publisher
         """
         self.external_article = article
+        self.publisher = publisher
         self.read_time = 0
         self.mentioned_officials = []
 
