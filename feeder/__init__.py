@@ -25,5 +25,5 @@ def timer(message):
     start = time.time()
     log.info(message)
     yield
-    duration = time.time() - start
-    log.info('Duration: {} (secs)'.format(duration))
+    duration = round(time.time() - start, 2)
+    log.info('Duration: {} secs'.format(duration))

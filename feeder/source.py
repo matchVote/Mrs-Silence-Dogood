@@ -18,7 +18,7 @@ class Source(object):
 
         :param ignore: list - article urls not to download
         """
-        with timer('Building source...'):
+        with timer('Building source for {}...'.format(self.publisher)):
             self._source.build()
 
         urls = [article.url for article in self._source.articles]
@@ -27,6 +27,28 @@ class Source(object):
         self._source.articles = [newspaper.Article(url=url) for url in urls]
         self.articles = [ArticleAdapter(article, publisher=self.publisher)
                          for article in download_articles(self._source)]
+
+
+def remove_ignored(urls, ignore):
+    """Finds the difference between all source urls and existing urls.
+
+    :param urls: list[str] - master url list
+    :param ignore: list[str] - urls to ignore from master list
+    :returns: list[str] - urls that aren't in ignore list
+    """
+    return list(set(urls) - set(ignore))
+
+
+def download_articles(source):
+    """Downloads HTML for all given urls.
+
+    :param source: newspaper.Source - object containing urls to download
+    :returns: list[newspaper.Article] - article objects containing HTML
+    """
+    with timer('Downloading {} new articles...'.format(len(source.articles))):
+        newspaper.news_pool.set([source], threads_per_source=3)
+        newspaper.news_pool.join()
+    return source.articles
 
 
 class ArticleAdapter(object):
@@ -50,24 +72,3 @@ class ArticleAdapter(object):
     def __getattr__(self, name):
         """If attribute is not found on adapter, delegate to external article."""
         return getattr(self.external_article, name)
-
-
-def remove_ignored(urls, ignore):
-    """Finds the difference between all source urls and existing urls.
-
-    :param urls: list[str] - master url list
-    :param ignore: list[str] - urls to ignore from master list
-    :returns: list[str] - urls that aren't in ignore list
-    """
-    return list(set(urls) - set(ignore))
-
-
-def download_articles(source):
-    """Downloads HTML for all given urls.
-
-    :param source: newspaper.Source - object containing urls to download
-    :returns: list[newspaper.Article] - article objects containing HTML
-    """
-    newspaper.news_pool.set([source], threads_per_source=3)
-    newspaper.news_pool.join()
-    return source.articles

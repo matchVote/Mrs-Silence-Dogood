@@ -26,12 +26,9 @@ EXPECTED_MAPPING = {
 class MockSource(object):
     def __init__(self, config):
         self.publisher = config['publisher']
-        self.articles = self._articles()
+        self.articles = []
 
-    def build(self, **kwargs):
-        pass
-
-    def _articles(self):
+    def build(self, ignore=None):
         html = """<html><head><title>Awesome!</title></head>
         <body>Cool</body></html>"""
         articles = [
@@ -41,7 +38,8 @@ class MockSource(object):
             article.is_downloaded = True
             article.is_parsed = True
             article.publish_date = TEST_DATE
-        return [ArticleAdapter(article, publisher=self.publisher) for article in articles]
+        self.articles = [ArticleAdapter(article, publisher=self.publisher)
+                         for article in articles]
 
 
 def test_import_articles_downloads_processes_and_persists_articles(transaction):
@@ -52,10 +50,10 @@ def test_import_articles_downloads_processes_and_persists_articles(transaction):
 
 
 def test_parse_extracts_data_from_html():
-    external_article = newspaper.Article(url='test.com')
-    external_article.is_downloaded = True
-    article = ArticleAdapter(external_article)
-    assert consume.parse(article)
+    source = MockSource(TEST_CONFIG)
+    source.build()
+    # Parsing that test HTML ^ doesn't work properly with newspaper
+    assert consume.parse(source.articles[0])
 
 
 def test_map_article_converts_parsed_data_into_model_data():
@@ -69,6 +67,7 @@ def test_persist_saves_model_to_db(transaction):
     articles = Article.select()
     assert len(articles) == 1
     assert articles[0].url == EXPECTED_MAPPING['url']
+    assert articles[0].title == EXPECTED_MAPPING['title']
 
 
 def setup_parsed_article():

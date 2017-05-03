@@ -1,5 +1,4 @@
-import newspaper
-from feeder import nlp
+from feeder import nlp, timer
 from feeder.models import Article
 
 
@@ -9,8 +8,9 @@ def import_articles(source):
     :param source: Source - url and publisher of a source of articles
     """
     source.build(ignore=existing_article_urls(source.publisher))
-    for article in source.articles:
-        persist(map_article(nlp.process(parse(article))))
+    with timer('Processing articles...'):
+        for article in source.articles:
+            persist(map_article(nlp.process(parse(article))))
 
 
 def existing_article_urls(publisher):
