@@ -35,8 +35,7 @@ class MockSource(object):
             newspaper.Article(url='http://art1.com', html=html),
             newspaper.Article(url='http://art2.com', html=html)]
         for article in articles:
-            article.is_downloaded = True
-            article.is_parsed = True
+            article.is_downloaded = article.is_parsed = True
             article.publish_date = TEST_DATE
         self.articles = [ArticleAdapter(article, publisher=self.publisher)
                          for article in articles]

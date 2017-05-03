@@ -5,3 +5,5 @@ for ENV in "${ENVS[@]}"
 do
   docker-compose run --rm -e FEEDER_ENV=$ENV feeder python app_setup.py
 done
+
+echo "Done...party on!"

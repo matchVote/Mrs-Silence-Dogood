@@ -3,6 +3,7 @@ import logging
 import os
 import time
 import yaml
+
 from playhouse.postgres_ext import PostgresqlExtDatabase
 
 logging.basicConfig(level=logging.INFO)
@@ -26,4 +27,4 @@ def timer(message):
     log.info(message)
     yield
     duration = round(time.time() - start, 2)
-    log.info('Duration: {} secs'.format(duration))
+    log.info(f'Duration: {duration} secs')

@@ -18,7 +18,7 @@ class Source(object):
 
         :param ignore: list - article urls not to download
         """
-        with timer('Building source for {}...'.format(self.publisher)):
+        with timer(f'Building source for {self.publisher}...'):
             self._source.build()
 
         urls = [article.url for article in self._source.articles]
@@ -45,7 +45,7 @@ def download_articles(source):
     :param source: newspaper.Source - object containing urls to download
     :returns: list[newspaper.Article] - article objects containing HTML
     """
-    with timer('Downloading {} new articles...'.format(len(source.articles))):
+    with timer(f'Downloading {len(source.articles)} new articles...'):
         newspaper.news_pool.set([source], threads_per_source=3)
         newspaper.news_pool.join()
     return source.articles

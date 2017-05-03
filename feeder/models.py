@@ -25,3 +25,15 @@ class Article(BaseModel):
 
     class Meta:
         db_table = 'articles'
+
+
+class Official(BaseModel):
+    """ORM model for representatives table."""
+
+    first_name = TextField()
+    last_name = TextField()
+    middle_name = TextField(null=True)
+    official_full_name = TextField(null=True)
+
+    class Meta:
+        db_table = 'representatives'
