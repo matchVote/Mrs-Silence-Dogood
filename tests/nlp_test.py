@@ -20,7 +20,15 @@ class TestNLP(object):
             article.text = f.read()
         self.article = ArticleAdapter(article)
 
-    def test_process_sets_all_attributes_for_nlp(self):
+    @pytest.fixture
+    def reps(self):
+        reps = [{'first_name': 'Kurt', 'last_name': 'Gödel'},
+                {'first_name': 'Maurits', 'last_name': 'Escher'},
+                {'first_name': 'Johann', 'last_name': 'Bach'},
+                {'first_name': 'Haruki', 'last_name': 'Murakami'}]
+        Official.insert_many(reps).execute()
+
+    def test_process_sets_all_attributes_for_nlp(self, transaction, reps):
         article = nlp.process(self.article)
         assert article.keywords
         assert article.summary
@@ -31,13 +39,17 @@ class TestNLP(object):
         read_time = nlp.calculate_read_time(self.article.text)
         assert read_time == 1
 
-    def test_extract_mentioned_officials_returns_all_last_names_of_officials_in_text(self, transaction):
-        reps = [{'first_name': 'Kurt', 'last_name': 'Gödel'},
-                {'first_name': 'M.C.', 'last_name': 'Escher'},
-                {'first_name': 'Johann', 'last_name': 'Bach'},
-                {'first_name': 'Haruki', 'last_name': 'Murakami'}]
-        Official.insert_many(reps).execute()
+    def test_official_names_returns_dict_of_last_name_mapped_to_first_name(self, transaction, reps):
+        assert nlp.official_names() == {
+            'Gödel': 'Kurt',
+            'Escher': 'Maurits',
+            'Bach': 'Johann',
+            'Murakami': 'Haruki'}
 
+    def test_extract_mentioned_officials_returns_all_names_of_officials_in_text(self, transaction, reps):
         officials = nlp.extract_mentioned_officials(self.article.text)
-        assert officials == ['Kurt Gödel', 'M.C. Escher',
-                             'Johann Bach', 'Haruki Murakami']
+        assert sorted(officials )== [
+            'Bach',
+            'Haruki Murakami',
+            'Kurt Gödel',
+            'Maurits Escher']

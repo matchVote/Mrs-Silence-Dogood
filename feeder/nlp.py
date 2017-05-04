@@ -27,16 +27,24 @@ def calculate_read_time(text):
 
 
 def extract_mentioned_officials(text):
-    """Finds all instances of last names of officials listed in text.
+    """Finds all instances of first and last names of officials listed in text.
+    If only last name if found, it keeps that too.
 
     :param text: str - article text
     :returns: list[str] - officials' last names
     """
-    pattern = r'\W'
-    last_names = official_names()
-    res = [word for word in re.split(pattern, text) if word in last_names]
-    print(res)
-    return res
+    mentions = []
+    names = official_names()
+    words = re.split(r'\W', text)
+
+    for index, word in enumerate(words):
+        first_name = names.get(word, False)
+        if first_name:
+            if words[index-1] == first_name:
+                mentions.append(f'{first_name} {word}')
+            else:
+                mentions.append(word)
+    return mentions
 
 
 def official_names():
@@ -45,4 +53,4 @@ def official_names():
     :returns: list[str] - list of last names
     """
     reps = Official.select(Official.first_name, Official.last_name)
-    return [rep.last_name for rep in reps]
+    return {rep.last_name: rep.first_name for rep in reps}
