@@ -12,7 +12,6 @@ Consumes news articles to populate data for the news feed.
 #### Notes
 Articles:  
 * Todo
-  * Mentioned officials
   * Clean up summary text
 
 * Move the following to the web app:

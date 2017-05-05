@@ -51,7 +51,7 @@ class TestNLP(object):
 
     def test_extract_mentioned_officials_returns_all_names_of_officials_in_text(self, transaction, reps):
         officials = nlp.extract_mentioned_officials(self.article.text)
-        assert sorted(officials )== [
+        assert sorted(officials) == [
             'Bach',
             'Haruki Murakami',
             'Kurt Gödel',

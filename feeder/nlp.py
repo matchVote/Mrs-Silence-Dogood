@@ -36,7 +36,7 @@ def extract_mentioned_officials(text):
     :param text: str - article text
     :returns: list[str] - officials' last names
     """
-    mentions = []
+    mentions = set()
     names = official_names()
     words = re.split(r'\W', text)
 
@@ -44,9 +44,9 @@ def extract_mentioned_officials(text):
         first_name = names.get(word, False)
         if first_name:
             if words[index-1] == first_name:
-                mentions.append(f'{first_name} {word}')
+                mentions.add(f'{first_name} {word}')
             else:
-                mentions.append(word)
+                mentions.add(word)
     return mentions
 
 
