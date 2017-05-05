@@ -23,7 +23,10 @@ def calculate_read_time(text):
     :returns: int - average reading time in minutes rounded up
     """
     word_count = len(text.split(' '))
-    return round(word_count / AVERAGE_READING_SPEED)
+    time = round(word_count / AVERAGE_READING_SPEED)
+    if not time:
+        time = 1
+    return time
 
 
 def extract_mentioned_officials(text):

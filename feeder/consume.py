@@ -47,6 +47,8 @@ def map_article(article):
         'date_published': article.publish_date,
         'keywords': article.keywords,
         'summary': article.summary,
+        'read_time': article.read_time,
+        'mentioned_officials': article.mentioned_officials
     }
 
 

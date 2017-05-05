@@ -1,5 +1,9 @@
+import logging
 import newspaper
 from feeder import timer
+
+log = logging.getLogger(__name__)
+log.setLevel(logging.INFO)
 
 
 class Source(object):
@@ -10,7 +14,7 @@ class Source(object):
         self.url = config['url']
         self.publisher = config['publisher']
         self.articles = []
-        self._source = newspaper.Source(config['url'])
+        self._source = newspaper.Source(config['url'], memoize_articles=False)
 
     def build(self, ignore=None):
         """Scrapes source for article urls, removes the urls to ignore, and
@@ -20,6 +24,7 @@ class Source(object):
         """
         with timer(f'Building source for {self.publisher}...'):
             self._source.build()
+        log.info(f'Total article count: {self._source.size()}')
 
         urls = [article.url for article in self._source.articles]
         if ignore:

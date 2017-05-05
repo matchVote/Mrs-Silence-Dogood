@@ -7,7 +7,7 @@ import yaml
 from playhouse.postgres_ext import PostgresqlExtDatabase
 
 logging.basicConfig(level=logging.INFO)
-log = logging.getLogger(__name__)
+timer_log = logging.getLogger('Timer')
 
 env = os.environ.get('FEEDER_ENV', 'dev')
 with open('config/database.yml') as f:
@@ -24,7 +24,7 @@ db = PostgresqlExtDatabase(
 @contextmanager
 def timer(message):
     start = time.time()
-    log.info(message)
+    timer_log.info(message)
     yield
     duration = round(time.time() - start, 2)
-    log.info(f'Duration: {duration} secs')
+    timer_log.info(f'Duration: {duration} secs')

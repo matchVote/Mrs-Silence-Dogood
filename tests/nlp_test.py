@@ -39,6 +39,9 @@ class TestNLP(object):
         read_time = nlp.calculate_read_time(self.article.text)
         assert read_time == 1
 
+    def test_read_time_has_a_minimum_of_one_minute(self):
+        assert nlp.calculate_read_time('hey') == 1
+
     def test_official_names_returns_dict_of_last_name_mapped_to_first_name(self, transaction, reps):
         assert nlp.official_names() == {
             'Gödel': 'Kurt',

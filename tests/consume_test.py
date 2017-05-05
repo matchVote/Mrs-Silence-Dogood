@@ -20,6 +20,8 @@ EXPECTED_MAPPING = {
     'date_published': TEST_DATE,
     'keywords': ['tubular', 'radical', 'gnarley'],
     'summary': 'One fine day...',
+    'read_time': 12,
+    'mentioned_officials': ['Ricky Bobby', 'Davy Jones'],
 }
 
 
@@ -32,9 +34,10 @@ class MockSource(object):
         html = """<html><head><title>Awesome!</title></head>
         <body>Cool</body></html>"""
         articles = [
-            newspaper.Article(url='http://art1.com', html=html),
-            newspaper.Article(url='http://art2.com', html=html)]
+            newspaper.Article(url='http://art1.com'),
+            newspaper.Article(url='http://art2.com')]
         for article in articles:
+            article.html = html
             article.is_downloaded = article.is_parsed = True
             article.publish_date = TEST_DATE
         self.articles = [ArticleAdapter(article, publisher=self.publisher)
@@ -43,9 +46,13 @@ class MockSource(object):
 
 def test_import_articles_downloads_processes_and_persists_articles(transaction):
     source = MockSource(TEST_CONFIG)
+    source.build()
     consume.import_articles(source)
     result = Article.get(Article.url == 'http://art1.com')
     assert result.url == 'http://art1.com'
+    assert result.title == 'Awesome!'
+    assert result.read_time
+    assert result.mentioned_officials == []
 
 
 def test_parse_extracts_data_from_html():
@@ -70,8 +77,8 @@ def test_persist_saves_model_to_db(transaction):
 
 
 def setup_parsed_article():
-    fields = ['url', 'title', 'keywords', 'summary',
-              'authors', 'publish_date', 'publisher']
+    fields = ['url', 'title', 'keywords', 'summary', 'authors', 'publish_date',
+              'read_time', 'mentioned_officials', 'publisher']
     ParsedArticle = namedtuple('ParsedArticle', fields)
     article = ParsedArticle(
         url='http://test_brand.com',
@@ -80,5 +87,7 @@ def setup_parsed_article():
         summary='One fine day...',
         authors=['Jim', 'Bob'],
         publish_date=TEST_DATE,
+        read_time=12,
+        mentioned_officials=['Ricky Bobby', 'Davy Jones'],
         publisher='test_publisher')
     return article

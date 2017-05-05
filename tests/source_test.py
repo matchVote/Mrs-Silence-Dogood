@@ -50,5 +50,8 @@ class MockNewspaperSource(object):
     def build(self):
         pass
 
+    def size(self):
+        return len(self)
+
     def __len__(self):
         return len(self.articles)
