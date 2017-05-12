@@ -22,7 +22,7 @@ class Source(object):
 
         :param ignore: list - article urls not to download
         """
-        with timer(f'Building source for {self.publisher}...'):
+        with timer(self.publisher, 'Building source...'):
             self._source.build()
         log.info(f'Total article count: {self._source.size()}')
 
@@ -31,7 +31,7 @@ class Source(object):
             urls = remove_ignored(urls, ignore)
         self._source.articles = [newspaper.Article(url=url) for url in urls]
         self.articles = [ArticleAdapter(article, publisher=self.publisher)
-                         for article in download_articles(self._source)]
+                         for article in download_articles(self._source, self.publisher)]
 
 
 def remove_ignored(urls, ignore):
@@ -44,13 +44,13 @@ def remove_ignored(urls, ignore):
     return list(set(urls) - set(ignore))
 
 
-def download_articles(source):
+def download_articles(source, publisher):
     """Downloads HTML for all given urls.
 
     :param source: newspaper.Source - object containing urls to download
     :returns: list[newspaper.Article] - article objects containing HTML
     """
-    with timer(f'Downloading {len(source.articles)} new articles...'):
+    with timer(publisher, f'Downloading {len(source.articles)} new articles...'):
         newspaper.news_pool.set([source], threads_per_source=3)
         newspaper.news_pool.join()
     return source.articles

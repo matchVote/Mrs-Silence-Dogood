@@ -8,7 +8,7 @@ def import_articles(source):
     :param source: Source - url and publisher of a source of articles
     """
     source.build(ignore=existing_article_urls(source.publisher))
-    with timer('Processing articles...'):
+    with timer(source.publisher, 'Processing articles...'):
         for article in source.articles:
             persist(map_article(nlp.process(parse(article))))
 

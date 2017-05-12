@@ -1,3 +1,5 @@
 sources:
   - url: http://cnn.com
     publisher: CNN
+  - url: http://vox.com
+    publisher: Vox

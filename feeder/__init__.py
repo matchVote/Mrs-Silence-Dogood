@@ -22,9 +22,15 @@ db = PostgresqlExtDatabase(
 
 
 @contextmanager
-def timer(message):
+def timer(publisher, message):
+    """Shows how long some operation took for a specified publisher.
+
+    :param publisher: str - source publisher
+    :param message: str - operation specific message
+    """
     start = time.time()
-    timer_log.info(message)
+    timer_log.info(f'{publisher}: {message}')
     yield
-    duration = round(time.time() - start, 2)
-    timer_log.info(f'Duration: {duration} secs')
+    duration = time.time() - start  # seconds
+    duration_formatted = time.strftime('%H:%M:%S', time.gmtime(duration))
+    timer_log.info(f'{publisher}: duration {duration_formatted}')
