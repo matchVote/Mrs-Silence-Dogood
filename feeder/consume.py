@@ -1,5 +1,8 @@
+import logging
 from feeder import nlp, timer
 from feeder.models import Article
+
+log = logging.getLogger(__name__)
 
 
 def import_articles(source):
@@ -29,7 +32,10 @@ def parse(article):
     :param article: ArticleAdapter - article object containing raw HTML
     :returns: ArticleAdapter - article object with parsed attributes
     """
-    article.parse()
+    try:
+        article.parse()
+    except ValueError as error:
+        log.warn(f'{article.pubisher}: Parsing error: {error}')
     return article
 
 

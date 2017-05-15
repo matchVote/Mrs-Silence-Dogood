@@ -3,3 +3,7 @@ sources:
     publisher: CNN
   - url: http://vox.com
     publisher: Vox
+  - url: http://abcnews.go.com
+    publisher: ABC
+  - url: http://huffingtonpost.com
+    publisher: Huffington Post

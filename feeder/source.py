@@ -24,7 +24,7 @@ class Source(object):
         """
         with timer(self.publisher, 'Building source...'):
             self._source.build()
-        log.info(f'Total article count: {self._source.size()}')
+        log.info(f'{self.publisher}: Total article count: {self._source.size()}')
 
         urls = [article.url for article in self._source.articles]
         if ignore:

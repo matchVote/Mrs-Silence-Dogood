@@ -33,4 +33,4 @@ def timer(publisher, message):
     yield
     duration = time.time() - start  # seconds
     duration_formatted = time.strftime('%H:%M:%S', time.gmtime(duration))
-    timer_log.info(f'{publisher}: duration {duration_formatted}')
+    timer_log.info(f'{publisher}: {message} -- duration {duration_formatted}')

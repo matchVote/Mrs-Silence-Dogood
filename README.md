@@ -10,10 +10,6 @@ Consumes news articles to populate data for the news feed.
     bin/test  # runs tests
 
 #### Notes
-Articles:  
-* Todo
-  * Clean up summary text
-
 * Move the following to the web app:
   * newsworthiness_count
   * most_read
