@@ -1,4 +1,4 @@
-# News Feeder
+# Mrs. Silence Dogood
 Consumes news articles to populate data for the news feed.
 
 ### Development Setup
