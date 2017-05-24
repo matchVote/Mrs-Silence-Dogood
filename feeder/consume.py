@@ -1,3 +1,5 @@
+#What good shall I do this day?
+
 import logging
 from feeder import nlp, timer
 from feeder.models import Article
