@@ -24,7 +24,9 @@ class TestSource(object):
         assert len(self.source.articles) == 2
 
     def test_download_articles_returns_objects_holding_article_html(self):
-        articles = source.download_articles(self.source._source)
+        articles = source.download_articles(
+            self.source._source,
+            TEST_CONFIG['publisher'])
         assert len(articles) == 4
         assert articles[0].url == 'http://art1.com'
         assert articles[0].html == 'Hey, I downloaded!'
