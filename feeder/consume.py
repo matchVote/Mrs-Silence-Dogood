@@ -56,8 +56,8 @@ def map_article(article):
         'keywords': article.keywords,
         'summary': article.summary,
         'read_time': article.read_time,
-        'mentioned_officials': article.mentioned_officials
-    }
+        'mentioned_officials': article.mentioned_officials,
+        'top_image_url': article.top_image}
 
 
 def persist(data):

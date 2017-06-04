@@ -12,7 +12,7 @@ class BaseModel(Model):
 class Article(BaseModel):
     """ORM model for articles table."""
 
-    url = TextField(primary_key=True)
+    url = TextField(unique=True)
     title = TextField(null=True)
     authors = ArrayField(field_class=TextField, null=True)
     publisher = TextField()
@@ -21,6 +21,7 @@ class Article(BaseModel):
     summary = TextField(null=True)
     mentioned_officials = ArrayField(field_class=TextField, null=True)
     read_time = IntegerField(null=True)
+    top_image_url = TextField(null=True)
     created_at = DateTimeField(default=datetime.now)
 
     class Meta:

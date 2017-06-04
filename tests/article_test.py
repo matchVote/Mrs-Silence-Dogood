@@ -17,6 +17,7 @@ class TestArticle(object):
             read_time=12,
             publisher='cnn',
             authors=['Ben', 'Bernanke'],
+            top_image_url='http://some_image.com/link.pic',
             date_published=published)
 
         assert article.url == 'http://bomb.sauce'
@@ -26,6 +27,7 @@ class TestArticle(object):
         assert article.date_published == published
         assert len(article.authors) == 2
         assert article.created_at is not None
+        assert article.top_image_url == 'http://some_image.com/link.pic'
 
     def test_url_is_required(self, transaction):
         with pytest.raises(IntegrityError):

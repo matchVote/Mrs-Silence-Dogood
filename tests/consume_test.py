@@ -22,7 +22,7 @@ EXPECTED_MAPPING = {
     'summary': 'One fine day...',
     'read_time': 12,
     'mentioned_officials': ['Ricky Bobby', 'Davy Jones'],
-}
+    'top_image_url': 'http://image.com/hey'}
 
 
 class MockSource(object):
@@ -78,7 +78,7 @@ def test_persist_saves_model_to_db(transaction):
 
 def setup_parsed_article():
     fields = ['url', 'title', 'keywords', 'summary', 'authors', 'publish_date',
-              'read_time', 'mentioned_officials', 'publisher']
+              'read_time', 'mentioned_officials', 'publisher', 'top_image']
     ParsedArticle = namedtuple('ParsedArticle', fields)
     article = ParsedArticle(
         url='http://test_brand.com',
@@ -89,5 +89,6 @@ def setup_parsed_article():
         publish_date=TEST_DATE,
         read_time=12,
         mentioned_officials=['Ricky Bobby', 'Davy Jones'],
+        top_image='http://image.com/hey',
         publisher='test_publisher')
     return article
