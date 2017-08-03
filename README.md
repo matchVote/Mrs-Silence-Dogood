@@ -9,8 +9,5 @@ Consumes news articles to populate data for the news feed.
 ### Testing 
     bin/test  # runs tests
 
-#### Notes
-* Move the following to the web app:
-  * newsworthiness_count
-  * most_read
-  * bookmark_status
+### Deployment
+    bin/deploy

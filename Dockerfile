@@ -16,4 +16,7 @@ RUN python -m nltk.downloader punkt
 
 COPY . /usr/src/app
 
+RUN useradd -m container_user
+USER container_user
+
 CMD ["bin/start"]
