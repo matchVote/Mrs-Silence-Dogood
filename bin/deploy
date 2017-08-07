@@ -1,5 +1,5 @@
 #!/bin/bash
 
-echo "Deploying application..."
+echo "Deploying application to Heroku..."
 heroku container:login
-heroku container:push web
+heroku container:push worker

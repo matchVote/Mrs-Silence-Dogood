@@ -11,3 +11,4 @@ if __name__ == '__main__':
     sources = [Source(source) for source in config['sources']]
     with Pool(4) as pool:
         pool.map(import_articles, sources)
+    print('\nFinished processing all sources.')

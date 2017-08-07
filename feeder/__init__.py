@@ -4,21 +4,24 @@ import os
 import time
 import yaml
 
-from playhouse.postgres_ext import PostgresqlExtDatabase
+from playhouse.db_url import connect
 
 logging.basicConfig(level=logging.INFO)
 timer_log = logging.getLogger('Timer')
 
 env = os.environ.get('FEEDER_ENV', 'dev')
+db_url = os.environ.get('DATABASE_URL')
+
 with open('config/database.yml') as f:
     config = yaml.load(f.read())[env]
 
-db = PostgresqlExtDatabase(
-    config['database'],
-    user=config['user'],
-    password=config['password'],
-    host=config['host'],
-    port=config['port'])
+
+def construct_db_url(config):
+    template = 'postgres://{user}:{password}@{host}:{port}/{database}'
+    return template.format(**config)
+
+
+db = connect(db_url or construct_db_url(config))
 
 
 @contextmanager

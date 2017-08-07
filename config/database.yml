@@ -11,3 +11,7 @@ dev:
 test:
   <<: *base
   database: feeder_test
+
+production:
+  <<: *base
+  database: feeder_production

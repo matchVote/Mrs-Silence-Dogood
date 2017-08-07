@@ -1,4 +1,10 @@
 #!/bin/bash
 
+# This is needed because Heroku changes the user after docker image is built
+if [ $FEEDER_ENV == "production" ]; then
+  echo "Downloading NLTK punkt..."
+  python -m nltk.downloader punkt
+fi
+
 echo "Starting feeder app..."
 python -m feeder.app
