@@ -3,6 +3,7 @@ services:
   feeder:
     build: .
     command: bin/start
+    env_file: .env
     environment:
       FEEDER_ENV: dev
     volumes:
