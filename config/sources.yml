@@ -1,7 +1,15 @@
 apis:
   - root_url: https://newsapi.org
     version: v1
+    api_source: newsapi
     api_key: $NEWSAPI_API_KEY
+    mapping:
+      url: url
+      title: title
+      author: authors
+      description: summary
+      urlToImage: top_image_url
+      publishedAt: date_published
 sources:
 #  - url: http://abcnews.go.com/Politics
 #    publisher: ABC News

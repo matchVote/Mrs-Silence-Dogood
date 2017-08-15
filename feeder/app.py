@@ -13,22 +13,26 @@ with open('config/sources.yml') as f:
     config = yaml.load(config_string)
 
 
-def import_articles_from_api():
-    """TODO: Docstring for import_articles_from_api."""
-    newsapi = config['apis'][0]
-    sources_url = f'{newsapi["root_url"]}/{newsapi["version"]}/sources?language=en'
-    articles_params_template = f'?apiKey={newsapi["api_key"]}&source={{source_id}}'
-    articles_url = f'{newsapi["root_url"]}/{newsapi["version"]}/articles'
-
-    response = requests.get(sources_url).json()
-    source = response['sources'][1]
-    params = articles_params_template.format(source_id=source['id'])
-    articles_url = articles_url + params
-    articles_json = requests.get(articles_url).json()
-    articles = articles_json['articles']
-    print(f'{source["name"]} article count: {len(articles)}')
-    for article in articles:
-        print(f'Title: {article["title"]}')
+def import_articles_from_apis():
+    for api in config['apis']:
+        adapter = APISourceAdapterFactory.create_adapter(config)
+        APIImporter(adapter).import_articles()
+    # newsapi = config['apis'][0]
+    # sources_url = f'{newsapi["root_url"]}/{newsapi["version"]}/sources?language=en'
+    # articles_params_template = f'?apiKey={newsapi["api_key"]}&source={{source_id}}'
+    # base_url = f'{newsapi["root_url"]}/{newsapi["version"]}/articles'
+    # response = requests.get(sources_url).json()
+    # for source in response['sources']:
+    #     params = articles_params_template.format(source_id=source['id'])
+    #     articles_url = base_url + params
+    #     articles_json = requests.get(articles_url).json()
+    #     articles = articles_json['articles']
+    #     print(f'{source["name"]} article count: {len(articles)}')
+    #     for article in articles:
+    #         print(f'Title: {article["title"]}')
+    #         data = {newsapi['mapping'][key]: value for key, value in article.items()}
+    #         data['publisher'] = source['name']
+    #         Article.create(**data)
 
 
 def scrape_articles_from_websites():
@@ -39,5 +43,5 @@ def scrape_articles_from_websites():
 
 
 if __name__ == '__main__':
-    import_articles_from_api()
+    import_articles_from_apis()
     # scrape_articles_from_websites()
