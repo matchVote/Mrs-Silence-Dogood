@@ -1,9 +1,9 @@
 from multiprocessing import Pool
 import os
-import requests
 from string import Template
 import yaml
 
+from feeder.apis import APISourceAdapterFactory, APIImporter
 from feeder.consume import import_articles
 from feeder.source import Source
 
@@ -14,25 +14,11 @@ with open('config/sources.yml') as f:
 
 
 def import_articles_from_apis():
+    print('Importing API sources...')
     for api in config['apis']:
-        adapter = APISourceAdapterFactory.create_adapter(config)
+        adapter = APISourceAdapterFactory.create_adapter(api)
         APIImporter(adapter).import_articles()
-    # newsapi = config['apis'][0]
-    # sources_url = f'{newsapi["root_url"]}/{newsapi["version"]}/sources?language=en'
-    # articles_params_template = f'?apiKey={newsapi["api_key"]}&source={{source_id}}'
-    # base_url = f'{newsapi["root_url"]}/{newsapi["version"]}/articles'
-    # response = requests.get(sources_url).json()
-    # for source in response['sources']:
-    #     params = articles_params_template.format(source_id=source['id'])
-    #     articles_url = base_url + params
-    #     articles_json = requests.get(articles_url).json()
-    #     articles = articles_json['articles']
-    #     print(f'{source["name"]} article count: {len(articles)}')
-    #     for article in articles:
-    #         print(f'Title: {article["title"]}')
-    #         data = {newsapi['mapping'][key]: value for key, value in article.items()}
-    #         data['publisher'] = source['name']
-    #         Article.create(**data)
+    print('\nFinished processing all API sources.')
 
 
 def scrape_articles_from_websites():
