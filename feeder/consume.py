@@ -1,10 +1,52 @@
-#What good shall I do this day?
+# What good shall I do this day?
 
 import logging
+
+import requests
+
 from feeder import nlp, timer
 from feeder.models import Article
 
+
 log = logging.getLogger(__name__)
+
+
+class APIImporter:
+    '''Requests, maps, and writes articles from API to database.'''
+
+    def __init__(self, adapter):
+        self.adapter = adapter
+
+    def import_articles(self):
+        for publisher, article in self.download_articles():
+            article = self.adapter.map(article)
+            self.persist_article(article, publisher)
+
+    def download_articles(self):
+        response = self.request_article_publishers()
+        for publisher in self.adapter.publisher_list(response):
+            response = self.request_articles(publisher)
+            for article in self.adapter.article_list(response):
+                if is_new_article(article, publisher):
+                    yield publisher, article
+
+    def persist_article(self, article, publisher):
+        article['publisher'] = publisher['name']
+        Article.create(**article)
+
+    def request_article_publishers(self):
+        return requests.get(self.adapter.publishers_url).json()
+
+    def request_articles(self, publisher):
+        return requests.get(self.adapter.articles_url(publisher)).json()
+
+
+def is_new_article(article, publisher):
+    return article['url'] not in existing_article_urls()
+
+
+def existing_article_urls():
+    return [article.url for article in Article.select(Article.url)]
 
 
 def import_articles(source):
@@ -12,19 +54,20 @@ def import_articles(source):
 
     :param source: Source - url and publisher of a source of articles
     """
-    source.build(ignore=existing_article_urls(source.publisher))
+    source.build(ignore=existing_article_urls_by_publisher(source.publisher))
     with timer(source.publisher, 'Processing articles...'):
         for article in source.articles:
             persist(map_article(nlp.process(parse(article))))
 
 
-def existing_article_urls(publisher):
+def existing_article_urls_by_publisher(publisher):
     """Returns URLs for previously imported articles for publisher.
 
     :param publisher: str - article publisher
     :returns: list[str] - urls for existing articles
     """
-    articles = Article.select(Article.url).filter(Article.publisher == publisher)
+    articles = Article.select(Article.url)
+    publisher_articles = articles.filter(Article.publisher == publisher)
     return [article.url for article in articles]
 
 

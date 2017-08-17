@@ -3,8 +3,8 @@ import os
 from string import Template
 import yaml
 
-from feeder.apis import APISourceAdapterFactory, APIImporter
-from feeder.consume import import_articles
+from feeder.adapters import APISourceAdapterFactory
+from feeder.consume import APIImporter, import_articles
 from feeder.source import Source
 
 with open('config/sources.yml') as f:
@@ -14,20 +14,21 @@ with open('config/sources.yml') as f:
 
 
 def import_articles_from_apis():
-    print('Importing API sources...')
     for api in config['apis']:
         adapter = APISourceAdapterFactory.create_adapter(api)
         APIImporter(adapter).import_articles()
-    print('\nFinished processing all API sources.')
+    print('Finished processing all API articles.')
 
 
 def scrape_articles_from_websites():
     sources = [Source(source) for source in config['sources']]
     with Pool(4) as pool:
         pool.map(import_articles, sources)
-    print('\nFinished processing all sources.')
+    print('\nFinished processing all scraped sources.')
 
 
 if __name__ == '__main__':
+    print('\nImporting API articles...')
     import_articles_from_apis()
-    # scrape_articles_from_websites()
+    print('\nImporting scraped sources...')
+    scrape_articles_from_websites()
