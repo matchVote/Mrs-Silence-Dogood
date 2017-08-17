@@ -7,6 +7,16 @@ from feeder.models import Article, Official
 
 env = os.environ.get('FEEDER_ENV').upper()
 
+
+def create_database():
+    return 'createdb -h {host} -U {user} {database}'.format(**config)
+
+
+def create_hstore_extension():
+    cmd = 'psql -h {host} -U {user} {database} -c \'CREATE EXTENSION hstore;\''
+    return cmd.format(**config)
+
+
 if env in ['DEV', 'TEST']:
     print(f'Setting up {env} environment...')
     # Check if DB exists and create it if it doesn't
@@ -15,8 +25,7 @@ if env in ['DEV', 'TEST']:
     except OperationalError:
         print('No DB found. Creating...')
         time.sleep(5)  # wait for postgres to be running in container
-        os.system(f'createdb -h {config["host"]} -U {config["user"]} {config["database"]}')
-        os.system(f'psql -h {config["host"]} -U {config["user"]} {config["database"]} -c \'CREATE EXTENSION hstore;\'')
-
+        os.system(create_database())
+        os.system(create_hstore_extension())
     # Create tables
     db.create_tables([Article, Official], safe=True)
