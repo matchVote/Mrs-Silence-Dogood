@@ -27,7 +27,9 @@ class NewsapiAdapter:
         return self._articles
 
     def map(self, article):
-        return {self.mapping[key]: value for key, value in article.items()}
+        data = {self.mapping[key]: value for key, value in article.items()}
+        data = convert_authors_to_list(data)
+        return data
 
     def publisher_list(self, publishers_json):
         return publishers_json['sources']
@@ -48,3 +50,9 @@ class NewsapiAdapter:
 
     def query_string(self, publisher):
         return f'?apiKey={self.config["api_key"]}&source={publisher["id"]}'
+
+
+def convert_authors_to_list(data):
+    author = data['authors']
+    data['authors'] = [author] if author else []
+    return data
