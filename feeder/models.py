@@ -22,6 +22,7 @@ class Article(BaseModel):
     mentioned_officials = ArrayField(field_class=TextField, null=True)
     read_time = IntegerField(null=True)
     top_image_url = TextField(null=True)
+    source = TextField(null=True)
     created_at = DateTimeField(default=datetime.now)
 
     class Meta:

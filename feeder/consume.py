@@ -32,6 +32,7 @@ class APIImporter:
 
     def persist_article(self, article, publisher):
         article['publisher'] = publisher['name']
+        article['source'] = self.adapter.source
         Article.create(**article)
 
     def request_article_publishers(self):

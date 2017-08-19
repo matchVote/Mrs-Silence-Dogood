@@ -3,6 +3,7 @@ import os
 from string import Template
 import yaml
 
+from feeder import timer
 from feeder.adapters import APISourceAdapterFactory
 from feeder.consume import APIImporter, import_articles
 from feeder.source import Source
@@ -28,7 +29,10 @@ def scrape_articles_from_websites():
 
 
 if __name__ == '__main__':
-    print('\nImporting API articles...')
-    import_articles_from_apis()
-    print('\nImporting scraped sources...')
-    scrape_articles_from_websites()
+    if os.environ.get('API_IMPORT') == 'true':
+        with timer('API', 'importing'):
+            import_articles_from_apis()
+
+    if os.environ.get('SCRAPING_IMPORT') == 'true':
+        with timer('Scraping', 'importing'):
+            scrape_articles_from_websites()

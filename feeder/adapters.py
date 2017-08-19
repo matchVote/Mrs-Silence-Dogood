@@ -17,6 +17,7 @@ class NewsapiAdapter:
         self.config = config
         self.publishers_url = self.construct_publishers_url()
         self.mapping = self.config['mapping']
+        self.source = self.config['api_source']
         self.articles_json = None
         self._articles = []
 
