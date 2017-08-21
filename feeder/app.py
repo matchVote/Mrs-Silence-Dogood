@@ -22,8 +22,9 @@ def import_articles_from_apis():
 
 
 def scrape_articles_from_websites():
-    sources = [Source(source) for source in config['sources']]
-    with Pool(4) as pool:
+    sources = (Source(source) for source in config['sources'])
+    worker_count = int(os.environ.get('WORKER_POOL_MAX', 1))
+    with Pool(worker_count) as pool:
         pool.map(import_articles, sources)
     print('\nFinished processing all scraped sources.')
 
