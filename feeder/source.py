@@ -11,6 +11,7 @@ class Source(object):
 
     def __init__(self, config):
         """Constructor for Source."""
+        self.limit = 50  # limit on number of articles to process at a time
         self.url = config['url']
         self.publisher = config['publisher']
         self.articles = []
@@ -26,7 +27,7 @@ class Source(object):
             self._source.build()
         log.info(f'{self.publisher}: Total article count: {self._source.size()}')
 
-        urls = [article.url for article in self._source.articles]
+        urls = [article.url for article in self._source.articles[:self.limit]]
         if ignore:
             urls = remove_ignored(urls, ignore)
         self._source.articles = [newspaper.Article(url=url) for url in urls]
