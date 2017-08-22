@@ -4,8 +4,8 @@ import logging
 
 import requests
 
-from feeder import nlp, timer
-from feeder.models import Article
+from feeder import db, nlp, timer
+from feeder.models import Article, IntegrityError
 
 
 log = logging.getLogger(__name__)
@@ -50,6 +50,7 @@ def existing_article_urls():
     return [article.url for article in Article.select(Article.url)]
 
 
+@db.execution_context(with_transaction=True)
 def import_articles(source):
     """Downloads, parses, transforms, and persists article data.
 
@@ -109,4 +110,7 @@ def persist(data):
 
     :param data: dict - article data
     """
-    Article.create(**data)
+    try:
+        Article.create(**data)
+    except IntegrityError as e:
+        log.warn(f'IntegrityError skipped: {e}')

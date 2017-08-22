@@ -1,6 +1,6 @@
 from datetime import datetime
 from feeder import db
-from peewee import TextField, Model, IntegerField, DateTimeField
+from peewee import TextField, Model, IntegerField, IntegrityError, DateTimeField
 from playhouse.postgres_ext import ArrayField
 
 
