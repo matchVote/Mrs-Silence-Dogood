@@ -1,5 +1,5 @@
 from collections import namedtuple
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import newspaper
 import pytest
@@ -15,6 +15,7 @@ TEST_CONFIG = {'url': 'http://test_brand.com', 'publisher': 'test_publisher'}
 EXPECTED_MAPPING = {
     'url': TEST_CONFIG['url'],
     'publisher': TEST_CONFIG['publisher'],
+    'source': TEST_CONFIG['publisher'],
     'title': 'Awesome article',
     'authors': ['Jim', 'Bob'],
     'date_published': TEST_DATE,
@@ -22,10 +23,11 @@ EXPECTED_MAPPING = {
     'summary': 'One fine day...',
     'read_time': 12,
     'mentioned_officials': ['Ricky Bobby', 'Davy Jones'],
-    'top_image_url': 'http://image.com/hey'}
+    'top_image_url': 'http://image.com/hey'
+    }
 
 
-class MockSource(object):
+class MockSource:
     def __init__(self, config):
         self.publisher = config['publisher']
         self.articles = []
@@ -65,7 +67,18 @@ def test_parse_extracts_data_from_html():
 def test_map_article_converts_parsed_data_into_model_data():
     parsed_article = setup_parsed_article()
     mapping = consume.map_article(parsed_article)
-    assert mapping == EXPECTED_MAPPING
+    assert EXPECTED_MAPPING == mapping
+
+
+def test_normalize_date_replaces_nulls_with_current_date():
+    result = consume.normalize_date(None)
+    assert result is not None
+
+
+def test_normalize_date_replaces_future_dates_with_current_date():
+    tomorrow = datetime.now() + timedelta(days=1)
+    result = consume.normalize_date(tomorrow)
+    assert result < tomorrow
 
 
 def test_persist_saves_model_to_db(transaction):

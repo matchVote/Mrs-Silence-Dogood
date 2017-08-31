@@ -1,12 +1,12 @@
 # What good shall I do this day?
 
+from datetime import datetime
 import logging
 
 import requests
 
-from feeder import db, nlp, timer
+from feeder import nlp, timer
 from feeder.models import Article, IntegrityError
-
 
 log = logging.getLogger(__name__)
 
@@ -50,7 +50,6 @@ def existing_article_urls():
     return [article.url for article in Article.select(Article.url)]
 
 
-@db.execution_context(with_transaction=True)
 def import_articles(source):
     """Downloads, parses, transforms, and persists article data.
 
@@ -70,7 +69,7 @@ def existing_article_urls_by_publisher(publisher):
     """
     articles = Article.select(Article.url)
     publisher_articles = articles.filter(Article.publisher == publisher)
-    return [article.url for article in articles]
+    return [article.url for article in publisher_articles]
 
 
 def parse(article):
@@ -97,12 +96,24 @@ def map_article(article):
         'url': article.url,
         'authors': article.authors,
         'title': article.title,
-        'date_published': article.publish_date,
+        'date_published': normalize_date(article.publish_date),
         'keywords': article.keywords,
         'summary': article.summary,
         'read_time': article.read_time,
         'mentioned_officials': article.mentioned_officials,
-        'top_image_url': article.top_image}
+        'top_image_url': article.top_image,
+        'source': article.publisher
+        }
+
+
+def normalize_date(date):
+    if date:
+        current_date = datetime.now()
+        if date > current_date:
+            date = current_date
+    else:
+        date = datetime.now()
+    return date
 
 
 def persist(data):

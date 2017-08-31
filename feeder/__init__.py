@@ -9,19 +9,16 @@ from playhouse.db_url import connect
 logging.basicConfig(level=logging.INFO)
 timer_log = logging.getLogger('Timer')
 
-env = os.environ.get('FEEDER_ENV', 'dev')
+ENV = os.environ.get('FEEDER_ENV', 'dev')
 db_url = os.environ.get('DATABASE_URL')
 
 with open('config/database.yml') as f:
-    config = yaml.load(f.read())[env]
+    config = yaml.load(f.read())[ENV]
 
-
-def construct_db_url(config):
+if db_url is None:
     template = 'postgres://{user}:{password}@{host}:{port}/{database}'
-    return template.format(**config)
-
-
-db = connect(db_url or construct_db_url(config))
+    db_url = template.format(**config)
+db = connect(db_url)
 
 
 @contextmanager
