@@ -1,6 +1,6 @@
 version: "3"
 services:
-  feeder:
+  dogood:
     build: .
     command: bin/start
     env_file: .env

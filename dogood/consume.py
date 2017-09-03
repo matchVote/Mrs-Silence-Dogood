@@ -3,10 +3,11 @@
 from datetime import datetime
 import logging
 
+from peewee import IntegrityError
 import requests
 
-from feeder import nlp, timer
-from feeder.models import Article, IntegrityError
+from dogood import nlp, timer
+from dogood.models import Article
 
 log = logging.getLogger(__name__)
 

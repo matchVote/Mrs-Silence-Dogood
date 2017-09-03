@@ -1,5 +1,5 @@
 import pytest
-from feeder import db
+from dogood import db
 
 
 @pytest.fixture

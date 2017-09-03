@@ -2,8 +2,8 @@ import logging
 import os
 import time
 from peewee import OperationalError, ProgrammingError
-from feeder import db, config
-from feeder.models import Article, Official
+from dogood import db, config
+from dogood.models import Article, Official
 
 env = os.environ.get('FEEDER_ENV').upper()
 

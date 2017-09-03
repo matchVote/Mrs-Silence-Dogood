@@ -2,7 +2,7 @@ from datetime import datetime
 from peewee import IntegrityError
 import pytest
 
-from feeder.models import Article
+from dogood.models import Article
 from tests import transaction
 
 

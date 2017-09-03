@@ -1,6 +1,6 @@
 import logging
 import newspaper
-from feeder import timer
+from dogood import timer
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
@@ -13,7 +13,6 @@ class Source:
     """Manages articles for a given publisher."""
 
     def __init__(self, config):
-        """Constructor for Source."""
         self.url = config['url']
         self.publisher = config['publisher']
         self.articles = []

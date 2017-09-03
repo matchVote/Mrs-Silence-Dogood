@@ -5,9 +5,9 @@ import newspaper
 import pytest
 from pytest_mock import mocker
 
-from feeder import consume
-from feeder.source import ArticleAdapter, Source
-from feeder.models import Article
+from dogood import consume
+from dogood.source import ArticleAdapter, Source
+from dogood.models import Article
 from tests import transaction
 
 TEST_DATE = datetime.now()

@@ -1,4 +1,4 @@
-from feeder.models import Article
+from dogood.models import Article
 
 
 class APISourceAdapterFactory:

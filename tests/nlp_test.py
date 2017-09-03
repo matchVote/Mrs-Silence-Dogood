@@ -2,9 +2,9 @@ import os
 import pytest
 
 import newspaper
-from feeder import nlp
-from feeder.source import ArticleAdapter
-from feeder.models import Official
+from dogood import nlp
+from dogood.source import ArticleAdapter
+from dogood.models import Official
 from tests import transaction
 
 

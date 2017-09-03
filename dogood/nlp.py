@@ -1,5 +1,5 @@
 import re
-from feeder.models import Official
+from dogood.models import Official
 
 AVERAGE_READING_SPEED = 275  # WPM
 

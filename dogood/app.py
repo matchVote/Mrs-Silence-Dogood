@@ -3,10 +3,10 @@ import os
 from string import Template
 import yaml
 
-from feeder import timer
-from feeder.adapters import APISourceAdapterFactory
-from feeder.consume import APIImporter, import_articles
-from feeder.source import Source
+from dogood import timer
+from dogood.adapters import APISourceAdapterFactory
+from dogood.consume import APIImporter, import_articles
+from dogood.source import Source
 
 with open('config/sources.yml') as f:
     config_template = Template(f.read())

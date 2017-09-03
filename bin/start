@@ -6,5 +6,5 @@ if [ $FEEDER_ENV == "production" ]; then
   python -m nltk.downloader punkt
 fi
 
-echo "Starting feeder app..."
-python -m feeder.app
+echo "Starting Mrs. Silence Dogood..."
+python -m dogood.app

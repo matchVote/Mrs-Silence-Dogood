@@ -1,7 +1,7 @@
 import pytest
 import yaml
 
-from feeder.adapters import NewsapiAdapter
+from dogood.adapters import NewsapiAdapter
 
 
 class TestNewsapiAdapter:

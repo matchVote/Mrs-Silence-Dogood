@@ -6,12 +6,12 @@ base: &base
 
 dev:
   <<: *base
-  database: feeder_dev
+  database: dogood_dev
 
 test:
   <<: *base
-  database: feeder_test
+  database: dogood_test
 
 production:
   <<: *base
-  database: feeder_production
+  database: dogood_production
