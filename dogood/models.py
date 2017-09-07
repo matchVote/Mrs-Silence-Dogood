@@ -1,7 +1,8 @@
 from datetime import datetime
-from dogood import db
 from peewee import TextField, Model, IntegerField, DateTimeField
 from playhouse.postgres_ext import ArrayField
+
+from dogood import db
 
 
 class BaseModel(Model):

@@ -1,4 +1,17 @@
-from dogood.models import Article
+class ArticleAdapter:
+    """Wraps downloaded article data.
+    This represents the boundary between external article data and the rest of
+    the system, maintaining a standard interface for further processing.
+    """
+
+    def __init__(self, article, publisher=None):
+        self.external_article = article
+        self.publisher = publisher
+        self.read_time = 0
+        self.mentioned_officials = []
+
+    def __getattr__(self, name):
+        return getattr(self.external_article, name)
 
 
 class APISourceAdapterFactory:

@@ -1,7 +1,8 @@
-import logging
 import os
 import time
-from peewee import OperationalError, ProgrammingError
+
+from peewee import OperationalError
+
 from dogood import db, config
 from dogood.models import Article, Official
 
@@ -29,3 +30,7 @@ if env in ['DEV', 'TEST']:
         os.system(create_hstore_extension())
     # Create tables
     db.create_tables([Article, Official], safe=True)
+
+    # Load dev data
+    if env == 'DEV':
+        os.system('python -m data.load_dev_data')

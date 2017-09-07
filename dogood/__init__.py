@@ -29,7 +29,6 @@ def timer(publisher, message):
     :param message: str - operation specific message
     """
     start = time.time()
-    timer_log.info(f'{publisher}: {message}')
     yield
     duration = time.time() - start  # seconds
     duration_formatted = time.strftime('%H:%M:%S', time.gmtime(duration))

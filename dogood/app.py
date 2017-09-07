@@ -5,13 +5,24 @@ import yaml
 
 from dogood import timer
 from dogood.adapters import APISourceAdapterFactory
-from dogood.consume import APIImporter, import_articles
+from dogood.apis import APIImporter
+from dogood.scraper import Scraper
 from dogood.source import Source
 
 with open('config/sources.yml') as f:
     config_template = Template(f.read())
     config_string = config_template.safe_substitute(os.environ)
     config = yaml.load(config_string)
+
+
+def main():
+    if os.environ.get('API_IMPORT') == 'true':
+        with timer('API', 'importing...'):
+            import_articles_from_apis()
+
+    if os.environ.get('SCRAPING_IMPORT') == 'true':
+        with timer('Scraping', 'importing...'):
+            scrape_articles_from_websites()
 
 
 def import_articles_from_apis():
@@ -23,17 +34,17 @@ def import_articles_from_apis():
 
 def scrape_articles_from_websites():
     sources = (Source(source) for source in config['sources'])
-    worker_count = int(os.environ.get('WORKER_POOL_MAX', 1))
-    with Pool(worker_count) as pool:
-        pool.map(import_articles, sources)
+    for source in sources:
+        scrape_articles(source)
+    # worker_count = int(os.environ.get('WORKER_POOL_MAX', 1))
+    # with Pool(worker_count) as pool:
+    #     pool.map(scrape_articles, sources)
     print('\nFinished processing all scraped sources.')
 
 
-if __name__ == '__main__':
-    if os.environ.get('API_IMPORT') == 'true':
-        with timer('API', 'importing'):
-            import_articles_from_apis()
+def scrape_articles(source):
+    Scraper(source).execute()
 
-    if os.environ.get('SCRAPING_IMPORT') == 'true':
-        with timer('Scraping', 'importing'):
-            scrape_articles_from_websites()
+
+if __name__ == '__main__':
+    main()
