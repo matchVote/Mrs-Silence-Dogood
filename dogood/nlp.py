@@ -2,7 +2,6 @@ import logging
 import re
 
 from dogood import repo
-from dogood.models import Official
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
@@ -45,7 +44,7 @@ class NLProcessor:
         If only last name if found, it keeps that too.
         """
         mentions = set()
-        names = officials_name_mapping()
+        names = official_name_mapping()
         words = re.split(r'\W', self.article.text)
 
         for index, word in enumerate(words):
@@ -67,6 +66,6 @@ def officials_names():
     return names
 
 
-def officials_name_mapping():
+def official_name_mapping():
     officials = repo.select_first_and_last_name_from_officials()
     return {official.last_name: official.first_name for official in officials}
