@@ -5,8 +5,7 @@ from dogood import source
 TEST_CONFIG = {'url': 'http://test_brand.com', 'publisher': 'test_publisher'}
 
 
-class TestSource(object):
-    """Test cases for Source class."""
+class TestSourceModuleFunctions:
 
     @pytest.fixture(autouse=True)
     def source(self):
@@ -14,14 +13,6 @@ class TestSource(object):
         self.source._source = MockNewspaperSource(
             urls=['http://art1.com', 'http://art2.com',
                   'http://ignore1.com', 'http://ignore2.com'])
-
-    def test_build_extracts_and_downloads_articles_from_source(self):
-        self.source.build()
-        assert len(self.source.articles) == 4
-
-    def test_build_ignores_given_urls(self):
-        self.source.build(ignore=['http://ignore1.com', 'http://ignore2.com'])
-        assert len(self.source.articles) == 2
 
     def test_download_articles_returns_objects_holding_article_html(self):
         articles = source.download_articles(
@@ -38,11 +29,14 @@ class TestSource(object):
         assert urls == ['new.com']
 
 
-class MockNewspaperSource(object):
+class MockNewspaperSource:
     """Mock object to replace newspaper.Source."""
 
     def __init__(self, urls=None):
         self.articles = [newspaper.Article(url=url) for url in urls]
+
+    def __len__(self):
+        return len(self.articles)
 
     def download_articles(self):
         """Called by newspaper.news_pool.join() to download articles."""
@@ -54,6 +48,3 @@ class MockNewspaperSource(object):
 
     def size(self):
         return len(self)
-
-    def __len__(self):
-        return len(self.articles)
