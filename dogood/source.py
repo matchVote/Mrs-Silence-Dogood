@@ -22,19 +22,14 @@ class Source:
         self._source = newspaper.Source(config['url'], memoize_articles=False)
 
     def download_articles(self, ignore=None):
-        """Scrapes source for article urls, removes the urls to ignore, and
-        downloads the HTML for the remaining articles.
-
-        :param ignore: list[str] - article urls not to download
-        """
-        self.build_source()
+        self.scrape_source_for_all_article_urls()
         self.filter_articles(ignore)
         articles = download_articles(self._source, self.publisher)
         self.articles = [
             ArticleAdapter(article, publisher=self.publisher)
             for article in articles]
 
-    def build_source(self):
+    def scrape_source_for_all_article_urls(self):
         with timer(self.publisher, 'Built source'):
             self._source.build()
         log.info(f'{self.publisher}: Total article count: {self._source.size()}')
