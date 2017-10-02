@@ -4,7 +4,7 @@ import time
 from peewee import OperationalError
 
 from dogood import db, config
-from dogood.models import Article, Official
+from dogood.models import Article, ArticleOfficial, Official
 
 env = os.environ.get('FEEDER_ENV').upper()
 
@@ -29,8 +29,7 @@ if env in ['DEV', 'TEST']:
         os.system(create_database())
         os.system(create_hstore_extension())
     # Create tables
-    db.create_tables([Article, Official], safe=True)
+    db.create_tables([Article, Official, ArticleOfficial], safe=True)
 
-    # Load dev data
-    if env == 'DEV':
-        os.system('python -m data.load_dev_data')
+    # Load officials
+    os.system('python -m data.load_dev_data')

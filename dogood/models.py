@@ -20,7 +20,6 @@ class Article(BaseModel):
     date_published = DateTimeField(null=True)
     keywords = ArrayField(field_class=TextField, null=True)
     summary = TextField(null=True)
-    mentioned_officials = ArrayField(field_class=TextField, null=True)
     read_time = IntegerField(null=True)
     top_image_url = TextField(null=True)
     source = TextField(null=True)
@@ -40,3 +39,14 @@ class Official(BaseModel):
 
     class Meta:
         db_table = 'representatives'
+
+
+class ArticleOfficial(BaseModel):
+    """Join table for articles and officials."""
+
+    article_id = IntegerField()
+    official_id = IntegerField()
+    created_at = DateTimeField(default=datetime.now)
+
+    class Meta:
+        db_table = 'articles_officials'

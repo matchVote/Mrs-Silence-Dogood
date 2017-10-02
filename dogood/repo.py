@@ -3,7 +3,7 @@ import logging
 from peewee import IntegrityError
 
 from dogood import utils
-from dogood.models import Article, Official
+from dogood.models import Article, ArticleOfficial, Official
 
 
 log = logging.getLogger(__name__)
@@ -40,3 +40,16 @@ def map_to_model(article):
     model.top_image_url = article.top_image
     model.source = article.publisher
     return model
+
+
+def link_articles_to_officials(article):
+    ids = {'article_id': article.id}
+    for official in article.mentioned_officials:
+        ids['official_id'] = official.id
+        ArticleOfficial.create(**ids)
+
+
+def official_ids_by_first_and_last_names(first_names, last_names):
+    return Official.select(Official.id).where(
+        Official.first_name << first_names,
+        Official.last_name << last_names)

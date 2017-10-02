@@ -22,12 +22,12 @@ class Scraper:
             for article in self.political_articles:
                 self.process_article(article)
 
-    def existing_articles(self):
-        return repo.article_urls_for_publisher(self.source.publisher)
-
     def download_and_parse_new_articles(self):
         self.source.download_articles(ignore=self.existing_articles())
         self.parsed_articles = [parse(article) for article in self.source.articles]
+
+    def existing_articles(self):
+        return repo.article_urls_for_publisher(self.source.publisher)
 
     @property
     def political_articles(self):
@@ -41,10 +41,13 @@ class Scraper:
     def process_article(self, article):
         nlp = NLProcessor(article)
         nlp.process_article()
-        self.persist_article(nlp.article)
+        article = self.persist_article(nlp.article)
+        repo.link_articles_to_officials(article)
 
     def persist_article(self, article):
-        repo.insert(repo.map_to_model(article))
+        article = repo.map_to_model(article)
+        repo.insert(article)
+        return article
 
 
 def parse(article):
