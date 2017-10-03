@@ -1,11 +1,8 @@
-from collections import namedtuple
-
 import pytest
 
 from dogood.adapters import ArticleAdapter
 from dogood.nlp import NLProcessor
-
-MockArticle = namedtuple('MockArticle', 'text')
+from tests.support.helpers import MockArticle
 
 
 class TestNLProcessor:

@@ -1,4 +1,3 @@
-from multiprocessing import Pool
 import os
 from string import Template
 import yaml
@@ -34,15 +33,9 @@ def import_articles_from_apis():
 
 def scrape_articles_from_websites():
     sources = (Source(source) for source in config['sources'])
-    # worker_count = int(os.environ.get('WORKER_POOL_MAX', 1))
-    # with Pool(worker_count) as pool:
-    #     pool.map(scrape_articles, sources)
-    list(map(scrape_articles, sources))
+    for source in sources:
+        Scraper(source).execute()
     print('\nFinished processing all scraped sources.')
-
-
-def scrape_articles(source):
-    Scraper(source).execute()
 
 
 if __name__ == '__main__':
