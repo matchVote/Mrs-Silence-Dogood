@@ -1,5 +1,8 @@
 FROM python:3.6.2
 
+LABEL maintainer="matchVote <admin@matchvote.com>"
+LABEL version="1.0.0"
+
 RUN apt-get update \
   && apt-get install -y postgresql-client \
   && apt-get clean \
@@ -11,9 +14,8 @@ WORKDIR /usr/src/app
 COPY requirements.txt /usr/src/app/
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Heroku specific
-RUN useradd -m container_user
-USER container_user
+RUN useradd -m dogood
+USER dogood
 
 # Download NLTK dependencies - must be after user is set
 RUN python -m nltk.downloader punkt

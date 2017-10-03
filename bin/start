@@ -7,4 +7,4 @@ if [ $FEEDER_ENV == "production" ]; then
 fi
 
 echo "Starting Mrs. Silence Dogood..."
-python -m dogood.app
+exec python -m dogood.app
