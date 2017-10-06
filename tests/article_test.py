@@ -1,15 +1,16 @@
 from datetime import datetime
+
 from peewee import IntegrityError
 import pytest
 
 from dogood.models import Article
-from tests import transaction
 
 
-class TestArticle(object):
+@pytest.mark.usefixtures('transaction')
+class TestArticle:
     """Test cases for Article model."""
 
-    def test_article_model_works(self, transaction):
+    def test_article_model_works(self):
         published = datetime.now()
         article = Article.create(
             url='http://bomb.sauce',
@@ -29,10 +30,10 @@ class TestArticle(object):
         assert article.created_at is not None
         assert article.top_image_url == 'http://some_image.com/link.pic'
 
-    def test_url_is_required(self, transaction):
+    def test_url_is_required(self):
         with pytest.raises(IntegrityError):
             Article.create(url=None, publisher='test')
 
-    def test_publisher_is_required(self, transaction):
+    def test_publisher_is_required(self):
         with pytest.raises(IntegrityError):
             Article.create(publisher=None, url='test.com')

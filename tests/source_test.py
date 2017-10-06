@@ -1,5 +1,6 @@
 import newspaper
 import pytest
+
 from dogood import source
 
 TEST_CONFIG = {'url': 'http://test_brand.com', 'publisher': 'test_publisher'}

@@ -12,7 +12,9 @@ Consumes news articles to populate data for the news feed.
 ### Deployment
     bin/deploy
 
+#### Update version
+* setup.py
+
 ### TODO
-* Tie officials to articles through a join table
 * Clean up NLProcessor
 * Increase test coverage

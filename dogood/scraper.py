@@ -1,7 +1,8 @@
 import logging
 
-from dogood import repo, timer
+from dogood import repo
 from dogood.nlp import ArticleClassifier, NLProcessor
+from dogood.utils import timer
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)

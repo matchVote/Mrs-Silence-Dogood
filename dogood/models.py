@@ -1,13 +1,14 @@
 from datetime import datetime
+
 from peewee import TextField, Model, IntegerField, DateTimeField
 from playhouse.postgres_ext import ArrayField
 
-from dogood import db
+from dogood import Database
 
 
 class BaseModel(Model):
     class Meta:
-        database = db
+        database = Database()
 
 
 class Article(BaseModel):

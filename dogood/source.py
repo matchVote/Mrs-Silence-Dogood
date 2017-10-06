@@ -2,8 +2,8 @@ import logging
 
 import newspaper
 
-from dogood import timer
 from dogood.adapters import ArticleAdapter
+from dogood.utils import timer
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)

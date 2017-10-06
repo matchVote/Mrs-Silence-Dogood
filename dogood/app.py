@@ -1,12 +1,13 @@
+from multiprocessing import Pool
 import os
 from string import Template
 import yaml
 
-from dogood import timer
 from dogood.adapters import APISourceAdapterFactory
 from dogood.apis import APIImporter
 from dogood.scraper import Scraper
 from dogood.source import Source
+from dogood.utils import timer
 
 with open('config/sources.yml') as f:
     config_template = Template(f.read())
@@ -33,9 +34,14 @@ def import_articles_from_apis():
 
 def scrape_articles_from_websites():
     sources = (Source(source) for source in config['sources'])
-    for source in sources:
-        Scraper(source).execute()
+    worker_count = int(os.getenv('WORKER_POOL_MAX'))
+    with Pool(worker_count) as pool:
+        pool.map(execute_scraper, sources)
     print('\nFinished processing all scraped sources.')
+
+
+def execute_scraper(source):
+    Scraper(source).execute()
 
 
 if __name__ == '__main__':

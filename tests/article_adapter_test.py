@@ -1,9 +1,9 @@
-import pytest
 import newspaper
+
 from dogood.source import ArticleAdapter
 
 
-class TestArticleAdapter(object):
+class TestArticleAdapter:
     """Test cases for ArticleAdapter."""
 
     def setup_method(self, _method):

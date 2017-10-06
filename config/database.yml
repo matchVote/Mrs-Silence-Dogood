@@ -14,4 +14,4 @@ test:
 
 production:
   <<: *base
-  database: dogood_production
+  database: dogood

@@ -1,7 +1,7 @@
-FROM python:3.6.2
+FROM python:3.6.3
 
 LABEL maintainer="matchVote <admin@matchvote.com>"
-LABEL version="1.0.0"
+LABEL version="1.0.1"
 
 RUN apt-get update \
   && apt-get install -y postgresql-client \
