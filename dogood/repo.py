@@ -1,3 +1,4 @@
+from datetime import datetime
 import logging
 
 from peewee import IntegrityError
@@ -14,12 +15,11 @@ def insert(model):
         model.save()
     except IntegrityError as e:
         log.warning(f'IntegrityError skipped: {e}')
+        log.warning(f'Failed save -- publisher: {model.publisher}; time: {datetime.now()}')
 
 
-def article_urls_for_publisher(publisher):
-    articles = Article.select(Article.url)
-    publisher_articles = articles.filter(Article.publisher == publisher)
-    return [article.url for article in publisher_articles]
+def article_urls():
+    return [article.url for article in Article.select(Article.url)]
 
 
 def select_first_and_last_name_from_officials():

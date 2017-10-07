@@ -36,7 +36,7 @@ class Scraper:
         self.parsed_articles = [parse(article) for article in self.source.articles]
 
     def existing_articles(self):
-        return repo.article_urls_for_publisher(self.source.publisher)
+        return repo.article_urls()
 
     def process_article(self, article):
         nlp = NLProcessor(article)
