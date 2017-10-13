@@ -16,5 +16,7 @@ Consumes news articles to populate data for the news feed.
 * setup.py
 
 ### TODO
+* Exception that crashes the process still leaves container running, so it 
+won't restart in ECS
 * Clean up NLProcessor
 * Increase test coverage

@@ -11,7 +11,3 @@ dev:
 test:
   <<: *base
   database: dogood_test
-
-production:
-  <<: *base
-  database: dogood

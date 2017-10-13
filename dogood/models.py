@@ -1,6 +1,7 @@
 from datetime import datetime
+import uuid
 
-from peewee import TextField, Model, IntegerField, DateTimeField
+from peewee import DateTimeField, IntegerField, Model, TextField, UUIDField
 from playhouse.postgres_ext import ArrayField
 
 from dogood import Database
@@ -33,6 +34,7 @@ class Article(BaseModel):
 class Official(BaseModel):
     """ORM model for representatives table."""
 
+    id = UUIDField(primary_key=True, default=uuid.uuid4)
     first_name = TextField()
     last_name = TextField()
     middle_name = TextField(null=True)
@@ -46,8 +48,8 @@ class ArticleOfficial(BaseModel):
     """Join table for articles and officials."""
 
     article_id = IntegerField()
-    official_id = IntegerField()
+    official_id = UUIDField()
     created_at = DateTimeField(default=datetime.now)
 
     class Meta:
-        db_table = 'articles_officials'
+        db_table = 'articles_representatives'
