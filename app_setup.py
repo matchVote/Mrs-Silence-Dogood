@@ -6,7 +6,7 @@ from peewee import OperationalError
 from dogood import Database
 from dogood.models import Article, ArticleOfficial, Official
 
-env = os.environ.get('FEEDER_ENV')
+env = os.environ.get('DOGOOD_ENV')
 db = Database()
 
 

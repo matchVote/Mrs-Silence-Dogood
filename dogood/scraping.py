@@ -1,11 +1,18 @@
 import logging
 
+import newspaper
+
 from dogood import repo
 from dogood.nlp import ArticleClassifier, NLProcessor
 from dogood.utils import timer
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
+
+
+def scrape_source(config):
+    source = newspaper.Source(config['url'], memoize_articles=False)
+    source.build()
 
 
 class Scraper:

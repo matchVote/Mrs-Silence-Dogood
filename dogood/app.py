@@ -1,12 +1,10 @@
-from multiprocessing import Pool
 import os
 from string import Template
 import yaml
 
 from dogood.adapters import APISourceAdapterFactory
 from dogood.apis import APIImporter
-from dogood.scraper import Scraper
-from dogood.source import Source
+from dogood.scraping import scrape_sources
 from dogood.utils import timer
 
 with open('config/sources.yml') as f:
@@ -16,13 +14,23 @@ with open('config/sources.yml') as f:
 
 
 def main():
+    if os.environ.get('SCRAPING_IMPORT') == 'true':
+        with timer('Scraping', 'importing...'):
+            scrape_html_articles()
+
     if os.environ.get('API_IMPORT') == 'true':
         with timer('API', 'importing...'):
             import_articles_from_apis()
 
-    if os.environ.get('SCRAPING_IMPORT') == 'true':
-        with timer('Scraping', 'importing...'):
-            scrape_articles_from_websites()
+
+def scrape_html_articles():
+    for source in config['sources']:
+        articles = scrape_source(source)
+        # repo = Repo(Article)
+        # old_articles = repo.select('url').where(publisher=source['publisher'])
+        articles.remove(old_articles).limit(25).download().parse().enrich()
+        # repo.insert(articles)
+    print('\nFinished processing all scraped sources.')
 
 
 def import_articles_from_apis():
@@ -30,18 +38,6 @@ def import_articles_from_apis():
         adapter = APISourceAdapterFactory.create_adapter(api)
         APIImporter(adapter).import_articles()
     print('Finished processing all API articles.')
-
-
-def scrape_articles_from_websites():
-    sources = (Source(source) for source in config['sources'])
-    worker_count = int(os.getenv('WORKER_POOL_MAX'))
-    with Pool(worker_count) as pool:
-        pool.map(execute_scraper, sources)
-    print('\nFinished processing all scraped sources.')
-
-
-def execute_scraper(source):
-    Scraper(source).execute()
 
 
 if __name__ == '__main__':

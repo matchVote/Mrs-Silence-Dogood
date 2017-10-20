@@ -27,7 +27,7 @@ class DatabaseConfig:
     """Wrapper around database configuration."""
 
     def __init__(self):
-        self.env = os.getenv('FEEDER_ENV')
+        self.env = os.getenv('DOGOOD_ENV')
         self.mapping = self.load_config()
 
     def load_config(self):
