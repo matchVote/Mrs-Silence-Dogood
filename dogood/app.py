@@ -25,7 +25,7 @@ def main():
 
 def scrape_html_articles():
     for source in config['sources']:
-        articles = scrape_source(source)
+        # articles = scrape_source(source)
         # repo = Repo(Article)
         # old_articles = repo.select('url').where(publisher=source['publisher'])
         articles.remove(old_articles).limit(25).download().parse().enrich()

@@ -5,7 +5,7 @@ from dogood.scraping import scrape_source
 
 @pytest.fixture
 def source():
-    return dict(url='', publisher='HeyThereNews')
+    return dict(url='http://test_source:5000', publisher='HeyThereNews')
 
 
 class TestScraping:
