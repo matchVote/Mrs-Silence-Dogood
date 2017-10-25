@@ -1,8 +1,7 @@
-class ArticleAdapter:
-    """Wraps downloaded article data.
-    This represents the boundary between external article data and the rest of
-    the system, maintaining a standard interface for further processing.
-    """
+from dogood import utils
+
+
+class ArticleDecorator:
 
     def __init__(self, article, publisher=None):
         self.external_article = article
@@ -12,6 +11,22 @@ class ArticleAdapter:
 
     def __getattr__(self, name):
         return getattr(self.external_article, name)
+
+    def __iter__(self):
+        return iter(self.to_dict().items())
+
+    def to_dict(self):
+        return {
+            'publisher': self.publisher,
+            'url': self.url,
+            'authors': self.authors,
+            'title': self.title,
+            'date_published': utils.normalize_date(self.publish_date),
+            'keywords': self.keywords,
+            'summary': self.summary,
+            'read_time': self.read_time,
+            'top_image_url': self.top_image,
+            }
 
 
 class APISourceAdapterFactory:
