@@ -53,3 +53,23 @@ class TestURLFilter:
         url_filter = URLFilter(test_urls)
         url_filter.remove(remove_urls)
         assert expected_urls == url_filter.urls
+
+    def test_remove_sets_urls_as_empty_set_if_all_urls_are_removed(self, test_urls):
+        url_filter = URLFilter(test_urls)
+        url_filter.remove(test_urls)
+        assert url_filter.urls == set()
+
+    def test_calculate_article_count_returns_length_of_url_list_when_not_given_maximum(self, test_urls):
+        url_filter = URLFilter(test_urls)
+        count = url_filter.calculate_article_count(test_urls)
+        assert count == 7
+
+    def test_calculate_article_count_returns_length_of_url_list_when_list_is_less_than_max(self, test_urls):
+        url_filter = URLFilter(test_urls, maximum=20)
+        count = url_filter.calculate_article_count(test_urls)
+        assert count == 7
+
+    def test_calculate_article_count_returns_maximum_if_url_list_length_is_greater(self, test_urls):
+        url_filter = URLFilter(test_urls, maximum=3)
+        count = url_filter.calculate_article_count(test_urls)
+        assert count == 3

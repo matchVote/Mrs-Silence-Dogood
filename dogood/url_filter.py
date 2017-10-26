@@ -9,9 +9,16 @@ class URLFilter:
 
     def remove(self, urls_to_remove):
         filtered_urls = list(self.urls - set(urls_to_remove))
-        maximum = self.maximum or len(filtered_urls)
         self.urls = set()
-        for _ in range(maximum):
-            url = random.choice(filtered_urls)
-            self.urls.add(url)
-            filtered_urls.remove(url)
+        if filtered_urls:
+            count = self.calculate_article_count(filtered_urls)
+            for _ in range(count):
+                url = random.choice(filtered_urls)
+                self.urls.add(url)
+                filtered_urls.remove(url)
+
+    def calculate_article_count(self, urls):
+        if not self.maximum or len(urls) < self.maximum:
+            return len(urls)
+        else:
+            return self.maximum
