@@ -12,6 +12,7 @@ from dogood.utils import timer
 
 log = logging.getLogger(__name__)
 log.setLevel = logging.INFO
+MAX_ARTICLES_PER_SOURCE = int(os.getenv('MAX_ARTICLES_PER_SOURCE'))
 
 
 with open('config/sources.yml') as f:
@@ -30,18 +31,15 @@ def main():
 
 
 def scrape_html_articles():
+    repo = Repo(Article)
     for source in config['sources']:
-        repo = Repo(Article)
         old_articles = repo.select('url').where(publisher=source['publisher'])
         existing_urls = {article.url for article in old_articles}
-        log.info(f'Scraping source: {source["publisher"]}')
         article_urls = scrape_source(source)
-        log.info(f'Scraped {len(article_urls)} articles urls')
         political_articles = filter_political_articles(article_urls, existing_urls, source)
         if political_articles:
-            log.info('Enriching articles...')
             enriched_articles = nlp.enrich(political_articles)
-            log.info(f'Saving {len(enriched_articles)} articles...')
+            log.info(f'Saving {len(enriched_articles)} political articles...')
             repo.insert(enriched_articles)
             link_articles_to_officials(enriched_articles, repo)
     print('\nFinished processing all scraped sources.')
@@ -50,14 +48,13 @@ def scrape_html_articles():
 def filter_political_articles(article_urls, urls_to_remove, source):
     political_articles = []
     while len(political_articles) == 0:
-        url_filter = URLFilter(article_urls, maximum=25)
+        url_filter = URLFilter(article_urls, maximum=MAX_ARTICLES_PER_SOURCE)
         url_filter.remove(urls_to_remove)
         articles = scrape_articles(url_filter.urls)
         political_articles = [ArticleDecorator(article, source['publisher'])
                               for article in articles
                               if nlp.ArticleClassifier(article).is_political()]
         urls_to_remove |= url_filter.urls
-        log.info(f'Political articles: {len(political_articles)}')
         if urls_to_remove == set(article_urls):
             break
     return political_articles

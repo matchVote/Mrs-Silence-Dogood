@@ -1,16 +1,16 @@
 import newspaper
 
-from dogood.source import ArticleAdapter
+from dogood.adapters import ArticleDecorator
 
 
-class TestArticleAdapter:
-    """Test cases for ArticleAdapter."""
+class TestArticleDecorator:
+    """Test cases for ArticleDecorator."""
 
     def setup_method(self, _method):
         self.external_article = setup_external_article()
 
     def test_title_returns_original_title(self):
-        article = ArticleAdapter(self.external_article)
+        article = ArticleDecorator(self.external_article)
         assert article.title == 'Original Title'
 
 
