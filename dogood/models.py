@@ -48,7 +48,7 @@ class ArticleOfficial(BaseModel):
     """Join table for articles and officials."""
 
     article_id = IntegerField()
-    official_id = UUIDField()
+    representative_id = UUIDField()
     created_at = DateTimeField(default=datetime.now)
 
     class Meta:

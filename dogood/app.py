@@ -69,7 +69,7 @@ def link_articles_to_officials(articles, article_repo):
         for first_name, last_name in official_names:
             officials = official_repo.select('id')
             official = officials.where(first_name=first_name, last_name=last_name)[0]
-            record = {'article_id': article_id, 'official_id': official.id}
+            record = {'article_id': article_id, 'representative_id': official.id}
             link_repo.insert([record])
 
 
