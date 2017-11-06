@@ -3,6 +3,8 @@ import os
 from string import Template
 import yaml
 
+from peewee import IntegrityError
+
 from dogood import Repo, URLFilter, nlp
 from dogood.adapters import APISourceAdapterFactory, ArticleDecorator
 from dogood.apis import APIImporter
@@ -70,7 +72,10 @@ def link_articles_to_officials(articles, article_repo):
             officials = official_repo.select('id')
             official = officials.where(first_name=first_name, last_name=last_name)[0]
             record = {'article_id': article_id, 'representative_id': official.id}
-            link_repo.insert([record])
+            try:
+                link_repo.insert([record])
+            except IntegrityError:
+                pass
 
 
 def import_articles_from_apis():
