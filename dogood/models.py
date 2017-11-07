@@ -16,7 +16,7 @@ class Article(BaseModel):
     """ORM model for articles table."""
 
     url = TextField(unique=True)
-    title = TextField(unique=True)
+    title = TextField()
     authors = ArrayField(field_class=TextField, null=True)
     publisher = TextField()
     date_published = DateTimeField(null=True)

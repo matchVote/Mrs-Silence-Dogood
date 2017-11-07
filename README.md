@@ -16,7 +16,6 @@ Consumes news articles to populate data for the news feed.
 * setup.py
 
 ### TODO
-* Make articles unique by title and url
 * Exception that crashes the process still leaves container running, so it
 won't restart in ECS
 * Increase test coverage

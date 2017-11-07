@@ -21,6 +21,7 @@ class TestRepo:
 
     @classmethod
     def setup_class(cls):
+        Article.delete().execute()
         with Article._meta.database.atomic():
             Article.insert_many([
                 dict(url='hey.com', publisher='ABC News', title='Awesome'),
