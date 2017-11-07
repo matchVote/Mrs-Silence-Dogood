@@ -16,7 +16,7 @@ class Article(BaseModel):
     """ORM model for articles table."""
 
     url = TextField(unique=True)
-    title = TextField(null=True)
+    title = TextField(unique=True)
     authors = ArrayField(field_class=TextField, null=True)
     publisher = TextField()
     date_published = DateTimeField(null=True)
@@ -53,3 +53,6 @@ class ArticleOfficial(BaseModel):
 
     class Meta:
         db_table = 'articles_representatives'
+        indexes = (
+            (('article_id', 'representative_id'), True),
+            )

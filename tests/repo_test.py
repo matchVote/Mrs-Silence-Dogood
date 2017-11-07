@@ -12,8 +12,8 @@ def repo():
 @pytest.fixture
 def articles():
     return [
-        dict(url='new1', publisher='Somebody'),
-        dict(url='new2', publisher='Somebody'),
+        dict(url='new1', title='new1 title', publisher='Somebody'),
+        dict(url='new2', title='new2 title', publisher='Somebody'),
         ]
 
 

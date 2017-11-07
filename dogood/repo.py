@@ -1,3 +1,10 @@
+import logging
+
+import peewee
+
+log = logging.getLogger(__name__)
+
+
 class Repo:
     """Wrapper around model and database operations."""
 
@@ -28,8 +35,11 @@ class Repo:
 
     def insert(self, entities):
         records = [dict(entity) for entity in entities]
-        with self.db.atomic():
-            self.model.insert_many(records).execute()
+        try:
+            with self.db.atomic():
+                self.model.insert_many(records).execute()
+        except peewee.IntegrityError as error:
+            log.warning(f'DB Insert IntegrityError: {error}')
 
     def _convert_filters_to_clauses(self, filters):
         return [getattr(self.model, field) == value
