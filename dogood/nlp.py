@@ -32,12 +32,12 @@ class ArticleClassifier:
 def extract_full_official_names(article):
     names = official_name_mapping()
     words = re.split(r'\W', article.text)
-    full_names = []
+    full_names = set()
     for index, word in enumerate(words):
         first_name = names.get(word, False)
         if first_name:
             if words[index-1] == first_name:
-                full_names.append((first_name, word))
+                full_names.add((first_name, word))
     return full_names
 
 
