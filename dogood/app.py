@@ -3,8 +3,6 @@ import os
 from string import Template
 import yaml
 
-from peewee import IntegrityError
-
 from dogood import Repo, URLFilter, nlp
 from dogood.adapters import APISourceAdapterFactory, ArticleDecorator
 from dogood.apis import APIImporter
