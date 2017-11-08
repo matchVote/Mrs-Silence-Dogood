@@ -17,6 +17,6 @@ class TestScraping:
         assert urls[0] == 'http://heytherenews.com/2017/10/01/an_article_about_clinton'
 
     def test_scrape_articles_downloads_and_parses_articles_from_given_urls(self):
-        article = scrape_articles(['http://test_source:5000/article/1'])[0]
+        article = list(scrape_articles(['http://test_source:5000/article/1']))[0]
         assert 'Reid' in article.html
         assert article.title == 'Futureproofing your democracy'

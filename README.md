@@ -16,8 +16,6 @@ Consumes news articles to populate data for the news feed.
 * setup.py
 
 ### TODO
-* Exception that crashes the process still leaves container running, so it
-won't restart in ECS
 * Increase test coverage
 * URLFilterTest -- random test fails on the small chance of getting the same sets
   --randomly-seed=1509673345
