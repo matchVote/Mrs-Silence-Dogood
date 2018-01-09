@@ -2,22 +2,14 @@ version: "3"
 services:
   dogood:
     build: .
-    env_file: .env
+    environment:
+      NLP_SERVICE: docker.for.mac.localhost:8000
     volumes:
       - .:/usr/src/app
     depends_on:
       - postgres
-      - test_source
 
   postgres:
     image: postgres:9.6.1
     ports:
-      - "5443:5432"
-
-  test_source:
-    build: ./tests/test_source
-    command: flask run -h 0.0.0.0
-    ports:
-      - "5000:5000"
-    volumes:
-      - ./tests/test_source:/usr/src/app
+      - "5453:5432"

@@ -1,10 +1,4 @@
 #!/bin/bash
 
-# This is needed because Heroku changes the user after docker image is built
-if [ $DOGOOD_ENV == "production" ]; then
-  echo "Downloading NLTK punkt..."
-  python -m nltk.downloader punkt
-fi
-
-echo "Starting Mrs. Silence Dogood..."
-exec python -m dogood.app
+# mix ecto.setup
+mix run --no-halt

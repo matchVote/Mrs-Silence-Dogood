@@ -13,9 +13,17 @@ Consumes news articles to populate data for the news feed.
     bin/deploy
 
 #### Update version
-* setup.py
+* mix.exs
 
-### TODO
-* Increase test coverage
-* URLFilterTest -- random test fails on the small chance of getting the same sets
-  --randomly-seed=1509673345
+#### Process Design
+                          Supervisor
+                              |
+                  __________________________              
+                 |                          |
+         ScraperSupervisor..N          OfficialAgent
+                 |
+             ___________
+            |           |
+     SourceScraper     Pool
+                        |
+                ArticleScraper..N
