@@ -15,5 +15,6 @@ defmodule Dogood.Models.Article do
   def changeset(article, params \\ %{}) do
     article
     |> cast(params, [:title, :date_published])
+    |> validate_required([:url])
   end
 end
