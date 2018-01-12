@@ -35,4 +35,13 @@ defmodule Test.Dogood.ArticleScraper do
       assert called HTTPoison.post!(expected_url, expected_json)
     end
   end
+
+  @tag :skip
+  test "analyze returns an Article populated with NLP results of the text" do
+  end
+
+  @tag :skip
+  test "insert inserts an article into the database" do
+    # article = %Dogood.Models.Article{url: "http://dot.com", }
+  end
 end

@@ -6,23 +6,24 @@ defmodule Dogood.Models.Article do
   schema "articles" do
     field :url, :string
     field :title, :string
-    field :authors, {:array, :string}
     field :publisher, :string
+    field :authors, {:array, :string}
     field :date_published, :utc_datetime
     field :keywords, {:array, :string}
     field :summary, :string
     field :read_time, :integer
-    field :newsworthiness_count, :integer, default: 0
     field :top_image_url, :string
     field :source, :string
-    field :read_count, :integer, default: 0
     field :text, :string, virtual: true
-    timestamps()
+    timestamps(inserted_at: :created_at)
   end
 
   def changeset(article, params \\ %{}) do
     article
-    |> cast(params, [:title, :date_published])
-    |> validate_required([:url, :publisher])
+    |> cast(params, [:url, :title, :authors, :publisher, :date_published,
+      :keywords, :summary, :read_time, :top_image_url, :source])
+    |> validate_required([:url, :publisher, :title])
+    |> unique_constraint(:url)
+    |> unique_constraint(:title)
   end
 end

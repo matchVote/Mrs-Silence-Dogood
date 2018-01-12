@@ -12,7 +12,6 @@ defmodule Dogood.ArticleScraper do
     case classify(article.text) do
       "political" ->
         article
-        |> IO.inspect
         # |> analyze
         # |> insert
         # |> insert_rep_link
@@ -40,5 +39,8 @@ defmodule Dogood.ArticleScraper do
 
   defp decode_classification(%{body: json}) do
     Poison.decode!(json)["classification"]
+  end
+
+  def insert(article) do
   end
 end
