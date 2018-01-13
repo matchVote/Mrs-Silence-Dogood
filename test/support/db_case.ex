@@ -5,6 +5,7 @@ defmodule Dogood.Test.DBCase do
     quote do
       alias Dogood.Repo
       import Dogood.Test.Helpers
+      import Ecto.Query
     end
   end
 

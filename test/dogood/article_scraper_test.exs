@@ -1,47 +1,21 @@
 defmodule Test.Dogood.ArticleScraper do
-  use ExUnit.Case, async: true
+  use Dogood.Test.DBCase, async: true
   import Mock
   alias Dogood.ArticleScraper
+  alias Dogood.Models.Article
+  alias Dogood.NLPService
 
-  test "parse returns an Article populated with basic data" do
-    extracted_data = %{
-      title: "Article Title",
-      authors: ["Bob Lewis", "Jane Goodall"],
-      text: "Awesome article here",
-      date_published: nil,
-    }
-    mock_post = fn(_url, _body) ->
-      %{body: Poison.encode!(extracted_data)}
+  test "process_article saves article to database if it's classified as political" do
+    mocked_functions = [
+      classify: fn(_) -> "political" end,
+      analyze: fn(article) -> article end
+    ]
+    with_mock NLPService, mocked_functions do
+      %Article{url: "http://dot.com", title: "test", publisher: "XYZ"}
+      |> ArticleScraper.process_article()
     end
-
-    with_mock HTTPoison, [post!: mock_post] do
-      article = ArticleScraper.parse("<html>mock article</html>")
-      assert article.title == "Article Title"
-      assert article.authors == ["Bob Lewis", "Jane Goodall"]
-      assert article.text == "Awesome article here"
-      assert article.date_published == nil
-    end
-  end
-
-  test "classify returns 'political' when a known Official is mentioned" do
-    text = "You are not Peter King"
-    mock_post = fn(_url, _body) ->
-      %{body: Poison.encode!(%{classification: "political"})}
-    end
-    with_mock HTTPoison, [post!: mock_post] do
-      assert ArticleScraper.classify(text) == "political"
-      expected_url = "http://docker.for.mac.localhost:8000/classify"
-      expected_json = Poison.encode!(%{text: text})
-      assert called HTTPoison.post!(expected_url, expected_json)
-    end
-  end
-
-  @tag :skip
-  test "analyze returns an Article populated with NLP results of the text" do
-  end
-
-  @tag :skip
-  test "insert inserts an article into the database" do
-    # article = %Dogood.Models.Article{url: "http://dot.com", }
+    
+    article = Repo.one(from a in Article, where: a.title == "test")
+    assert article.url == "http://dot.com"
   end
 end
