@@ -25,6 +25,7 @@ defmodule Dogood.Mixfile do
   defp deps() do
     [
       {:ecto, "2.2.0"},
+      {:floki, "0.19.2"},
       {:httpoison, "0.13.0"},
       {:poison, "3.1.0"},
       {:postgrex, "0.13.3"},

@@ -21,12 +21,15 @@ defmodule Dogood.ArticleScraper do
         article
         |> Dogood.NLPService.analyze()
         |> insert()
-        # |> insert_official_link()
+        |> link_article_to_officials()
       _ -> nil
     end
   end
 
   def insert(article) do
     Dogood.Repo.insert(article)
+  end
+
+  def link_article_to_officials(article) do
   end
 end

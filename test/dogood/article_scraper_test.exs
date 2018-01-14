@@ -14,8 +14,12 @@ defmodule Test.Dogood.ArticleScraper do
       %Article{url: "http://dot.com", title: "test", publisher: "XYZ"}
       |> ArticleScraper.process_article()
     end
-    
+
     article = Repo.one(from a in Article, where: a.title == "test")
     assert article.url == "http://dot.com"
+  end
+
+  @tag :skip
+  test "process_article creates a link between article and mentioned officials" do
   end
 end
