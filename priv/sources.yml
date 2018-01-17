@@ -1,0 +1,191 @@
+sources:
+  - url: http://www.aljazeera.com/topics/regions/us-canada.html
+    publisher: Al Jazeera
+  - url: http://rssfeeds.azcentral.com/phoenix/politics
+    publisher: Arizona Republic
+  - url: http://www.bbc.com/news/world/us_and_canada
+    publisher: BBC
+  - url: https://www.bostonglobe.com/news/politics
+    publisher: Boston Globe
+  - url: http://www.cnn.com/politics
+    publisher: CNN
+  - url: http://crooksandliars.com/politics
+    publisher: Crooks & Liars
+  - url: http://www.dailykos.com/
+    publisher: DailyKos
+  - url: https://www.washingtonpost.com/politics
+    publisher: Washington Post
+  - url: http://www.denverpost.com/politics/
+    publisher: Denver Post
+  - url: http://www.detroitnews.com/news/politics/
+    publisher: Detroit News
+  - url: http://www.economist.com/sections/united-states
+    publisher: Economist
+  - url: https://www.ft.com/world/us/politics
+    publisher: Financial Times
+  - url: http://foreignpolicy.com/
+    publisher: Foreign Policy
+  - url: http://www.huffingtonpost.com/section/politics
+    publisher: Huffington Post
+  - url: http://www.jsonline.com/news/politics/
+    publisher: Milwaukee Journal Sentinel
+  - url: http://www.motherjones.com/politics
+    publisher: Mother Jones
+  - url: http://www.nationalreview.com/
+    publisher: National Review
+  - url: https://newrepublic.com/tags/politics
+    publisher: New Republic
+  - url: https://www.nytimes.com/pages/politics/index.html
+    publisher: New York Times
+  - url: http://www.npr.org/sections/politics/
+    publisher: NPR
+  - url: http://www.politifact.com/truth-o-meter/rss/
+    publisher: Politifact
+  - url: https://www.propublica.org/
+    publisher: ProPublica
+  - url: http://www.reuters.com/politics
+    publisher: Reuters
+  - url: http://www.salon.com/category/politics/
+    publisher: Salon
+  - url: http://www.sltrib.com/news/politics/
+    publisher: Salt Lake Tribune
+  - url: http://talkingpointsmemo.com/news
+    publisher: Talking Points Memo
+  - url: http://www.tampabay.com/topics/specials/florida-legislature.page
+    publisher: Tampa Bay Times
+  - url: https://www.theatlantic.com/politics/
+    publisher: The Atlantic
+  - url: http://www.theblaze.com/
+    publisher: The Blaze
+  - url: http://www.telegraph.co.uk/us-politics/
+    publisher: The Daily Telegraph
+  - url: http://www.desmoinesregister.com/news/politics
+    publisher: The Des Moines Register
+  - url: https://www.theguardian.com/us-news
+    publisher: The Guardian
+  - url: http://thehill.com/
+    publisher: The Hill
+  - url: http://www.independent.co.uk/us
+    publisher: The Independent UK
+  - url: http://www.washingtontimes.com/news/politics/
+    publisher: The Washington Times
+  - url: https://thinkprogress.org/tagged/politics
+    publisher: ThinkProgress
+  - url: https://www.usnews.com/news/politics
+    publisher: US News & World Report
+  - url: https://www.usatoday.com/washington/
+    publisher: USA Today
+    
+# Not allowed currently
+#  - url: http://abcnews.go.com/Politics
+#    publisher: ABC News
+#  - url: http://www.theamericanconservative.com/web-categories/politics/
+#    publisher: American Conservative
+#  - url: http://hosted2.ap.org/APDEFAULT/APNewsFeeds
+#    publisher: AP
+#  - url: http://www.ajc.com/news/georgia-government/
+#    publisher: Atlanta Journal
+#  - url: https://www.bloomberg.com/politics
+#    publisher: Bloomberg
+#  - url: http://www.breitbart.com/
+#    publisher: Breibart
+#  - url: http://www.businessinsider.com/politics
+#    publisher: Business Insider
+#  - url: https://www.buzzfeed.com/politics
+#    publisher: Buzzfeed Politics
+#  - url: http://www.cbsnews.com/politics/
+#    publisher: CBS News
+#  - url: http://www.charlotteobserver.com/news/politics-government/
+#    publisher: Charlotte Observer
+#  - url: http://chicago.suntimes.com/section/politics/
+#    publisher: Chicago Sun-Times
+#  - url: http://www.chicagotribune.com/news/local/politics/
+#    publisher: Chicago Tribune
+#  - url: http://www.csmonitor.com/USA/Politics
+#    publisher: Christian Science Monitor
+#  - url: http://dailycaller.com/section/politics/
+#    publisher: Daily Caller
+#  - url: http://www.dallasnews.com/news/politics
+#    publisher: Dallas Morning News
+#  - url: http://www.esquire.com/news-politics/
+#    publisher: Esquire
+#  - url: https://fivethirtyeight.com/politics/
+#    publisher: FiveThirtyEight
+#  - url: https://www.forbes.com
+#    publisher: Forbes
+#  - url: http://www.foxnews.com/politics.html
+#    publisher: Fox News
+#  - url: http://www.gq.com/news-culture/politics
+#    publisher: GQ Politics
+#  - url: http://www.chron.com/news/politics/
+#    publisher: Houston Chronicle
+#  - url: http://www.kansascity.com/news/politics-government/
+#    publisher: Kansas City Star
+#  - url: http://www.latimes.com/politics/
+#    publisher: LA Times
+#  - url: http://www.miamiherald.com/news/politics-government/
+#    publisher: Miami Herald
+#  - url: http://www.startribune.com/politics/
+#    publisher: Minneapolis Star Tribune
+#  - url: http://www.msnbc.com/
+#    publisher: MSNBC
+#  - url: http://www.nationaljournal.com/
+#    publisher: National Journal
+#  - url: http://www.nbcnews.com/politics
+#    publisher: NBC News
+#  - url: http://www.newyorker.com/news
+#    publisher: New Yorker
+#  - url: http://www.newsmax.com/politics/
+#    publisher: NewsMax
+#  - url: http://www.newsweek.com/us
+#    publisher: Newsweek
+#  - url: http://www.nydailynews.com/news/politics
+#    publisher: NY Daily News
+#  - url: http://nymag.com/daily/intelligencer/
+#    publisher: NY Mag
+#  - url: http://www.orlandosentinel.com/news/politics/
+#    publisher: Orlando Sentinel
+#  - url: http://www.philly.com/philly/news/politics
+#    publisher: Philadelphia Inquirer
+#  - url: http://www.politico.com/
+#    publisher: Politico
+#  - url: http://www.rawstory.com/category/nation/
+#    publisher: Raw Story
+#  - url: http://www.rollingstone.com/politics
+#    publisher: Rolling Stone Politics
+#  - url: http://www.sfchronicle.com/politics/
+#    publisher: San Francisco Chronicle
+#  - url: http://www.seattletimes.com/seattle-news/politics/
+#    publisher: Seattle Times
+#  - url: http://www.slate.com/articles/news_and_politics.html
+#    publisher: Slate
+#  - url: http://www.stltoday.com/news/national/govt-and-politics/
+#    publisher: St. Louis Post-Dispatch
+#  - url: http://www.baltimoresun.com/news/maryland/politics/
+#    publisher: The Baltimore Sun
+#  - url: http://www.newsobserver.com/news/politics-government
+#    publisher: The News & Observer
+#  - url: http://www.oregonlive.com/politics/
+#    publisher: The Oregonian
+#  - url: http://www.sacbee.com/news/politics-government/
+#    publisher: The Sacramento Bee
+#  - url: http://theweek.com/section/politics
+#    publisher: The Week
+#  - url: http://time.com/section/politics/
+#    publisher: Time
+#  - url: https://townhall.com/
+#    publisher: Townhall
+#  - url: http://www.vanityfair.com/news/politics
+#    publisher: Vanity Fair
+#  - url: https://www.vice.com/en_us/topic/Politics
+#    publisher: Vice
+#  - url: http://www.vox.com/policy-and-politics
+#    publisher: Vox
+#  - url: https://www.wsj.com/news/politics
+#    publisher: Wall Street Journal
+#  - url: http://www.washingtonexaminer.com/politics
+#    publisher: Washington Examiner
+#  - url: http://www.thedailybeast.com/politics.html
+#    publisher: The Daily Beast
+#  - url: http://www.wnd.com/category/front-page/politics/
+#    publisher: WND

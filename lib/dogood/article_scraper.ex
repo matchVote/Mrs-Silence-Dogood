@@ -2,8 +2,17 @@ defmodule Dogood.ArticleScraper do
   require Logger
   use GenServer
 
-  def scrape(url) do
-    Logger.info("Scraping article #{url}...")
+  def start_link(_) do
+    GenServer.start_link(__MODULE__, nil)
+  end
+
+  def handle_cast({:scrape, {url, publisher}}, nil) do
+    scrape(url, publisher)
+    {:noreply, nil}
+  end
+
+  def scrape(url, publisher) do
+    Logger.info("Scraping #{url} for #{publisher}...")
     url
     |> request_article()
     |> Dogood.NLPService.extract_data()
@@ -31,5 +40,6 @@ defmodule Dogood.ArticleScraper do
   end
 
   def link_article_to_officials(article) do
+    article
   end
 end
