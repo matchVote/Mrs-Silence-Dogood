@@ -6,11 +6,12 @@ defmodule Dogood.Supervisor do
   end
 
   def init(_) do
-    children = [Dogood.Repo | source_scraper_supervisor_specs()]
+    children = [Dogood.Repo | source_scraper_supervisor_specs(Mix.env)]
     Supervisor.init(children, strategy: :one_for_one)
   end
 
-  def source_scraper_supervisor_specs do
+  def source_scraper_supervisor_specs(:test), do: []
+  def source_scraper_supervisor_specs(_) do
     sources()
     |> Enum.slice(0..1)
     |> Enum.map(fn(source) ->

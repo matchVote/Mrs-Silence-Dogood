@@ -6,6 +6,7 @@ defmodule Dogood.Test.DBCase do
       alias Dogood.Repo
       import Dogood.Test.Helpers
       import Ecto.Query
+      import Ecto.Changeset
     end
   end
 

@@ -1,6 +1,7 @@
 defmodule Dogood.ArticleScraper do
   require Logger
   use GenServer
+  alias Dogood.Models.Article
 
   def start_link(_) do
     GenServer.start_link(__MODULE__, nil)
@@ -15,8 +16,9 @@ defmodule Dogood.ArticleScraper do
     Logger.info("Scraping #{url} for #{publisher}...")
     url
     |> request_article()
-    |> Dogood.NLPService.extract_data()
-    |> process_article()
+    |> Dogood.NLP.extract_data()
+    |> IO.inspect
+    |> process_article(url, publisher)
   end
 
   defp request_article(url) do
@@ -24,19 +26,24 @@ defmodule Dogood.ArticleScraper do
     html
   end
 
-  def process_article(article) do
-    case Dogood.NLPService.classify(article.text) do
+  def process_article(article, url, publisher) do
+    case Dogood.NLP.classify(article.text) do
       "political" ->
         article
-        |> Dogood.NLPService.analyze()
+        |> Dogood.NLP.analyze()
+        |> add_required_data(url, publisher)
         |> insert()
         |> link_article_to_officials()
       _ -> nil
     end
   end
 
-  def insert(article) do
-    Dogood.Repo.insert(article)
+  def add_required_data(article, url, publisher) do
+    Article.changeset(article, %{url: url, publisher: publisher})
+  end
+
+  def insert(article_changeset) do
+    Dogood.Repo.insert(article_changeset)
   end
 
   def link_article_to_officials(article) do
