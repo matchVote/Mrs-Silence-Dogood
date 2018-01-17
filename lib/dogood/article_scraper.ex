@@ -17,7 +17,6 @@ defmodule Dogood.ArticleScraper do
     url
     |> request_article()
     |> Dogood.NLP.extract_data()
-    |> IO.inspect
     |> process_article(url, publisher)
   end
 
