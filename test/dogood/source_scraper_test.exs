@@ -45,15 +45,10 @@ defmodule SourceScraperTest do
     ]
   end
 
-  test "add_prefix adds source domain to beginning of url if needed", %{urls: urls} do
-    prefix = "http://www.awesome.com"
-    expected = [
-      "https://link1.com",
-      "http://www.awesome.com/",
-      "http://www.awesome.com/resource/topic",
-      "http://www.hey.org/what",
-      "http://www.hey.org/actual/article.html",
-    ]
+  test "add_prefix adds source domain to beginning of relative url" do
+    prefix = "http://www.awesome.com/politics.html"
+    urls = ["/some/resource", "http://absolute.com/url"]
+    expected = ["http://www.awesome.com/some/resource", "http://absolute.com/url"]
     assert expected == SourceScraper.add_prefix(urls, prefix)
   end
 

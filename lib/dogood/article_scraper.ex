@@ -30,14 +30,14 @@ defmodule Dogood.ArticleScraper do
       "political" ->
         article
         |> Dogood.NLP.analyze()
-        |> add_required_data(url, publisher)
+        |> prepare_changeset(url, publisher)
         |> insert()
         |> link_article_to_officials()
       _ -> nil
     end
   end
 
-  def add_required_data(article, url, publisher) do
+  def prepare_changeset(article, url, publisher) do
     Article.changeset(article, %{url: url, publisher: publisher})
   end
 

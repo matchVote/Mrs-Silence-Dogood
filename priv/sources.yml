@@ -1,14 +1,14 @@
 sources:
   - url: http://www.aljazeera.com/topics/regions/us-canada.html
     publisher: Al Jazeera
+  - url: http://www.cnn.com/politics
+    publisher: CNN
   - url: http://rssfeeds.azcentral.com/phoenix/politics
     publisher: Arizona Republic
   - url: http://www.bbc.com/news/world/us_and_canada
     publisher: BBC
   - url: https://www.bostonglobe.com/news/politics
     publisher: Boston Globe
-  - url: http://www.cnn.com/politics
-    publisher: CNN
   - url: http://crooksandliars.com/politics
     publisher: Crooks & Liars
   - url: http://www.dailykos.com/
@@ -75,7 +75,7 @@ sources:
     publisher: US News & World Report
   - url: https://www.usatoday.com/washington/
     publisher: USA Today
-    
+
 # Not allowed currently
 #  - url: http://abcnews.go.com/Politics
 #    publisher: ABC News

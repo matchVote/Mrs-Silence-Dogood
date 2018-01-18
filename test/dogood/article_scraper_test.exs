@@ -23,9 +23,9 @@ defmodule Test.Dogood.ArticleScraper do
   test "process_article creates a link between article and mentioned officials" do
   end
 
-  test "add_required_data creates a changeset with given data" do
+  test "prepare_changeset creates a changeset with given data" do
     article = %Article{title: "something"}
-    changeset = ArticleScraper.add_required_data(article, "url", "publisher")
+    changeset = ArticleScraper.prepare_changeset(article, "url", "publisher")
     assert "url" == get_change(changeset, :url)
     assert "publisher" == get_change(changeset, :publisher)
   end

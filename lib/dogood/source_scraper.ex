@@ -44,10 +44,18 @@ defmodule Dogood.SourceScraper do
     end)
   end
 
-  def add_prefix(urls, prefix) do
+  def add_prefix(urls, source_url) do
+    prefix = parse_domain(source_url)
     Enum.map urls, fn(url) ->
       if String.starts_with?(url, "/"), do: prefix <> url, else: url
     end
+  end
+
+  defp parse_domain(url) do
+    url
+    |> String.split("/")
+    |> Enum.slice(0..2)
+    |> Enum.join("/")
   end
 
   def filter_urls(urls) do
