@@ -3,7 +3,7 @@ services:
   dogood:
     build: .
     environment:
-      NLP_SERVICE: docker.for.mac.localhost:8000
+      NLP_SERVICE: docker.for.mac.host.internal:8000
     volumes:
       - .:/usr/src/app
     depends_on:

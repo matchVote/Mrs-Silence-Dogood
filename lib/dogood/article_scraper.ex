@@ -3,33 +3,43 @@ defmodule Dogood.ArticleScraper do
   use GenServer
   alias Dogood.Models.Article
 
+  @scraping_timeout 10_000  # 10 seconds
+
+  # Client
+
   def start_link(_) do
     GenServer.start_link(__MODULE__, nil)
   end
 
-  def handle_cast({:scrape, {url, publisher}}, nil) do
+  def scrape_article(scraper, url, publisher) do
+    GenServer.call(scraper, {:scrape, {url, publisher}}, @scraping_timeout)
+  end
+
+  # Server
+
+  def handle_call({:scrape, {url, publisher}}, _, nil) do
+    Logger.info("#{inspect self()} scraping: #{url}")
     scrape(url, publisher)
-    {:noreply, nil}
+    {:reply, nil, nil}
   end
 
   def scrape(url, publisher) do
-    Logger.info("Scraping #{url} for #{publisher}...")
     url
     |> request_article()
-    |> Dogood.NLP.extract_data()
+    |> extract_data()
     |> process_article(url, publisher)
   end
 
   defp request_article(url) do
-    %{body: html} = HTTPoison.get!(url)
+    %{body: html} = HTTPoison.get!(url, [], recv_timeout: 10_000)
     html
   end
 
   def process_article(article, url, publisher) do
-    case Dogood.NLP.classify(article.text) do
+    case classify(article.text) do
       "political" ->
         article
-        |> Dogood.NLP.analyze()
+        |> analyze()
         |> prepare_changeset(url, publisher)
         |> insert()
         |> link_article_to_officials()
@@ -48,4 +58,8 @@ defmodule Dogood.ArticleScraper do
   def link_article_to_officials(article) do
     article
   end
+
+  defp extract_data(html), do: Dogood.NLP.extract_data(html)
+  defp classify(text), do: Dogood.NLP.classify(text)
+  defp analyze(article), do: Dogood.NLP.analyze(article)
 end

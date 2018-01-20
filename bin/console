@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker-compose run --rm dogood iex -S mix
+docker-compose run --rm -e SOURCES=0 dogood iex -S mix

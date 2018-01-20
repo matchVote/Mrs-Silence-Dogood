@@ -6,7 +6,7 @@ defmodule Dogood.ArticleScraperSupervisor do
   end
 
   def init(publisher) do
-    pool_name = :"article_scraper_pool #{publisher}"
+    pool_name = :"article_scraper_pool-#{publisher}"
     children = [
       :poolboy.child_spec(pool_name, poolboy_config(pool_name))
     ]

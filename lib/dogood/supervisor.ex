@@ -6,18 +6,18 @@ defmodule Dogood.Supervisor do
   end
 
   def init(_) do
-    children = [Dogood.Repo | source_scraper_supervisor_specs(Mix.env)]
+    count = System.get_env("SOURCES")
+    children = [Dogood.Repo | source_scraper_supervisor_specs(count)]
     Supervisor.init(children, strategy: :one_for_one)
   end
 
-  def source_scraper_supervisor_specs(:test), do: []
-  def source_scraper_supervisor_specs(_) do
+  def source_scraper_supervisor_specs("0"), do: []
+  def source_scraper_supervisor_specs(nil) do
     sources()
-    |> Enum.slice(0..1)
+    |> Enum.slice(0..0)
     |> Enum.map(fn(source) ->
-      supervisor_id = :"source_scraper_supervisor #{source["publisher"]}"
       {Dogood.SourceScraperSupervisor, source}
-      |> Supervisor.child_spec(id: supervisor_id)
+      |> Supervisor.child_spec(id: supervisor_id(source))
     end)
   end
 
@@ -26,5 +26,10 @@ defmodule Dogood.Supervisor do
     |> Path.join("sources.yml")
     |> YamlElixir.read_from_file
     |> Map.get("sources")
+  end
+
+  defp supervisor_id(%{"publisher" => publisher}) do
+    publisher = String.replace(publisher, " ", "")
+    :"source_scraper_supervisor-#{publisher}"
   end
 end
