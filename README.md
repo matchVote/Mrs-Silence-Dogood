@@ -9,8 +9,9 @@ Consumes news articles to populate data for the news feed.
 ### Testing
     bin/test  # runs tests
 
-### Deployment
-    bin/deploy
+#### TODO
+* articles.date_published is not being captured
+* Test error handling when NLP service is unresponsive
 
 #### Update version
 * mix.exs
@@ -18,12 +19,12 @@ Consumes news articles to populate data for the news feed.
 #### Process Design
                           Supervisor
                               |
-                  __________________________              
-                 |                          |
-         ScraperSupervisor..N          OfficialAgent
+                  _____________
+                 |             
+       SourceScraperSupervisor..N
                  |
              ___________
             |           |
-     SourceScraper     Pool
+     SourceScraper   ArticleScraperSupervisor
                         |
-                ArticleScraper..N
+                     ArticleScraper..N

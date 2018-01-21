@@ -14,8 +14,11 @@ defmodule Dogood.Models.Article do
     field :read_time, :integer
     field :top_image_url, :string
     field :source, :string
-    field :text, :string, virtual: true
     timestamps(inserted_at: :created_at)
+    has_many :linked_officials, Dogood.Models.ArticleOfficial
+
+    field :text, :string, virtual: true
+    field :mentioned_officials_ids, {:array, :string}, virtual: true
   end
 
   def changeset(article, params \\ %{}) do

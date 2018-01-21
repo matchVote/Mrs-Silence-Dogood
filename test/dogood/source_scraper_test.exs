@@ -1,4 +1,4 @@
-defmodule SourceScraperTest do
+defmodule Test.Dogood.SourceScraperTest do
   use ExUnit.Case
   alias Dogood.SourceScraper
 

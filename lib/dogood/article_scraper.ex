@@ -1,7 +1,7 @@
 defmodule Dogood.ArticleScraper do
   require Logger
   use GenServer
-  alias Dogood.Models.Article
+  alias Dogood.Models.{Article, ArticleOfficial}
 
   @scraping_timeout 10_000  # 10 seconds
 
@@ -52,11 +52,16 @@ defmodule Dogood.ArticleScraper do
   end
 
   def insert(article_changeset) do
-    Dogood.Repo.insert(article_changeset)
+    {:ok, article} = Dogood.Repo.insert(article_changeset)
+    article
   end
 
   def link_article_to_officials(article) do
-    article
+    article.mentioned_officials_ids
+    |> Enum.each(fn(official_id) ->
+      %ArticleOfficial{article_id: article.id, representative_id: official_id}
+      |> Dogood.Repo.insert()
+    end)
   end
 
   defp extract_data(html), do: Dogood.NLP.extract_data(html)
