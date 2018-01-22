@@ -48,8 +48,16 @@ defmodule Dogood.ArticleScraper do
   end
 
   def prepare_changeset(article, url, publisher) do
-    Article.changeset(article, %{url: url, publisher: publisher})
+    article
+    |> Article.changeset(%{
+      url: url,
+      publisher: publisher,
+      date_published: normalize_date(article.date_published)
+    })
   end
+
+  def normalize_date(nil), do: DateTime.utc_now()
+  def normalize_date(date), do: date
 
   def insert(article_changeset) do
     case Dogood.Repo.insert(article_changeset) do

@@ -15,6 +15,17 @@ defmodule Test.Dogood.ArticleScraperTest do
     %{mocked_functions: mocked_functions}
   end
 
+  defp process_article_with_mocked_functions(mocked_functions) do
+    with_mock NLP, mocked_functions do
+      %Article{url: "http://dot.com", title: "test", publisher: "XYZ"}
+      |> ArticleScraper.process_article("http://dot.com", "test")
+    end
+  end
+
+  defp generate_uuids(num) do
+    for _ <- 1..num, do: Ecto.UUID.generate()
+  end
+
   test "process_article saves article to database if it's classified as political", setup do
     process_article_with_mocked_functions(setup.mocked_functions)
     article = Repo.one(from a in Article, where: a.title == "test")
@@ -37,14 +48,13 @@ defmodule Test.Dogood.ArticleScraperTest do
     assert "publisher" == get_change(changeset, :publisher)
   end
 
-  defp process_article_with_mocked_functions(mocked_functions) do
-    with_mock NLP, mocked_functions do
-      %Article{url: "http://dot.com", title: "test", publisher: "XYZ"}
-      |> ArticleScraper.process_article("http://dot.com", "test")
-    end
-  end
-
-  defp generate_uuids(num) do
-    for _ <- 1..num, do: Ecto.UUID.generate()
+  test "prepare_changeset sets date_published to current datetime if none provided" do
+    article = %Article{title: "something"}
+    changeset = ArticleScraper.prepare_changeset(article, "url", "publisher")
+    expected_date = DateTime.utc_now()
+    actual_date = get_change(changeset, :date_published)
+    assert expected_date.year == actual_date.year
+    assert expected_date.month == actual_date.month
+    assert expected_date.day == actual_date.day
   end
 end

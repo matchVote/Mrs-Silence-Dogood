@@ -13,7 +13,7 @@ defmodule Dogood.SourceScraper do
 
   def scrape_source(%{"url" => url, "publisher" => publisher}) do
     scrape(url, publisher)
-    cooldown(publisher)
+    cooldown()
   end
 
   def scrape(source_url, publisher) do
@@ -44,7 +44,7 @@ defmodule Dogood.SourceScraper do
     end
   end
 
-  defp cooldown(publisher) do
+  defp cooldown do
     :timer.sleep(@source_cooldown)
   end
 end
