@@ -18,7 +18,7 @@ defmodule Dogood.ArticleScraper do
   # Server
 
   def handle_call({:scrape, {url, publisher}}, _, nil) do
-    Logger.info("#{inspect self()} scraping: #{url}")
+    Logger.info("#{inspect self()} scraping article for #{publisher}")
     scrape(url, publisher)
     {:reply, nil, nil}
   end
@@ -52,10 +52,13 @@ defmodule Dogood.ArticleScraper do
   end
 
   def insert(article_changeset) do
-    {:ok, article} = Dogood.Repo.insert(article_changeset)
-    article
+    case Dogood.Repo.insert(article_changeset) do
+      {:ok, article} -> article
+      {:error, _} -> nil
+    end
   end
 
+  def link_article_to_officials(nil), do: nil
   def link_article_to_officials(article) do
     article.mentioned_officials_ids
     |> Enum.each(fn(official_id) ->

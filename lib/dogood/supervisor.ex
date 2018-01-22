@@ -14,7 +14,7 @@ defmodule Dogood.Supervisor do
   def source_scraper_supervisor_specs("0"), do: []
   def source_scraper_supervisor_specs(nil) do
     sources()
-    |> Enum.slice(0..0)
+    |> Enum.slice(0..3)
     |> Enum.map(fn(source) ->
       {Dogood.SourceScraperSupervisor, source}
       |> Supervisor.child_spec(id: supervisor_id(source))

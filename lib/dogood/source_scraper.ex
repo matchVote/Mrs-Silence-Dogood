@@ -32,7 +32,7 @@ defmodule Dogood.SourceScraper do
   end
 
   def scrape_articles(urls, publisher) do
-    Logger.info("Scraping #{length urls} urls from #{publisher}...")
+    Logger.info("Scraper #{inspect self()} -- Scraping #{length urls} urls from #{publisher}...")
     Enum.each urls, fn(url) ->
       Task.start fn ->
         :poolboy.transaction(
@@ -45,7 +45,6 @@ defmodule Dogood.SourceScraper do
   end
 
   defp cooldown(publisher) do
-    Logger.info("Cooldown: #{publisher}")
     :timer.sleep(@source_cooldown)
   end
 end
