@@ -3,7 +3,7 @@ defmodule Dogood.ArticleScraper do
   use GenServer
   alias Dogood.Models.{Article, ArticleOfficial}
 
-  @scraping_timeout 10_000  # 10 seconds
+  @scraping_timeout 20_000  # 20 seconds
 
   # Client
 
@@ -18,7 +18,6 @@ defmodule Dogood.ArticleScraper do
   # Server
 
   def handle_call({:scrape, {url, publisher}}, _, nil) do
-    Logger.info("#{inspect self()} scraping article for #{publisher}")
     scrape(url, publisher)
     {:reply, nil, nil}
   end
@@ -30,7 +29,7 @@ defmodule Dogood.ArticleScraper do
     |> process_article(url, publisher)
   end
 
-  defp request_article(url) do
+  def request_article(url) do
     %{body: html} = HTTPoison.get!(url, [], recv_timeout: 10_000)
     html
   end
@@ -57,11 +56,13 @@ defmodule Dogood.ArticleScraper do
   end
 
   def normalize_date(nil), do: DateTime.utc_now()
-  def normalize_date(date), do: date
+  def normalize_date(_), do: nil
 
   def insert(article_changeset) do
     case Dogood.Repo.insert(article_changeset) do
-      {:ok, article} -> article
+      {:ok, article} ->
+        Logger.info("Inserted #{article.publisher} article - ID: #{article.id}")
+        article
       {:error, _} -> nil
     end
   end

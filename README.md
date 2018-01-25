@@ -27,4 +27,21 @@ Consumes news articles to populate data for the news feed.
             |           |
      SourceScraper   ArticleScraperSupervisor
                         |
-                     ArticleScraper..N
+                     ArticleScraper..5
+
+
+Pooled SourceScraperSupervisor Design (Foreman controls pool)
+
+                       Supervisor
+                           |
+                  ___________________
+                 |                   |
+        PublisherSupervisor       Foreman
+                 |          
+        ScraperSupervisor..N
+                 |
+             ___________
+            |           |
+     SourceScraper   ArticleScraperSupervisor
+                        |
+                     ArticleScraper..5

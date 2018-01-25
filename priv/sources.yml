@@ -3,16 +3,16 @@ sources:
     publisher: Al Jazeera
   - url: http://cnn.com
     publisher: CNN
+  - url: https://www.bostonglobe.com/news/politics
+    publisher: Boston Globe
+  - url: http://www.dailykos.com/
+    publisher: DailyKos
   - url: http://rssfeeds.azcentral.com/phoenix/politics
     publisher: Arizona Republic
   - url: http://www.bbc.com/news/world/us_and_canada
     publisher: BBC
-  - url: https://www.bostonglobe.com/news/politics
-    publisher: Boston Globe
   - url: http://crooksandliars.com/politics
     publisher: Crooks & Liars
-  - url: http://www.dailykos.com/
-    publisher: DailyKos
   - url: https://www.washingtonpost.com/politics
     publisher: Washington Post
   - url: http://www.denverpost.com/politics/
