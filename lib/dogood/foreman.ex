@@ -1,5 +1,6 @@
 defmodule Dogood.Foreman do
   use GenServer
+  require Logger
   alias Dogood.ScrapingSupervisor
 
   # Client
@@ -24,11 +25,12 @@ defmodule Dogood.Foreman do
   end
 
   def handle_cast(:done, []) do
+    Logger.info "All sources done; initiating cooldown..."
     cooldown()
     send(self(), :kickoff)
   end
   def handle_cast(:done, [source | sources]) do
-    IO.puts "PublisherScraper done -- starting new for #{source["publisher"]}"
+    Logger.info "PublisherScraper done -- starting new for #{source["publisher"]}"
     Dogood.ScrapingSupervisor.start_child(publisher_child_spec(source))
     {:noreply, sources}
   end
