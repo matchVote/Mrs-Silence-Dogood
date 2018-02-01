@@ -17,31 +17,16 @@ Consumes news articles to populate data for the news feed.
 * mix.exs
 
 #### Process Design
-                          Supervisor
-                              |
-                  _____________
-                 |             
-       SourceScraperSupervisor..N
-                 |
-             ___________
-            |           |
-     SourceScraper   ArticleScraperSupervisor
-                        |
-                     ArticleScraper..5
-
-
-Pooled SourceScraperSupervisor Design (Foreman controls pool)
-
                        Supervisor
                            |
                   ___________________
                  |                   |
-        PublisherSupervisor       Foreman
+         ScrapingSupervisor       Foreman
                  |          
-        ScraperSupervisor..N
+    PublisherScraperSupervisor..N
                  |
-             ___________
-            |           |
-     SourceScraper   ArticleScraperSupervisor
-                        |
-                     ArticleScraper..5
+          ________________
+         |                |
+ PublisherScraper   ArticleScraperSupervisor
+                          |
+                    ArticleScraper..5

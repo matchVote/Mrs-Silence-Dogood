@@ -1,4 +1,3 @@
 #!/bin/bash
 
-# mix ecto.setup
-mix run --no-halt
+exec elixir -S mix run --no-halt

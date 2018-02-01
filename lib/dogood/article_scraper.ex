@@ -1,26 +1,6 @@
 defmodule Dogood.ArticleScraper do
   require Logger
-  use GenServer
   alias Dogood.Models.{Article, ArticleOfficial}
-
-  @scraping_timeout 20_000  # 20 seconds
-
-  # Client
-
-  def start_link(_) do
-    GenServer.start_link(__MODULE__, nil)
-  end
-
-  def scrape_article(scraper, url, publisher) do
-    GenServer.call(scraper, {:scrape, {url, publisher}}, @scraping_timeout)
-  end
-
-  # Server
-
-  def handle_call({:scrape, {url, publisher}}, _, nil) do
-    scrape(url, publisher)
-    {:reply, nil, nil}
-  end
 
   def scrape(url, publisher) do
     url
@@ -47,12 +27,12 @@ defmodule Dogood.ArticleScraper do
   end
 
   def prepare_changeset(article, url, publisher) do
-    article
-    |> Article.changeset(%{
+    new_fields = %{
       url: url,
       publisher: publisher,
       date_published: normalize_date(article.date_published)
-    })
+    }
+    Article.changeset(article, new_fields)
   end
 
   def normalize_date(nil), do: DateTime.utc_now()

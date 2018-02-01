@@ -1,8 +1,8 @@
 sources:
-  - url: http://www.aljazeera.com/topics/regions/us-canada.html
-    publisher: Al Jazeera
   - url: http://cnn.com
     publisher: CNN
+  - url: http://www.aljazeera.com/topics/regions/us-canada.html
+    publisher: Al Jazeera
   - url: https://www.bostonglobe.com/news/politics
     publisher: Boston Globe
   - url: http://www.dailykos.com/

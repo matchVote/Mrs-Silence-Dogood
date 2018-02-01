@@ -28,7 +28,6 @@ defmodule Dogood.Mixfile do
       {:floki, "0.19.2"},
       {:httpoison, "0.13.0"},
       {:poison, "3.1.0"},
-      {:poolboy, "1.5.1"},
       {:postgrex, "0.13.3"},
       {:mock, "0.3.1", only: :test},
       {:yaml_elixir, "1.3.0"},

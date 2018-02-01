@@ -1,6 +1,6 @@
-defmodule Test.Dogood.SourceScraperTest do
+defmodule Test.Dogood.PublisherScraperTest do
   use ExUnit.Case
-  alias Dogood.SourceScraper
+  alias Dogood.PublisherScraper
 
   setup do
     html = """
@@ -27,7 +27,7 @@ defmodule Test.Dogood.SourceScraperTest do
 
   test "filter_urls only keeps urls ending in .html", %{urls: urls} do
     expected = ["http://www.hey.org/actual/article.html"]
-    results = SourceScraper.filter_urls(urls)
+    results = PublisherScraper.filter_urls(urls)
     assert expected == results
   end
 
@@ -37,7 +37,7 @@ defmodule Test.Dogood.SourceScraperTest do
       "http://www.hey.org/actual/article.html",
     ]
     expected = ["http://www.hey.org/actual/article.html"]
-    results = SourceScraper.filter_urls(urls)
+    results = PublisherScraper.filter_urls(urls)
     assert expected == results
   end
 end
