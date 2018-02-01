@@ -10,8 +10,7 @@ defmodule Dogood.ArticleScraper do
   end
 
   def request_article(url) do
-    %{body: html} = HTTPoison.get!(url, [], recv_timeout: 10_000)
-    html
+    Dogood.HTTP.get(url)
   end
 
   def process_article(article, url, publisher) do
@@ -41,7 +40,7 @@ defmodule Dogood.ArticleScraper do
   def insert(article_changeset) do
     case Dogood.Repo.insert(article_changeset) do
       {:ok, article} ->
-        Logger.info("Inserted #{article.publisher} article - ID: #{article.id}")
+        Logger.info "Inserted #{article.publisher} article - ID: #{article.id}"
         article
       {:error, _} -> nil
     end

@@ -2,6 +2,8 @@ defmodule Dogood.PublisherScraper do
   use Task
   require Logger
 
+  @worker_count Application.get_env(:dogood, :article_scrapers_per_source)
+
   def start_link(%{"url" => url, "publisher" => publisher}) do
     Task.start_link(__MODULE__, :scrape, [url, publisher])
   end
@@ -36,13 +38,9 @@ defmodule Dogood.PublisherScraper do
       :"article_scraper_supervisor-#{publisher}",
       urls,
       &Dogood.ArticleScraper.scrape(&1, publisher),
-      max_concurrency: worker_count(),
+      max_concurrency: @worker_count,
       ordered: false,
-      timeout: 10_000
+      timeout: 15_000
     )
-  end
-
-  defp worker_count do
-    Application.get_env(:dogood, :article_scrapers_per_source)
   end
 end

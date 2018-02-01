@@ -3,6 +3,7 @@
 use Mix.Config
 
 config :dogood, ecto_repos: [Dogood.Repo]
+config :dogood, nlp_service: "http://#{System.get_env("NLP_SERVICE")}"
 
 # This configuration is loaded before any dependency and is restricted
 # to this project. If another project depends on this project, this
@@ -21,7 +22,6 @@ config :dogood, ecto_repos: [Dogood.Repo]
 # You can also configure a 3rd-party app:
 
 config :logger, level: :info
-
 
 # It is also possible to import configuration files, relative to this
 # directory. For example, you can emulate configuration per environment

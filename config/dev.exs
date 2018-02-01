@@ -9,6 +9,6 @@ config :dogood, Dogood.Repo,
   password: "postgres",
   hostname: "postgres"
 
-config :dogood, kickoff_count: 1
+config :dogood, kickoff_count: 3
 config :dogood, article_scrapers_per_source: 5
 config :dogood, cooldown: 600_000  # 10 minutes
