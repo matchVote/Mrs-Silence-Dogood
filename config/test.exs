@@ -8,6 +8,7 @@ config :dogood, Dogood.Repo,
   username: "postgres",
   password: "postgres",
   hostname: "postgres",
+  port: 5432,
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :dogood, kickoff_count: 0

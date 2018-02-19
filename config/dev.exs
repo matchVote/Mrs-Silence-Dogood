@@ -7,7 +7,8 @@ config :dogood, Dogood.Repo,
   database: "dogood_dev",
   username: "postgres",
   password: "postgres",
-  hostname: "postgres"
+  hostname: "postgres",
+  port: 5432
 
 config :dogood, kickoff_count: 3
 config :dogood, article_scrapers_per_source: 5

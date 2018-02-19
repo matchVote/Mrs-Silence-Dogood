@@ -4,6 +4,8 @@ services:
     build: .
     environment:
       NLP_SERVICE: docker.for.mac.host.internal:8000
+      LOG_LEVEL: info
+      KICKOFF_COUNT: 3
     volumes:
       - .:/usr/src/app
     depends_on:
