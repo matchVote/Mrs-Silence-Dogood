@@ -19,7 +19,7 @@ defmodule Dogood.Foreman do
   end
 
   def handle_info(:kickoff, sources) do
-    count = Application.get_env(:dogood, :kickoff_count)
+    count = kickoff_count()
     kickoff(sources, count)
     {:noreply, Enum.slice(sources, count..-1)}
   end
@@ -41,6 +41,11 @@ defmodule Dogood.Foreman do
     sources
     |> Enum.slice(0..count-1)
     |> Enum.each(&ScrapingSupervisor.start_child(publisher_child_spec(&1)))
+  end
+
+  defp kickoff_count() do
+    Application.get_env(:dogood, :kickoff_count)
+    |> String.to_integer()
   end
 
   defp publisher_child_spec(source) do

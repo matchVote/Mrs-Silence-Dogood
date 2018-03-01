@@ -3,7 +3,6 @@
 use Mix.Config
 
 config :dogood, ecto_repos: [Dogood.Repo]
-config :dogood, nlp_service: "http://#{System.get_env("NLP_SERVICE")}"
 
 # This configuration is loaded before any dependency and is restricted
 # to this project. If another project depends on this project, this

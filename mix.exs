@@ -24,6 +24,7 @@ defmodule Dogood.Mixfile do
 
   defp deps() do
     [
+      {:distillery, "1.5.2", runtime: false},
       {:ecto, "2.2.0"},
       {:floki, "0.19.2"},
       {:httpoison, "0.13.0"},

@@ -24,7 +24,13 @@ defmodule Dogood.NLP do
   end
 
   defp request(resource, data) do
-    Application.get_env(:dogood, :nlp_service) <> resource
+    service_url(resource)
     |> Dogood.HTTP.post(data)
+  end
+
+  defp service_url(resource) do
+    host = Application.get_env(:dogood, :nlp_service_host)
+    port = Application.get_env(:dogood, :nlp_service_port)
+    "#{host}:#{port}#{resource}"
   end
 end

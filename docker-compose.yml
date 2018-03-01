@@ -1,10 +1,19 @@
 version: "3"
 services:
   dogood:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     environment:
-      NLP_SERVICE: docker.for.mac.host.internal:8000
+      NLP_SERVICE_HOST: http://docker.for.mac.host.internal
+      NLP_SERVICE_PORT: 8000
       KICKOFF_COUNT: 2
+      DB_NAME: dogood_dev
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_HOST: postgres
+      DB_PORT: 5432
+      REPLACE_OS_VARS: "true"
     volumes:
       - .:/usr/src/app
     depends_on:
