@@ -28,6 +28,7 @@ defmodule Dogood.Foreman do
     Logger.info "All sources done; initiating cooldown..."
     cooldown()
     send(self(), :kickoff)
+    {:noreply, sources()}
   end
   def handle_cast(:done, [source | sources]) do
     Logger.info "PublisherScraper done -- starting new for #{source["publisher"]}"

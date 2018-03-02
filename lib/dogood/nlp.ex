@@ -5,7 +5,7 @@ defmodule Dogood.NLP do
   def parse_source(source_url) do
     case request("/parse_source", %{url: source_url}) do
       {:ok, response} ->
-        decode(response.body)["article_urls"]
+        {:ok, decode(response.body)["article_urls"]}
 
       {:error, reason} ->
         Logger.warn("/parse_source failed: #{reason} -- #{source_url}")
@@ -38,7 +38,7 @@ defmodule Dogood.NLP do
   end
 
   defp decode(json, options \\ []) do
-    Poison.decode!(json)
+    Poison.decode!(json, options)
   end
 
   defp service_url(resource) do

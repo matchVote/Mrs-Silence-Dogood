@@ -18,26 +18,23 @@ defmodule Dogood.PublisherScraper do
   def parse_article_urls(url) do
     case Dogood.NLP.parse_source(url) do
       {:ok, urls} -> urls
-      _ -> []
+      _ -> nil
     end
   end
 
-  def filter_urls([]), do: nil
+  def filter_urls(nil), do: nil
   def filter_urls(urls) do
     urls
     |> Enum.uniq()
     |> Enum.filter(&String.ends_with?(&1, ".html"))
   end
 
-  def scrape_articles(nil, _), do: Dogood.Foreman.publisher_finished
+  def scrape_articles(nil, _), do: Dogood.Foreman.publisher_finished()
   def scrape_articles(urls, publisher) do
     Logger.info("Scraping #{length urls} urls from #{publisher}.")
-    scraped_count =
-      concurrent_stream(urls, publisher)
-      |> Enum.to_list
-      |> length
-    Logger.info("#{scraped_count} articles scraped.")
-    Dogood.Foreman.publisher_finished
+    concurrent_stream(urls, publisher)
+    |> Enum.to_list
+    Dogood.Foreman.publisher_finished()
   end
 
   def concurrent_stream(urls, publisher) do
