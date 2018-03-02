@@ -9,7 +9,9 @@ defmodule Dogood.Foreman do
     GenServer.start_link(__MODULE__, nil, name: __MODULE__)
   end
 
-  def publisher_finished, do: GenServer.cast(__MODULE__, :done)
+  def publisher_finished(publisher) do
+    GenServer.cast(__MODULE__, {:done, publisher})
+  end
 
   # Server
 
@@ -24,14 +26,14 @@ defmodule Dogood.Foreman do
     {:noreply, Enum.slice(sources, count..-1)}
   end
 
-  def handle_cast(:done, []) do
+  def handle_cast({:done, _publisher}, []) do
     Logger.info "All sources done; initiating cooldown..."
     cooldown()
     send(self(), :kickoff)
     {:noreply, sources()}
   end
-  def handle_cast(:done, [source | sources]) do
-    Logger.info "PublisherScraper done -- starting new for #{source["publisher"]}"
+  def handle_cast({:done, publisher}, [source | sources]) do
+    Logger.info "Finished scraping #{publisher}"
     Dogood.ScrapingSupervisor.start_child(publisher_child_spec(source))
     {:noreply, sources}
   end

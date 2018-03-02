@@ -38,7 +38,10 @@ defmodule Dogood.NLP do
   end
 
   defp decode(json, options \\ []) do
-    Poison.decode!(json, options)
+    case Poison.decode(json, options) do
+      {:ok, map} -> map
+      {:error, reason, _} -> Logger.warn("FAILED -- JSON decoding: #{json}")
+    end
   end
 
   defp service_url(resource) do

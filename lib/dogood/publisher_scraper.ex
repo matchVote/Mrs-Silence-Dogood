@@ -23,18 +23,21 @@ defmodule Dogood.PublisherScraper do
   end
 
   def filter_urls(nil), do: nil
+
   def filter_urls(urls) do
     urls
     |> Enum.uniq()
     |> Enum.filter(&String.ends_with?(&1, ".html"))
   end
 
-  def scrape_articles(nil, _), do: Dogood.Foreman.publisher_finished()
+  def scrape_articles(nil, publisher) do
+    Dogood.Foreman.publisher_finished(publisher)
+  end
+
   def scrape_articles(urls, publisher) do
-    Logger.info("Scraping #{length urls} urls from #{publisher}.")
-    concurrent_stream(urls, publisher)
-    |> Enum.to_list
-    Dogood.Foreman.publisher_finished()
+    Logger.info("Scraping #{length(urls)} urls from #{publisher}.")
+    concurrent_stream(urls, publisher) |> Enum.to_list()
+    Dogood.Foreman.publisher_finished(publisher)
   end
 
   def concurrent_stream(urls, publisher) do
@@ -44,7 +47,7 @@ defmodule Dogood.PublisherScraper do
       &Dogood.ArticleScraper.scrape(&1, publisher),
       max_concurrency: @worker_count,
       ordered: false,
-      timeout: 15_000
+      timeout: 30_000
     )
   end
 end
