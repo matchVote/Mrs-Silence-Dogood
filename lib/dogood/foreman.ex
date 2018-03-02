@@ -44,9 +44,11 @@ defmodule Dogood.Foreman do
   end
 
   defp kickoff_count() do
-    Application.get_env(:dogood, :kickoff_count)
-    |> String.to_integer()
+    to_integer(Application.get_env(:dogood, :kickoff_count))
   end
+
+  defp to_integer(value) when is_binary(value), do: String.to_integer(value)
+  defp to_integer(value) when is_integer(value), do: value
 
   defp publisher_child_spec(source) do
     {Dogood.PublisherScraperSupervisor, source}

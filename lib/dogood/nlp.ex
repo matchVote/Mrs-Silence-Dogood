@@ -3,29 +3,42 @@ defmodule Dogood.NLP do
   alias Dogood.Models.Article
 
   def parse_source(source_url) do
-    json = request("/parse_source", %{url: source_url})
-    Poison.decode!(json)["article_urls"]
+    case request("/parse_source", %{url: source_url}) do
+      {:ok, response} ->
+        decode(response.body)["article_urls"]
+
+      {:error, reason} ->
+        Logger.warn("/parse_source failed: #{reason} -- #{source_url}")
+    end
   end
 
   def extract_data(html) do
-    json = request("/extract", %{html: html})
-    Poison.decode!(json, as: %Article{})
+    case request("/extract", %{html: html}) do
+      {:ok, response} -> decode(response.body, as: %Article{})
+      {:error, reason} -> Logger.warn("/extract failed: #{reason}")
+    end
   end
 
   def classify(text) do
-    json = request("/classify", %{text: text})
-    Poison.decode!(json)["classification"]
+    case request("/classify", %{text: text}) do
+      {:ok, response} -> decode(response.body)["classification"]
+      {:error, reason} -> Logger.warn("/classify failed: #{reason}")
+    end
   end
 
   def analyze(article) do
-    json = request("/analyze", %{text: article.text, title: article.title})
-    data = Poison.decode!(json, keys: :atoms)
-    struct(article, data)
+    case request("/analyze", %{text: article.text, title: article.title}) do
+      {:ok, response} -> struct(article, decode(response.body, keys: :atoms))
+      {:error, reason} -> Logger.warn("/analyze failed: #{reason}")
+    end
   end
 
   defp request(resource, data) do
-    service_url(resource)
-    |> Dogood.HTTP.post(data)
+    Dogood.HTTP.post(service_url(resource), data)
+  end
+
+  defp decode(json, options \\ []) do
+    Poison.decode!(json)
   end
 
   defp service_url(resource) do

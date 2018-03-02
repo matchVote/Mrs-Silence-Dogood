@@ -5,9 +5,17 @@ defmodule Dogood.HTTP do
 
   def post(url, data) do
     options = [
-      recv_timeout: 30_000,  # 30 seconds
-      ssl: [versions: :"tlsv1.2"]  # necessary to avoid Erlang bug ERL-192
+      # 30 seconds
+      recv_timeout: 30_000,
+      # necessary to avoid Erlang bug ERL-192
+      ssl: [versions: :"tlsv1.2"]
     ]
-    HTTPoison.post!(url, Poison.encode!(Map.new(data)), [], options).body
+
+    json = Poison.encode!(Map.new(data))
+
+    case HTTPoison.post(url, json, [], options) do
+      {:error, %HTTPoison.Error{reason: reason}} -> {:error, reason} 
+      response -> response
+    end
   end
 end
