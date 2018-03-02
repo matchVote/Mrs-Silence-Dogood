@@ -27,6 +27,7 @@ defmodule Dogood.ArticleScraper do
         nil
     end
   end
+
   def process_article(_, _, _), do: nil
 
   def prepare_changeset(article, url, publisher) do

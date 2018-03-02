@@ -8,8 +8,9 @@ defmodule Dogood.PublisherScraperSupervisor do
   def init(source) do
     children = [
       {Task.Supervisor, name: supervisor_name(source["publisher"])},
-      {Dogood.PublisherScraper, source},
+      {Dogood.PublisherScraper, source}
     ]
+
     Supervisor.init(children, strategy: :one_for_one)
   end
 

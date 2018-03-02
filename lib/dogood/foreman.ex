@@ -27,22 +27,25 @@ defmodule Dogood.Foreman do
   end
 
   def handle_cast({:done, _publisher}, []) do
-    Logger.info "All sources done; initiating cooldown..."
+    Logger.info("All sources done; initiating cooldown...")
     cooldown()
     send(self(), :kickoff)
     {:noreply, sources()}
   end
+
   def handle_cast({:done, publisher}, [source | sources]) do
-    Logger.info "Finished scraping #{publisher}"
+    Logger.info("Finished scraping #{publisher}")
     Dogood.ScrapingSupervisor.start_child(publisher_child_spec(source))
     {:noreply, sources}
   end
 
   defp kickoff(_, 0), do: nil
+
   defp kickoff(sources, count) do
-    IO.puts "Kicking off #{count} sources."
+    IO.puts("Kicking off #{count} sources.")
+
     sources
-    |> Enum.slice(0..count-1)
+    |> Enum.slice(0..(count - 1))
     |> Enum.each(&ScrapingSupervisor.start_child(publisher_child_spec(&1)))
   end
 
@@ -60,7 +63,7 @@ defmodule Dogood.Foreman do
   defp sources do
     :code.priv_dir(:dogood)
     |> Path.join("sources.yml")
-    |> YamlElixir.read_from_file
+    |> YamlElixir.read_from_file()
     |> Map.get("sources")
   end
 
