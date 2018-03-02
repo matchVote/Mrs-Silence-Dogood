@@ -11,6 +11,7 @@ defmodule Dogood.ArticleScraper do
 
   def request_article(url), do: Dogood.HTTP.get(url)
 
+  defp extract_data(nil), do: nil
   defp extract_data(html), do: Dogood.NLP.extract_data(html)
 
   def process_article(%Article{} = article, url, publisher) do

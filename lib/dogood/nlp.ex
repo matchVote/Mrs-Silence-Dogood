@@ -8,28 +8,28 @@ defmodule Dogood.NLP do
         {:ok, decode(response.body)["article_urls"]}
 
       {:error, reason} ->
-        Logger.warn("/parse_source failed: #{reason} -- #{source_url}")
+        Logger.warn("NLP/parse_source failed: #{reason} -- #{source_url}")
     end
   end
 
   def extract_data(html) do
     case request("/extract", %{html: html}) do
       {:ok, response} -> decode(response.body, as: %Article{})
-      {:error, reason} -> Logger.warn("/extract failed: #{reason}")
+      {:error, reason} -> Logger.warn("NLP/extract failed: #{reason}")
     end
   end
 
   def classify(text) do
     case request("/classify", %{text: text}) do
       {:ok, response} -> decode(response.body)["classification"]
-      {:error, reason} -> Logger.warn("/classify failed: #{reason}")
+      {:error, reason} -> Logger.warn("NLP/classify failed: #{reason}")
     end
   end
 
   def analyze(article) do
     case request("/analyze", %{text: article.text, title: article.title}) do
       {:ok, response} -> struct(article, decode(response.body, keys: :atoms))
-      {:error, reason} -> Logger.warn("/analyze failed: #{reason}")
+      {:error, reason} -> Logger.warn("NLP/analyze failed: #{reason}")
     end
   end
 
