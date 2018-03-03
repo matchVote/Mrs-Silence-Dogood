@@ -16,18 +16,11 @@ SOURCE_IMAGE=mrs-silence-dogood:latest
 # Login to AWS EC2 Container Registry
 $(aws ecr get-login --no-include-email)
 
-# echo "Stopping service task..."
-# This creates downtime
-aws ecs update-service --cluster $ENV --service $SERVICE --desired-count 0
-
 echo "Building image..."
 docker build -t $SOURCE_IMAGE -f Dockerfile.prod .
 docker tag $SOURCE_IMAGE $TARGET_IMAGE
 
 echo "Pushing image..."
 docker push $TARGET_IMAGE
-
-# echo "Updating service..."
-aws ecs update-service --cluster $ENV --service $SERVICE --desired-count 1
 
 echo "Deployment successful"

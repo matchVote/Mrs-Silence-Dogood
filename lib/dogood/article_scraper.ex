@@ -11,8 +11,8 @@ defmodule Dogood.ArticleScraper do
 
   def request_article(url), do: Dogood.HTTP.get(url)
 
-  defp extract_data(nil), do: nil
-  defp extract_data(html), do: Dogood.NLP.extract_data(html)
+  def extract_data(nil), do: nil
+  def extract_data(html), do: Dogood.NLP.extract_data(html)
 
   def process_article(%Article{} = article, url, publisher) do
     case classify(article.text) do
@@ -64,6 +64,6 @@ defmodule Dogood.ArticleScraper do
     end)
   end
 
-  defp classify(text), do: Dogood.NLP.classify(text)
-  defp analyze(article), do: Dogood.NLP.analyze(article)
+  def classify(text), do: Dogood.NLP.classify(text)
+  def analyze(article), do: Dogood.NLP.analyze(article)
 end
