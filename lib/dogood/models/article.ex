@@ -36,7 +36,7 @@ defmodule Dogood.Models.Article do
       :source
     ])
     |> validate_required([:url, :publisher, :title])
-    |> unique_constraint(:url)
-    |> unique_constraint(:title)
+    |> unique_constraint(:url, name: "index_articles_on_url")
+    |> unique_constraint(:title, name: "index_articles_on_title")
   end
 end
