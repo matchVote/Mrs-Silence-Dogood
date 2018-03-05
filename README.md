@@ -18,23 +18,23 @@ Run one test file: `bin/test path/to/test.exs`
 * mix.exs
 
 #### Process Design
-                       Supervisor
-                           |
-                  ___________________
-                 |                   |
-         ScrapingSupervisor       Foreman
-                 |          
-    PublisherScraperSupervisor..N
-                 |
-          ________________
-         |                |
- PublisherScraper   ArticleScraperSupervisor
-                          |
-                    ArticleScraper..5
+                           Supervisor
+                               |
+                      ___________________
+                     |                   |
+             ScrapingSupervisor       Foreman
+                     |          
+        PublisherScraperSupervisor..N
+                     |
+              ________________
+             |                |
+     PublisherScraper   ArticleScraperSupervisor
+                              |
+                        ArticleScraper..5
 
 
 
-#### Workflow
+#### Current Workflow
 * source{:url, :publisher}
 * NLP/parse_source
   * download source html
@@ -51,3 +51,15 @@ Run one test file: `bin/test path/to/test.exs`
   * insert article
   * for mentioned official
     * insert article official link
+
+source_url |>
+download |>
+extract_urls |>
+filter_urls -> article_urls
+
+article_url |>
+download |>
+parse |>
+classify |>
+analyze |>
+persist, link_to_reps
