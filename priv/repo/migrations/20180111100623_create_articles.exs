@@ -16,7 +16,7 @@ defmodule Dogood.Repo.Migrations.CreateArticles do
       timestamps(inserted_at: :created_at)
     end
 
-    create unique_index(:articles, [:url])
-    create unique_index(:articles, [:title])
+    create unique_index(:articles, [:url], name: "index_articles_on_url")
+    create unique_index(:articles, [:title], name: "index_articles_on_title")
   end
 end
