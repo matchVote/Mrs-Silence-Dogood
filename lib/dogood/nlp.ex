@@ -2,13 +2,13 @@ defmodule Dogood.NLP do
   require Logger
   alias Dogood.Models.Article
 
-  def parse_source(source_url) do
-    case request("/parse_source", %{url: source_url}) do
+  def parse_publisher(url) do
+    case request("/parse_publisher", %{url: url}) do
       {:ok, response} ->
         {:ok, decode(response.body)["article_urls"]}
 
       {:error, reason} ->
-        Logger.warn("NLP/parse_source failed: #{reason} -- #{source_url}")
+        Logger.warn("NLP/parse_publisher failed: #{reason} -- #{url}")
     end
   end
 

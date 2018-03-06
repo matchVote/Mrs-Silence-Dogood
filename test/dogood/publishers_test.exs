@@ -2,10 +2,37 @@ defmodule Dogood.PublishersTest do
   use ExUnit.Case
   alias Dogood.Publishers
 
+  setup do
+    urls = [
+      "https://link1.com",
+      "/",
+      "/resource/topic",
+      "http://www.hey.org/what",
+      "http://www.hey.org/actual/article.html",
+    ]
+    %{urls: urls}
+  end
+
   test "active_list/0 returns a list of publishers" do
     [publisher | _] = publishers = Publishers.active_list()
     assert 3 == length(publishers)
     assert "http://somewhere.com" == publisher.url
     assert "Somewhere" == publisher.name
+  end
+
+  test "filter_urls/1 only keeps urls ending in .html", %{urls: urls} do
+    expected = ["http://www.hey.org/actual/article.html"]
+    results = Publishers.filter_urls(urls)
+    assert expected == results
+  end
+
+  test "filter_urls/1 removes duplicate urls" do
+    urls = [
+      "http://www.hey.org/actual/article.html",
+      "http://www.hey.org/actual/article.html",
+    ]
+    expected = ["http://www.hey.org/actual/article.html"]
+    results = Publishers.filter_urls(urls)
+    assert expected == results
   end
 end

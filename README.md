@@ -52,9 +52,7 @@ Run one test file: `bin/test path/to/test.exs`
   * for mentioned official
     * insert article official link
 
-collect publishers from multiple sources
-get_publishers: %Publisher{:name, :url}
-
+publishers = Dogood.Publishers.active_list()
 for each publisher
   download |>
   extract_urls |>
