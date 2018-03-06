@@ -7,7 +7,7 @@ defmodule Dogood.Scraper do
   end
 
   def init(nil) do
-    send(self, :execute)
+    unless System.get_env("CONSOLE") == "true", do: send(self(), :execute)
     {:ok, nil}
   end
 
