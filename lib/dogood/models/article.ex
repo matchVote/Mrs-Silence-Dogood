@@ -15,8 +15,8 @@ defmodule Dogood.Models.Article do
     field(:top_image_url, :string)
     field(:source, :string)
     timestamps(inserted_at: :created_at)
-    has_many(:linked_officials, Dogood.Models.ArticleOfficial)
 
+    field(:html, :string, virtual: true)
     field(:text, :string, virtual: true)
     field(:mentioned_officials_ids, {:array, :string}, virtual: true)
   end

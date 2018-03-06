@@ -12,10 +12,10 @@ defmodule Dogood.NLP do
     end
   end
 
-  def extract_data(html) do
-    case request("/extract", %{html: html}) do
-      {:ok, response} -> decode(response.body, as: %Article{})
-      {:error, reason} -> Logger.warn("NLP/extract failed: #{reason}")
+  def parse_article(article) do
+    case request("/parse_article", %{html: article.html}) do
+      {:ok, response} -> struct(article, decode(response.body, keys: :atoms))
+      {:error, reason} -> Logger.warn("NLP/parse_article failed: #{reason}")
     end
   end
 
