@@ -7,7 +7,9 @@ defmodule Dogood.Scraper do
   end
 
   def init(nil) do
-    unless System.get_env("CONSOLE") == "true", do: send(self(), :execute)
+    unless System.get_env("CONSOLE") == "true" do
+      send(self(), :execute)
+    end
     {:ok, nil}
   end
 
@@ -23,5 +25,13 @@ defmodule Dogood.Scraper do
     Logger.info("Consuming #{length(articles)} #{pub.name} articles... (mmmmmm yummy)")
     Enum.each(articles, &Dogood.Articles.consume/1)
     Logger.info("Done")
+
+    cooldown()
+    execute()
+  end
+
+  def cooldown do
+    Logger.info("Initiating cooldown...")
+    :timer.sleep(Application.get_env(:dogood, :cooldown))
   end
 end
