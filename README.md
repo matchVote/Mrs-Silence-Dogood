@@ -52,14 +52,17 @@ Run one test file: `bin/test path/to/test.exs`
   * for mentioned official
     * insert article official link
 
-source_url |>
-download |>
-extract_urls |>
-filter_urls -> article_urls
+collect publishers from multiple sources
+get_publishers: %Publisher{:name, :url}
 
-article_url |>
-download |>
-parse |>
-classify |>
-analyze |>
-persist, link_to_reps
+for each publisher
+  download |>
+  extract_urls |>
+  filter_urls -> article_urls
+
+for each article_url
+  download |>
+  parse |>
+  classify |>
+  analyze |>
+  persist, link_to_reps

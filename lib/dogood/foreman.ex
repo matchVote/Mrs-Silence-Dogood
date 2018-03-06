@@ -61,10 +61,11 @@ defmodule Dogood.Foreman do
   end
 
   defp sources do
-    :code.priv_dir(:dogood)
-    |> Path.join("sources.yml")
-    |> YamlElixir.read_from_file()
-    |> Map.get("sources")
+    []
+    # :code.priv_dir(:dogood)
+    # |> Path.join("sources.yml")
+    # |> YamlElixir.read_from_file()
+    # |> Map.get("sources")
   end
 
   defp cooldown, do: :timer.sleep(Application.get_env(:dogood, :cooldown))

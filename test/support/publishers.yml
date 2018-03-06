@@ -1,0 +1,7 @@
+publishers:
+  - name: Somewhere
+    url: http://somewhere.com
+  - name: Nowhere
+    url: http://nowhere.com
+  - name: Anywhere
+    url: http://anywhere.com

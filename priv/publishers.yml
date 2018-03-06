@@ -1,0 +1,189 @@
+publishers:
+  - url: http://cnn.com
+    name: CNN
+  - url: http://www.aljazeera.com/topics/regions/us-canada.html
+    name: Al Jazeera
+  - url: https://www.bostonglobe.com/news/politics
+    name: Boston Globe
+  - url: http://www.dailykos.com/
+    name: DailyKos
+  - url: http://rssfeeds.azcentral.com/phoenix/politics
+    name: Arizona Republic
+  - url: http://www.bbc.com/news/world/us_and_canada
+    name: BBC
+  - url: http://crooksandliars.com/politics
+    name: Crooks & Liars
+  - url: https://www.washingtonpost.com/politics
+    name: Washington Post
+  - url: http://www.denverpost.com/politics/
+    name: Denver Post
+  - url: http://www.detroitnews.com/news/politics/
+    name: Detroit News
+  - url: http://www.economist.com/sections/united-states
+    name: Economist
+  - url: https://www.ft.com/world/us/politics
+    name: Financial Times
+  - url: http://foreignpolicy.com/
+    name: Foreign Policy
+  - url: http://www.huffingtonpost.com/section/politics
+    name: Huffington Post
+  - url: http://www.jsonline.com/news/politics/
+    name: Milwaukee Journal Sentinel
+  - url: http://www.motherjones.com/politics
+    name: Mother Jones
+  - url: http://www.nationalreview.com/
+    name: National Review
+  - url: https://newrepublic.com/tags/politics
+    name: New Republic
+  - url: https://www.nytimes.com/pages/politics/index.html
+    name: New York Times
+  - url: http://www.npr.org/sections/politics/
+    name: NPR
+  - url: http://www.politifact.com/truth-o-meter/rss/
+    name: Politifact
+  - url: https://www.propublica.org/
+    name: ProPublica
+  - url: http://www.reuters.com/politics
+    name: Reuters
+  - url: http://www.salon.com/category/politics/
+    name: Salon
+  - url: http://www.sltrib.com/news/politics/
+    name: Salt Lake Tribune
+  - url: http://talkingpointsmemo.com/news
+    name: Talking Points Memo
+  - url: http://www.tampabay.com/topics/specials/florida-legislature.page
+    name: Tampa Bay Times
+  - url: https://www.theatlantic.com/politics/
+    name: The Atlantic
+  - url: http://www.theblaze.com/
+    name: The Blaze
+  - url: http://www.telegraph.co.uk/us-politics/
+    name: The Daily Telegraph
+  - url: http://www.desmoinesregister.com/news/politics
+    name: The Des Moines Register
+  - url: https://www.theguardian.com/us-news
+    name: The Guardian
+  - url: http://thehill.com/
+    name: The Hill
+  - url: http://www.independent.co.uk/us
+    name: The Independent UK
+  - url: http://www.washingtontimes.com/news/politics/
+    name: The Washington Times
+  - url: https://thinkprogress.org/tagged/politics
+    name: ThinkProgress
+  - url: https://www.usnews.com/news/politics
+    name: US News & World Report
+  - url: https://www.usatoday.com/washington/
+    name: USA Today
+  - url: http://abcnews.go.com/Politics
+    name: ABC News
+  - url: http://www.theamericanconservative.com/web-categories/politics/
+    name: American Conservative
+  - url: http://hosted2.ap.org/APDEFAULT/APNewsFeeds
+    name: AP
+  - url: http://www.ajc.com/news/georgia-government/
+    name: Atlanta Journal
+  - url: https://www.bloomberg.com/politics
+    name: Bloomberg
+  - url: http://www.breitbart.com/
+    name: Breibart
+  - url: http://www.businessinsider.com/politics
+    name: Business Insider
+  - url: https://www.buzzfeed.com/politics
+    name: Buzzfeed Politics
+  - url: http://www.cbsnews.com/politics/
+    name: CBS News
+  - url: http://www.charlotteobserver.com/news/politics-government/
+    name: Charlotte Observer
+  - url: http://chicago.suntimes.com/section/politics/
+    name: Chicago Sun-Times
+  - url: http://www.chicagotribune.com/news/local/politics/
+    name: Chicago Tribune
+  - url: http://www.csmonitor.com/USA/Politics
+    name: Christian Science Monitor
+  - url: http://dailycaller.com/section/politics/
+    name: Daily Caller
+  - url: http://www.dallasnews.com/news/politics
+    name: Dallas Morning News
+  - url: http://www.esquire.com/news-politics/
+    name: Esquire
+  - url: https://fivethirtyeight.com/politics/
+    name: FiveThirtyEight
+  - url: https://www.forbes.com
+    name: Forbes
+  - url: http://www.foxnews.com/politics.html
+    name: Fox News
+  - url: http://www.gq.com/news-culture/politics
+    name: GQ Politics
+  - url: http://www.chron.com/news/politics/
+    name: Houston Chronicle
+  - url: http://www.kansascity.com/news/politics-government/
+    name: Kansas City Star
+  - url: http://www.latimes.com/politics/
+    name: LA Times
+  - url: http://www.miamiherald.com/news/politics-government/
+    name: Miami Herald
+  - url: http://www.startribune.com/politics/
+    name: Minneapolis Star Tribune
+  - url: http://www.msnbc.com/
+    name: MSNBC
+  - url: http://www.nationaljournal.com/
+    name: National Journal
+  - url: http://www.nbcnews.com/politics
+    name: NBC News
+  - url: http://www.newyorker.com/news
+    name: New Yorker
+  - url: http://www.newsmax.com/politics/
+    name: NewsMax
+  - url: http://www.newsweek.com/us
+    name: Newsweek
+  - url: http://www.nydailynews.com/news/politics
+    name: NY Daily News
+  - url: http://nymag.com/daily/intelligencer/
+    name: NY Mag
+  - url: http://www.orlandosentinel.com/news/politics/
+    name: Orlando Sentinel
+  - url: http://www.philly.com/philly/news/politics
+    name: Philadelphia Inquirer
+  - url: http://www.politico.com/
+    name: Politico
+  - url: http://www.rawstory.com/category/nation/
+    name: Raw Story
+  - url: http://www.rollingstone.com/politics
+    name: Rolling Stone Politics
+  - url: http://www.sfchronicle.com/politics/
+    name: San Francisco Chronicle
+  - url: http://www.seattletimes.com/seattle-news/politics/
+    name: Seattle Times
+  - url: http://www.slate.com/articles/news_and_politics.html
+    name: Slate
+  - url: http://www.stltoday.com/news/national/govt-and-politics/
+    name: St. Louis Post-Dispatch
+  - url: http://www.baltimoresun.com/news/maryland/politics/
+    name: The Baltimore Sun
+  - url: http://www.newsobserver.com/news/politics-government
+    name: The News & Observer
+  - url: http://www.oregonlive.com/politics/
+    name: The Oregonian
+  - url: http://www.sacbee.com/news/politics-government/
+    name: The Sacramento Bee
+  - url: http://theweek.com/section/politics
+    name: The Week
+  - url: http://time.com/section/politics/
+    name: Time
+  - url: https://townhall.com/
+    name: Townhall
+  - url: http://www.vanityfair.com/news/politics
+    name: Vanity Fair
+  - url: https://www.vice.com/en_us/topic/Politics
+    name: Vice
+  - url: http://www.vox.com/policy-and-politics
+    name: Vox
+  - url: https://www.wsj.com/news/politics
+    name: Wall Street Journal
+  - url: http://www.washingtonexaminer.com/politics
+    name: Washington Examiner
+  - url: http://www.thedailybeast.com/politics.html
+    name: The Daily Beast
+  - url: http://www.wnd.com/category/front-page/politics/
+    name: WND
