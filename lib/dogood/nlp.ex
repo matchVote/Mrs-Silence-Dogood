@@ -1,6 +1,5 @@
 defmodule Dogood.NLP do
   require Logger
-  alias Dogood.Models.Article
 
   def parse_publisher(url) do
     case request("/parse_publisher", %{url: url}) do

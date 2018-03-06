@@ -35,29 +35,10 @@ Run one test file: `bin/test path/to/test.exs`
 
 
 #### Current Workflow
-* source{:url, :publisher}
-* NLP/parse_source
-  * download source html
-  * extract article urls
-* filter urls
-* for url in urls
-  * download article html
-  * NLP/extract
-    * extract article text
-    * extract article title
-  * classify text -> NLP/classify
-  * filter out articles not political
-  * analyze text -> NLP/analyze
-  * insert article
-  * for mentioned official
-    * insert article official link
-
-publishers = Dogood.Publishers.active_list()
 for each publisher
   download |>
   extract_urls |>
   filter_urls -> article_urls
-
 for each article_url
   download |>
   parse |>

@@ -6,7 +6,7 @@ defmodule Dogood.Supervisor do
   end
 
   def init(_) do
-    children = [Dogood.Repo, Dogood.ScrapingSupervisor, Dogood.Foreman]
+    children = [Dogood.Repo, Dogood.Scraper]
     Supervisor.init(children, strategy: :one_for_one)
   end
 end

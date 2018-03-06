@@ -1,5 +1,5 @@
 defmodule Dogood.Publishers do
-  alias Dogood.Models.Publisher
+  alias Dogood.Models.{Article, Publisher}
 
   def active_list do
     read_publishers_from_file()
@@ -19,10 +19,11 @@ defmodule Dogood.Publishers do
     end
   end
 
-  def extract_article_urls(%Publisher{url: url}) do
-    url
+  def extract_articles(%Publisher{} = publisher) do
+    publisher.url
     |> parse_publisher()
     |> filter_urls()
+    |> create_articles(publisher.name)
   end
 
   def parse_publisher(url) do
@@ -38,5 +39,9 @@ defmodule Dogood.Publishers do
     urls
     |> Enum.uniq()
     |> Enum.filter(&String.ends_with?(&1, ".html"))
+  end
+
+  def create_articles(urls, publisher) do
+    for url <- urls, do: %Article{url: url, publisher: publisher}
   end
 end

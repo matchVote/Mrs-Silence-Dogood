@@ -21,17 +21,17 @@ defmodule Dogood.Articles do
     Dogood.NLP.parse_article(article)
   end
 
-  def classify(nil), do: nil
-
   def classify(%Article{} = article) do
     {Dogood.NLP.classify(article.text), article}
   end
 
-  def analyze(nil), do: nil
+  def classify(nil), do: nil
 
-  def analyze({classification, %Article{} = article}) do
+  def analyze({"political", %Article{} = article}) do
     Dogood.NLP.analyze(article)
   end
+
+  def analyze(_), do: nil
 
   def persist(nil), do: nil
 
@@ -46,14 +46,11 @@ defmodule Dogood.Articles do
 
   def prepare_changeset(article) do
     new_fields = %{
-      date_published: normalize_date(article.date_published)
+      date_published: Dogood.Utils.normalize_date(article.date_published)
     }
 
     Article.changeset(article, new_fields)
   end
-
-  def normalize_date(nil), do: DateTime.utc_now()
-  def normalize_date(date), do: date
 
   def insert(article_changeset) do
     case Dogood.Repo.insert(article_changeset) do
