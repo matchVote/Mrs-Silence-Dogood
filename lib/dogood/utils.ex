@@ -23,7 +23,6 @@ defmodule Dogood.Utils do
   defp convert_seconds_to_datetime(seconds) do
     case DateTime.from_unix(seconds) do
       {:ok, datetime} ->
-        log_conversion_success(seconds, datetime)
         {:ok, datetime}
 
       {:error, reason} ->
@@ -40,10 +39,6 @@ defmodule Dogood.Utils do
     rescue
       ArgumentError -> :not_convertible
     end
-  end
-
-  defp log_conversion_success(seconds, datetime) do
-    Logger.info("Unix seconds (#{seconds}) converted to DateTime: #{inspect(datetime)}")
   end
 
   defp log_conversion_error(seconds, reason) do
