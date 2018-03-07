@@ -9,6 +9,7 @@ defmodule Dogood.Publishers do
     publishers_file()
     |> YamlElixir.read_from_file()
     |> Map.get("publishers")
+    |> Enum.sort()
     |> Enum.map(&%Publisher{name: &1["name"], url: &1["url"]})
   end
 

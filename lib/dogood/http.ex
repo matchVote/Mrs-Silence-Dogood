@@ -1,4 +1,6 @@
 defmodule Dogood.HTTP do
+  require Logger
+
   @get_options [
     connect_timeout: 10_000,
     recv_timeout: 10_000,
@@ -20,11 +22,24 @@ defmodule Dogood.HTTP do
   end
 
   def post(url, data) do
-    json = Poison.encode!(Map.new(data))
+    with {:ok, json} <- encode_json(data),
+         {:ok, %HTTPoison.Response{status_code: 200}} = response <-
+           HTTPoison.post(url, json, [], @post_options) do
+      response
+    else
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        {:error, reason}
 
-    case HTTPoison.post(url, json, [], @post_options) do
-      {:error, %HTTPoison.Error{reason: reason}} -> {:error, reason}
-      response -> response
+      {:error, _} = error ->
+        error
+    end
+  end
+
+  defp encode_json(data) do
+    try do
+      Poison.encode(Map.new(data))
+    rescue
+      FunctionClauseError -> {:error, :binary_not_encodable}
     end
   end
 end
