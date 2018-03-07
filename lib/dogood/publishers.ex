@@ -33,13 +33,15 @@ defmodule Dogood.Publishers do
     end
   end
 
-  def filter_urls(nil), do: nil
+  def filter_urls(nil), do: []
 
   def filter_urls(urls) do
     urls
     |> Enum.uniq()
     |> Enum.filter(&String.ends_with?(&1, ".html"))
   end
+
+  def create_articles([], _), do: []
 
   def create_articles(urls, publisher) do
     for url <- urls, do: %Article{url: url, publisher: publisher}

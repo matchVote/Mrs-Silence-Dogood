@@ -1,11 +1,12 @@
 defmodule Dogood.HTTP do
   @get_options [
-    recv_timeout: 10_000,
     connect_timeout: 10_000,
+    recv_timeout: 10_000,
     follow_redirect: true
   ]
 
   @post_options [
+    connect_timeout: 10_000,
     recv_timeout: 30_000,
     # necessary to avoid Erlang bug ERL-192
     ssl: [versions: :"tlsv1.2"]

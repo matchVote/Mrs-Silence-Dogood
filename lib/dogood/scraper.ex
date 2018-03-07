@@ -24,16 +24,16 @@ defmodule Dogood.Scraper do
     execute()
   end
 
-  def scrape_publishers([]), do: nil
-
   def scrape_publishers([publisher | remaining_publishers]) do
-    Logger.info("Extracting articles for #{publisher.name}")
+    Logger.info("#{publisher.name}: Extracting articles")
     articles = Dogood.Publishers.extract_articles(publisher)
-    Logger.info("Consuming #{length(articles)} #{publisher.name} articles... (mmmmmm yummy)")
+    Logger.info("#{publisher.name}: Consuming #{length(articles)} articles")
     Enum.each(articles, &Dogood.Articles.consume/1)
-    Logger.info("Done")
+    Logger.info("#{publisher.name}: Scraping complete")
     scrape_publishers(remaining_publishers)
   end
+
+  def scrape_publishers([]), do: nil
 
   def cooldown do
     Logger.info("Initiating cooldown...")
