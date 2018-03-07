@@ -10,4 +10,5 @@ config :dogood, Dogood.Repo,
 
 config :dogood, nlp_service_host: System.get_env("NLP_SERVICE_HOST")
 config :dogood, nlp_service_port: System.get_env("NLP_SERVICE_PORT")
+config :dogood, max_consumers: System.get_env("MAX_CONSUMERS")
 config :dogood, cooldown: 15_000  # 15 seconds

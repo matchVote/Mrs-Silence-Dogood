@@ -51,7 +51,7 @@ publishers:
     name: Salt Lake Tribune
   - url: http://talkingpointsmemo.com/news
     name: Talking Points Memo
-  - url: http://www.tampabay.com/topics/specials/florida-legislature.page
+  - url: http://www.tampabay.com/florida-politics/
     name: Tampa Bay Times
   - url: https://www.theatlantic.com/politics/
     name: The Atlantic

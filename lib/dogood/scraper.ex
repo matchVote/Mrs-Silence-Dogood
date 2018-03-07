@@ -40,11 +40,16 @@ defmodule Dogood.Scraper do
       Dogood.ConsumerSupervisor,
       articles,
       &Dogood.Articles.consume/1,
-      max_concurrency: 3,
+      max_concurrency: max_concurrency(),
       timeout: 10_000,
       on_timeout: :kill_task
     )
     |> Enum.to_list()
+  end
+
+  defp max_concurrency do
+    Application.get_env(:dogood, :max_consumers)
+    |> String.to_integer()
   end
 
   def cooldown do
