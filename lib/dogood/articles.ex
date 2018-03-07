@@ -25,7 +25,7 @@ defmodule Dogood.Articles do
     {Dogood.NLP.classify(article.text), article}
   end
 
-  def classify(nil), do: nil
+  def classify(_), do: nil
 
   def analyze({"political", %Article{} = article}) do
     Dogood.NLP.analyze(article)
