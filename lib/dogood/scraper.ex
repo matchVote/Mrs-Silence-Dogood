@@ -10,6 +10,7 @@ defmodule Dogood.Scraper do
     unless System.get_env("CONSOLE") == "true" do
       send(self(), :execute)
     end
+
     {:ok, nil}
   end
 
@@ -26,8 +27,10 @@ defmodule Dogood.Scraper do
 
   def scrape_publishers([publisher | remaining_publishers]) do
     Logger.info("#{publisher.name}: Extracting articles")
+
     Dogood.Publishers.extract_articles(publisher)
     |> consume_articles(publisher)
+
     Logger.info("#{publisher.name}: Scraping complete")
     scrape_publishers(remaining_publishers)
   end
@@ -36,6 +39,7 @@ defmodule Dogood.Scraper do
 
   def consume_articles(articles, publisher) do
     Logger.info("#{publisher.name}: Consuming #{length(articles)} articles")
+
     Task.Supervisor.async_stream_nolink(
       Dogood.ConsumerSupervisor,
       articles,

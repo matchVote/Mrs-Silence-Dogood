@@ -14,7 +14,7 @@ defmodule Dogood.Publishers do
   end
 
   defp publishers_file do
-    case Mix.env do
+    case Mix.env() do
       :test -> "test/support/publishers.yml"
       _ -> Path.join(:code.priv_dir(:dogood), "publishers.yml")
     end

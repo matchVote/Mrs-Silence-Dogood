@@ -11,6 +11,7 @@ defmodule Dogood.Supervisor do
       {Task.Supervisor, name: Dogood.ConsumerSupervisor},
       Dogood.Scraper
     ]
+
     Supervisor.init(children, strategy: :one_for_one)
   end
 end
