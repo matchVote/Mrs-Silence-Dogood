@@ -6,7 +6,11 @@ defmodule Dogood.Supervisor do
   end
 
   def init(_) do
-    children = [Dogood.Repo, Dogood.Scraper]
+    children = [
+      Dogood.Repo,
+      {Task.Supervisor, name: Dogood.ConsumerSupervisor},
+      Dogood.Scraper
+    ]
     Supervisor.init(children, strategy: :one_for_one)
   end
 end

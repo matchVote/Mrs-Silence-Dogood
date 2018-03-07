@@ -26,14 +26,26 @@ defmodule Dogood.Scraper do
 
   def scrape_publishers([publisher | remaining_publishers]) do
     Logger.info("#{publisher.name}: Extracting articles")
-    articles = Dogood.Publishers.extract_articles(publisher)
-    Logger.info("#{publisher.name}: Consuming #{length(articles)} articles")
-    Enum.each(articles, &Dogood.Articles.consume/1)
+    Dogood.Publishers.extract_articles(publisher)
+    |> consume_articles(publisher)
     Logger.info("#{publisher.name}: Scraping complete")
     scrape_publishers(remaining_publishers)
   end
 
   def scrape_publishers([]), do: nil
+
+  def consume_articles(articles, publisher) do
+    Logger.info("#{publisher.name}: Consuming #{length(articles)} articles")
+    Task.Supervisor.async_stream_nolink(
+      Dogood.ConsumerSupervisor,
+      articles,
+      &Dogood.Articles.consume/1,
+      max_concurrency: 3,
+      timeout: 10_000,
+      on_timeout: :kill_task
+    )
+    |> Enum.to_list()
+  end
 
   def cooldown do
     Logger.info("Initiating cooldown...")

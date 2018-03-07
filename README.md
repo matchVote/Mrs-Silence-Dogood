@@ -20,17 +20,9 @@ Run one test file: `bin/test path/to/test.exs`
 #### Process Design
                            Supervisor
                                |
-                      ___________________
-                     |                   |
-             ScrapingSupervisor       Foreman
-                     |          
-        PublisherScraperSupervisor..N
-                     |
-              ________________
-             |                |
-     PublisherScraper   ArticleScraperSupervisor
-                              |
-                        ArticleScraper..5
+                      _________|__________
+                     |                    |
+                  Scraper        ConsumerSupervisor
 
 
 

@@ -7,7 +7,6 @@ services:
     environment:
       NLP_SERVICE_HOST: http://docker.for.mac.host.internal
       NLP_SERVICE_PORT: 8000
-      KICKOFF_COUNT: 2
       DB_NAME: dogood_dev
       DB_USER: postgres
       DB_PASSWORD: postgres
