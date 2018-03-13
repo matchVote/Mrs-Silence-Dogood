@@ -20,7 +20,9 @@ defmodule Dogood.Scraper do
   end
 
   def execute do
-    scrape_publishers(Dogood.Publishers.active_list())
+    Dogood.Publishers.active_list()
+    |> scrape_publishers()
+
     cooldown()
     execute()
   end

@@ -1,5 +1,7 @@
 use Mix.Config
 
+config :dogood, env: :prod
+
 config :dogood, Dogood.Repo,
   adapter: Ecto.Adapters.Postgres,
   database: "${DB_NAME}",

@@ -2,6 +2,8 @@ use Mix.Config
 
 config :logger, level: :warn
 
+config :dogood, env: :test
+
 config :dogood, Dogood.Repo,
   adapter: Ecto.Adapters.Postgres,
   database: "dogood_test",
