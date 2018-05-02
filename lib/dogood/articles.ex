@@ -1,6 +1,6 @@
 defmodule Dogood.Articles do
   require Logger
-  alias Dogood.Models.{Article, ArticleOfficial}
+  alias Dogood.Models.Article
 
   def consume(article) do
     article
@@ -39,7 +39,6 @@ defmodule Dogood.Articles do
     article
     |> prepare_changeset()
     |> insert()
-    |> link_to_officials()
   end
 
   def prepare_changeset(nil), do: nil
@@ -61,15 +60,5 @@ defmodule Dogood.Articles do
       {:error, _} ->
         nil
     end
-  end
-
-  def link_to_officials(nil), do: nil
-
-  def link_to_officials(article) do
-    article.mentioned_officials_ids
-    |> Enum.each(fn official_id ->
-      %ArticleOfficial{article_id: article.id, representative_id: official_id}
-      |> Dogood.Repo.insert()
-    end)
   end
 end

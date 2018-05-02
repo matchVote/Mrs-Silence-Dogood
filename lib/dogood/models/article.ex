@@ -18,7 +18,8 @@ defmodule Dogood.Models.Article do
 
     field(:html, :string, virtual: true)
     field(:text, :string, virtual: true)
-    field(:mentioned_officials_ids, {:array, :string}, virtual: true)
+
+    has_many(:mentioned_officials, Dogood.Models.ArticleOfficial)
   end
 
   def changeset(article, params \\ %{}) do
@@ -38,5 +39,14 @@ defmodule Dogood.Models.Article do
     |> validate_required([:url, :publisher, :title])
     |> unique_constraint(:url, name: "index_articles_on_url")
     |> unique_constraint(:title, name: "index_articles_on_title")
+  end
+end
+
+defmodule Dogood.Models.MentionedOfficials do
+  use Ecto.Schema
+
+  embedded_schema do
+    field :official_id
+    field :count
   end
 end
