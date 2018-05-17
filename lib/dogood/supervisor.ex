@@ -9,7 +9,8 @@ defmodule Dogood.Supervisor do
     children = [
       Dogood.Repo,
       {Task.Supervisor, name: Dogood.ConsumerSupervisor},
-      Dogood.Scraper
+      Dogood.Scraper,
+      Dogood.RedditScraper
     ]
 
     Supervisor.init(children, strategy: :one_for_one)

@@ -1,6 +1,4 @@
 publishers:
-  - url: http://www.reddit.com/r/politics/
-    name: Reddit Politics
   - url: http://cnn.com
     name: CNN
   - url: http://www.aljazeera.com/topics/regions/us-canada.html

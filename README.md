@@ -18,11 +18,11 @@ Run one test file: `bin/test path/to/test.exs`
 * mix.exs
 
 #### Process Design
-                           Supervisor
-                               |
-                      _________|__________
-                     |                    |
-                  Scraper        ConsumerSupervisor
+                            Supervisor
+                                |
+              __________________|__________________
+             |                  |                  |
+          Scraper      ConsumerSupervisor    RedditScraper
 
 
 
