@@ -12,9 +12,11 @@ defmodule Dogood.Test.DBCase do
 
   setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Dogood.Repo)
+
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(Dogood.Repo, {:shared, self()})
     end
+
     :ok
   end
 end

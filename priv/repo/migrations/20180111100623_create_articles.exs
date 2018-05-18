@@ -13,6 +13,7 @@ defmodule Dogood.Repo.Migrations.CreateArticles do
       add :read_time, :integer
       add :top_image_url, :text
       add :source, :text
+      add :newsworthiness_count, :integer, default: 0
       timestamps(inserted_at: :created_at)
     end
 

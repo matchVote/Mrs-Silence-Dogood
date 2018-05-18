@@ -6,8 +6,8 @@ defmodule Dogood.Mixfile do
       app: :dogood,
       version: "0.2.0",
       elixir: "~> 1.6",
-      elixirc_paths: elixirc_paths(Mix.env),
-      start_permanent: Mix.env == :prod,
+      elixirc_paths: elixirc_paths(Mix.env()),
+      start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
   end
@@ -31,7 +31,7 @@ defmodule Dogood.Mixfile do
       {:poison, "3.1.0"},
       {:postgrex, "0.13.3"},
       {:mock, "0.3.1", only: :test},
-      {:yaml_elixir, "1.3.0"},
+      {:yaml_elixir, "1.3.0"}
     ]
   end
 end

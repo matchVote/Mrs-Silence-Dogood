@@ -3,6 +3,8 @@ defmodule Dogood.Utils do
 
   def normalize_date(nil), do: DateTime.utc_now()
 
+  def normalize_date(%DateTime{} = time), do: time
+
   def normalize_date(value) do
     case convert_unix_seconds_to_datetime(value) do
       {:ok, datetime} -> datetime

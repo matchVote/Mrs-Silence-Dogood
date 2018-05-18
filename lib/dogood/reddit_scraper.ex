@@ -4,8 +4,6 @@ defmodule Dogood.RedditScraper do
 
   @url "https://www.reddit.com/r/politics/"
   @publisher "Reddit Politics"
-  # 1 hour
-  @cooldown 3_600_000
 
   def start_link([]) do
     GenServer.start_link(__MODULE__, nil)
@@ -26,12 +24,17 @@ defmodule Dogood.RedditScraper do
   end
 
   def execute do
-    articles =
+    article_count =
       Dogood.HTTP.get(@url)
       |> extract_article_urls_and_votes()
+      |> Enum.map(&create_article/1)
+      |> Enum.map(fn article ->
+        Task.start(__MODULE__, :consume, [article])
+      end)
+      |> length
 
-    Logger.info("Reddit Scraper article count #{length(articles)}")
-    cooldown()
+    Logger.info("Reddit Scraper article count #{article_count}")
+    :timer.sleep(Application.get_env(:dogood, :reddit_cooldown))
     execute()
   end
 
@@ -41,36 +44,54 @@ defmodule Dogood.RedditScraper do
     |> Enum.map(fn post -> {extract_url(post), extract_vote(post)} end)
   end
 
-  def extract_url(post) do
+  defp extract_url(post) do
     Floki.find(post, "article a")
     |> Floki.attribute("href")
-    |> Enum.uniq
+    |> Enum.uniq()
     |> Enum.filter(fn url ->
       String.contains?(url, "http") &&
-        !String.contains?(url, "www.reddit.com/r/politics/comments") 
+        !String.contains?(url, "www.reddit.com/r/politics/comments")
     end)
-    |> List.first
+    |> List.first()
   end
 
-  def extract_vote(post) do
+  defp extract_vote(post) do
     Floki.find(post, "button + div")
-    |> List.first
+    |> List.first()
     |> elem(2)
-    |> List.first
+    |> List.first()
+    |> convert_to_integer()
+  end
+
+  def convert_to_integer(vote) do
+    num =
+      Regex.replace(~r/[.k]/, vote, "")
+      |> String.to_integer()
+
+    num * 100
+  end
+
+  defp create_article({url, votes}) do
+    %Dogood.Models.Article{
+      url: url,
+      publisher: @publisher,
+      newsworthiness_count: votes
+    }
   end
 
   def consume(article) do
-    Logger.info("Reddit article! #{article.url}")
-    # article
-    # |> download()
-    # |> parse()
-    # |> classify()
-    # |> analyze()
-    # |> reddit_stuff()
+    article
+    |> Dogood.Articles.download()
+    |> Dogood.Articles.parse()
+    |> Dogood.Articles.classify()
+    |> Dogood.Articles.analyze()
+    |> change_date_published()
+    |> Dogood.Articles.persist()
   end
 
-  def cooldown do
-    Logger.info("Reddit Scraper taking a break!")
-    :timer.sleep(@cooldown)
+  def change_date_published(nil), do: nil
+
+  def change_date_published(article) do
+    Map.put(article, :date_published, DateTime.utc_now())
   end
 end

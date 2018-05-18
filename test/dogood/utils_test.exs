@@ -13,12 +13,17 @@ defmodule Dogood.UtilsTest do
   end
 
   test "normalize_date/1 converts an integer into a DateTime" do
-    result = Dogood.Utils.normalize_date(1476795294)
+    result = Dogood.Utils.normalize_date(1_476_795_294)
     assert %DateTime{} = result
     assert :lt == DateTime.compare(result, DateTime.utc_now())
   end
 
   test "normalize_date/1 returns a date string untouched" do
     assert "03/16/2018" == Dogood.Utils.normalize_date("03/16/2018")
+  end
+
+  test "normalize_date/1 returns a DateTime struct untouched" do
+    now = DateTime.utc_now()
+    assert now == Dogood.Utils.normalize_date(now)
   end
 end

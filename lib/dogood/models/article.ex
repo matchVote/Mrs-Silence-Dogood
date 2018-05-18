@@ -14,6 +14,7 @@ defmodule Dogood.Models.Article do
     field(:read_time, :integer)
     field(:top_image_url, :string)
     field(:source, :string)
+    field(:newsworthiness_count, :integer)
     timestamps(inserted_at: :created_at)
 
     field(:html, :string, virtual: true)
@@ -34,19 +35,11 @@ defmodule Dogood.Models.Article do
       :summary,
       :read_time,
       :top_image_url,
-      :source
+      :source,
+      :newsworthiness_count
     ])
     |> validate_required([:url, :publisher, :title])
     |> unique_constraint(:url, name: "index_articles_on_url")
     |> unique_constraint(:title, name: "index_articles_on_title")
-  end
-end
-
-defmodule Dogood.Models.MentionedOfficials do
-  use Ecto.Schema
-
-  embedded_schema do
-    field :official_id
-    field :count
   end
 end

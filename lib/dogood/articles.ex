@@ -2,6 +2,7 @@ defmodule Dogood.Articles do
   require Logger
   alias Dogood.Models.Article
 
+  @spec consume(%Article{}) :: any
   def consume(article) do
     article
     |> download()
