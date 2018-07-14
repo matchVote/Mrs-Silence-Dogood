@@ -64,11 +64,8 @@ defmodule Dogood.RedditScraper do
   end
 
   def convert_to_integer(vote) do
-    num =
-      Regex.replace(~r/[.k]/, vote, "")
-      |> String.to_integer()
-
-    num * 100
+    Regex.replace(~r/[.k]/, vote, "")
+    |> String.to_integer()
   end
 
   defp create_article({url, votes}) do
