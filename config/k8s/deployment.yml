@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dogood
+spec:
+  selector:
+    matchLabels:
+      app: mrs-silence-dogood
+      env: prod
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mrs-silence-dogood
+        env: prod
+    spec:
+      containers:
+        - name: mrs-silence-dogood
+          image: 788332838494.dkr.ecr.us-east-1.amazonaws.com/mrs-silence-dogood-fargate:latest
+          envFrom:
+            - configMapRef:
+                name: dogood-config
