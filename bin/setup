@@ -1,4 +1,0 @@
-#!/bin/bash
-
-docker-compose run --rm dogood mix db.setup $1
-docker-compose run --rm -e MIX_ENV=test dogood mix db.setup $1

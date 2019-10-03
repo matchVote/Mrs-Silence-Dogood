@@ -4,11 +4,11 @@ config :dogood, env: :dev
 
 config :dogood, Dogood.Repo,
   adapter: Ecto.Adapters.Postgres,
-  database: "dogood_dev",
+  database: "matchvote_dev",
   username: "postgres",
   password: "postgres",
-  hostname: "postgres",
-  port: 5432
+  hostname: "host.docker.internal",
+  port: 5653
 
 config :dogood, nlp_service_host: System.get_env("NLP_SERVICE_HOST")
 config :dogood, nlp_service_port: System.get_env("NLP_SERVICE_PORT")

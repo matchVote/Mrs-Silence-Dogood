@@ -1,0 +1,14 @@
+FROM elixir:1.6.1
+
+ENV MIX_ENV=dev
+
+RUN mix local.hex --force && \
+    mix local.rebar --force
+
+WORKDIR /opt/app
+COPY . .
+
+RUN rm -rf deps/* && \
+    mix deps.get
+
+CMD ["elixir", "-S", "mix", "run", "--no-halt"]
