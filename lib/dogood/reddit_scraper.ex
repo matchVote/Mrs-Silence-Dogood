@@ -65,6 +65,7 @@ defmodule Dogood.RedditScraper do
 
   def convert_to_integer(vote) do
     Regex.replace(~r/[.k]/, vote, "")
+    |> String.replace("•", "0")
     |> String.to_integer()
   end
 
